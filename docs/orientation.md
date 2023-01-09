@@ -19,8 +19,8 @@ As mentioned earlier, we always pass-in the Biplanar X-ray images in their origi
 
 When loading the image using default args `monai.transforms.LoadImage(reader=PILReader(converter=None))`, the `imagereader` returns a `numpy array` which may look like below.
 
-![ap-after-loading](ap_after_loading.png)
-![lat-after-loading](lat_after_loading.png)
+<img src="https://github.com/msrepo/xrayto3D-benchmark/blob/main/docs/ap_after_loading.png"  width="96" height="96" />
+<img src="https://github.com/msrepo/xrayto3D-benchmark/blob/main/docs/lat_after_loading.png"  width="96" height="96" />
 
 We can now add additional argument to PILReader to rotate the AP image to pixel-align the X-ray views to the 3D Segmentation.
 
