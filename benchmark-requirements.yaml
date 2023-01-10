@@ -1,0 +1,19 @@
+channels:
+  - defaults
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.8
+  - monai
+  - torchvision
+  - nibabel
+  - itk
+  - scikit-image
+  - pillow
+  - pandas
+  - matplotlib
+  - pytorch=1.12
+  - cudatoolkit=11
+  - wandb
+  - tqdm
+  - einops
