@@ -4,7 +4,7 @@ from typing import List, Dict
 from monai.networks.blocks.convolutions import Convolution
 
 
-class ChenModel(nn.Module):
+class OneDConcatModel(nn.Module):
     """
     The idea of this model is to encode each of the PA and LAT images into 1D vectors.
     These are then concatenated and decoded into a 3D segmentation.
