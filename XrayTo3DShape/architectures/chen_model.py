@@ -53,11 +53,15 @@ class OneDConcatModel(nn.Module):
 
     def _decoder_layers(self):
         layers: List[nn.Module] = []
-        for in_channels, out_channels, strides in zip(
+        for index, (in_channels, out_channels, strides) in enumerate(zip(
             self.config["decoder"]["in_channels"],
             self.config["decoder"]["out_channels"],
             self.config["decoder"]["strides"],
-        ):
+        )):
+            if index == len(self.config['decoder']['strides']) - 1:
+                act = None
+            else:
+                act = self.config['act']
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -66,7 +70,7 @@ class OneDConcatModel(nn.Module):
                     out_channels=out_channels,
                     strides=strides,
                     kernel_size=self.config["kernel_size"],
-                    act=self.config["act"],
+                    act=act,
                     norm=self.config["norm"],
                     dropout=self.config["dropout"],
                 )
