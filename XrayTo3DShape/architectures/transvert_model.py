@@ -62,7 +62,6 @@ class TwoDPermuteConcat(nn.Module):
         for in_channels, out_channels, strides in zip(
             self.config[expansion_type]["in_channels"],self.config[expansion_type]["out_channels"],self.config[expansion_type]["strides"]
         ):
-            print(in_channels, out_channels, strides)
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -80,10 +79,13 @@ class TwoDPermuteConcat(nn.Module):
     
     def _decoder_layers(self):
         layers: List[nn.Module] = []
-        for in_channels, out_channels, strides,kernel_size in zip(
+        for index,(in_channels, out_channels, strides,kernel_size) in enumerate(zip(
             self.config['decoder']["in_channels"],self.config['decoder']["out_channels"],self.config['decoder']["strides"], self.config['decoder']['kernel_size']
-        ):
-            print(in_channels, out_channels, strides)
+        )):
+            if index == len(self.config['decoder']['strides']) - 1:
+                act = None
+            else:
+                act = self.config['act']
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -92,7 +94,7 @@ class TwoDPermuteConcat(nn.Module):
                     out_channels=out_channels,
                     strides=strides,
                     kernel_size=kernel_size,
-                    act=self.config["act"],
+                    act=act,
                     norm=self.config["norm"],
                     dropout=self.config["dropout"],
                 )
