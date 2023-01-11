@@ -12,7 +12,6 @@ class OneDConcatModel(nn.Module):
     Attributes:
         pa_encoder (nn.Module): Encodes the AP image
         lat_encoder (nn.Module): Encodes the LAT image
-        reshape_module (nn.Module): reshape the 1D vector into a (1,1,1) cube with number of channels equal to length of the 1D vector
         decoder (nn.Module): decodes the fused cube into a full-fledged volume
     """
 
@@ -21,7 +20,6 @@ class OneDConcatModel(nn.Module):
         self.config = config
         self.ap_encoder: nn.Module
         self.lat_encoder: nn.Module
-        self.reshape_module: nn.Module
         self.decoder: nn.Module
 
         assert self._calculate_1d_vec_channels() == self.config['decoder']['in_channels'][0], f"expected {self._calculate_1d_vec_channels()}, got {self.config['decoder']['in_channels'][0]}"
