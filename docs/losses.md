@@ -10,3 +10,6 @@ Gradients of AP and LAT images are correlated with Projections of Predicted Segm
 ![g_y_ap](g_y_ap.png)
 ![g_x_seg](g_x_seg.png)
 ![g_y_seg](g_y_seg.png)
+![ngcc_loss_plot](ngcc_loss_plot.png)
+
+The NGCC seems to be well-correlated with other losses like cross-entropy and Dice.
