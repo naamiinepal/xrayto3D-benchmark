@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from XrayTo3DShape.architectures.chen_model import ChenModel
+    from XrayTo3DShape.architectures.chen_model import OneDConcatModel
     import torch
     
     ap_img = torch.zeros((1, 1, 64, 64))
@@ -12,7 +12,7 @@ if __name__ == "__main__":
         "norm": "BATCH",
         "dropout": 0.0,
     }
-    model = ChenModel(config)
+    model = OneDConcatModel(config)
     print(model)
     pred = model(ap_img,lat_img)
     print(pred.shape)
