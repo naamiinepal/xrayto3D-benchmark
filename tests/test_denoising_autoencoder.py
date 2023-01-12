@@ -6,7 +6,6 @@ import torch
 from monai.metrics.meandice import DiceMetric
 from monai.networks.nets.unet import UNet
 from monai.transforms import *
-from monai.networks.nets.autoencoder import AutoEncoder
 import wandb
 from tqdm import trange
 
@@ -25,11 +24,12 @@ print(seg['orig'].shape,seg['gaus'].shape)
 
 def train(dict_key_for_training, max_epochs=10, learning_rate=1e-3):
 
-    model = AutoEncoder(
+    model = AutoEncoder1DEmbed(
         spatial_dims=3,
-        in_channels=1,
+        in_shape = (1,64,64,64),
         out_channels=1,
-        channels=(4, 8, 16, 32),
+        latent_size= 64,
+        channels=(96,256,384,256),
         strides=(2, 2, 2, 2),
     )
 
@@ -65,3 +65,4 @@ def train(dict_key_for_training, max_epochs=10, learning_rate=1e-3):
     return model, epoch_loss_values
 
 model, epoch_loss_vals = train('gaus',learning_rate=lr,max_epochs=100)
+torch.save(model,'denoising_ae_epoch100.pth')
