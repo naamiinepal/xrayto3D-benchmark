@@ -5,6 +5,11 @@ from torchmetrics.functional import image_gradients
 
 
 class NGCCLoss(nn.Module):
+    """
+    Normalized Gradient Cross-Correlation (NGCC)
+     calculates 1-NGCC
+    """
+
     def __init__(self) -> None:
         super().__init__()
 

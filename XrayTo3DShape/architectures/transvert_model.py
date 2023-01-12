@@ -83,13 +83,11 @@ class TwoDPermuteConcat(nn.Module):
             self.config['decoder']["in_channels"],self.config['decoder']["out_channels"],self.config['decoder']["strides"], self.config['decoder']['kernel_size']
         )):
             if index == len(self.config['decoder']['strides']) - 1:
-                act = None
-                bias = False
+                conv_only=True
                 # According to `Performance Tuning Guide <https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html>`_,
                 # if a conv layer is directly followed by a batch norm layer, bias should be False.
             else:
-                act = self.config['act']
-                bias = True
+                conv_only=False
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -98,10 +96,11 @@ class TwoDPermuteConcat(nn.Module):
                     out_channels=out_channels,
                     strides=strides,
                     kernel_size=kernel_size,
-                    act=act,
+                    act=self.config['act'],
                     norm=self.config["norm"],
                     dropout=self.config["dropout"],
-                    bias=bias
+                    bias=self.config['bias'],
+                    conv_only=conv_only
                 )
             )        
         return layers
