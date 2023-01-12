@@ -84,8 +84,12 @@ class TwoDPermuteConcat(nn.Module):
         )):
             if index == len(self.config['decoder']['strides']) - 1:
                 act = None
+                bias = False
+                # According to `Performance Tuning Guide <https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html>`_,
+                # if a conv layer is directly followed by a batch norm layer, bias should be False.
             else:
                 act = self.config['act']
+                bias = True
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -97,6 +101,7 @@ class TwoDPermuteConcat(nn.Module):
                     act=act,
                     norm=self.config["norm"],
                     dropout=self.config["dropout"],
+                    bias=bias
                 )
             )        
         return layers
@@ -105,7 +110,6 @@ class TwoDPermuteConcat(nn.Module):
         out_ap = self.ap_encoder(ap_image)
         out_lat = self.lat_encoder(lat_image)
 
-        # out_ap = self.ap_expansion(out_ap.unsqueeze(0))
         fused_cube = torch.concat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
         return self.decoder(fused_cube)
 

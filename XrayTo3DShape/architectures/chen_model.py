@@ -60,8 +60,12 @@ class OneDConcatModel(nn.Module):
         )):
             if index == len(self.config['decoder']['strides']) - 1:
                 act = None
+                bias = False
+                # According to `Performance Tuning Guide <https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html>`_,
+                # if a conv layer is directly followed by a batch norm layer, bias should be false.
             else:
                 act = self.config['act']
+                bias = True
             layers.append(
                 Convolution(
                     spatial_dims=3,
@@ -73,6 +77,7 @@ class OneDConcatModel(nn.Module):
                     act=act,
                     norm=self.config["norm"],
                     dropout=self.config["dropout"],
+                    bias=bias
                 )
             )
         return layers
