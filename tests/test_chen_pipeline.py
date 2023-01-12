@@ -31,6 +31,7 @@ config_chen = {"input_image_size":[64,64],
     "act": "RELU",
     "norm": "BATCH",
     "dropout": 0.0,
+    "bias": True,
 }
 model = OneDConcatModel(config_chen)
 pred_tensor = model(ap_tensor,lat_tensor)

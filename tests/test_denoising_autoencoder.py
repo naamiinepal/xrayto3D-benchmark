@@ -28,13 +28,13 @@ def train(dict_key_for_training, max_epochs=10, learning_rate=1e-3):
         spatial_dims=3,
         in_shape = (1,64,64,64),
         out_channels=1,
-        latent_size= 64,
+        latent_size= 1024,
         channels=(96,256,384,256),
         strides=(2, 2, 2, 2),
     )
 
     # Create loss fn and optimiser
-    loss_function = torch.nn.MSELoss()
+    loss_function = torch.nn.BCELoss()
     optimizer = torch.optim.AdamW(model.parameters(), learning_rate)
 
     epoch_loss_values = []
@@ -51,12 +51,15 @@ def train(dict_key_for_training, max_epochs=10, learning_rate=1e-3):
             ap, lat, seg = batch_data
             inputs = seg[dict_key_for_training]
             optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = loss_function(outputs, seg['orig'])
+            embedding_vec = model.encode_forward(inputs)
+            outputs = model.decode_forward(embedding_vec)
+            sparsity_loss = torch.mean(
+            torch.abs(embedding_vec))  # l1 regularization
+            loss = loss_function(outputs, seg['orig']) + 0.1 * sparsity_loss
             loss.backward()
             optimizer.step()
             epoch_loss += loss.item()
-            wandb.log({'loss':loss.item()})
+            wandb.log({'loss':loss.item(),'sparsity_loss':sparsity_loss.item()})
         epoch_loss /= step
         epoch_loss_values.append(epoch_loss)
         t.set_description(

@@ -50,6 +50,7 @@ config_bayat = {
     "act": "RELU",
     "norm": "BATCH",
     "dropout": 0.0,
+    "bias": False
 }
 model = TwoDPermuteConcat(config_bayat)
 pred_tensor = model(ap_tensor,lat_tensor)
