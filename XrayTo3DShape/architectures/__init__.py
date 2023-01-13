@@ -1,3 +1,4 @@
-from .chen_model import OneDConcatModel
-from .transvert_model import TwoDPermuteConcat
+from .oneDConcat_model import OneDConcatModel
+from .twoDPermuteConcat_model import TwoDPermuteConcat
 from .autoencoder import AutoEncoder1DEmbed,Encoder1DEmbed
+from .twoDPermuteConcatMultiScale_model import TwoDPermuteConcatMultiScale
