@@ -55,7 +55,9 @@ config_bayat = {
 model = TwoDPermuteConcat(config_bayat)
 pred_tensor = model(ap_tensor,lat_tensor)
 print(pred_tensor.shape)
+from torchview import draw_graph
 
+model_graph = draw_graph(model,input_data=[ap_tensor,lat_tensor],save_graph=True,filename='docs/arch_viz/TwoDPermuteConcat_modelgraph.dot')
 loss_function = DiceCELoss(sigmoid=True)
 optimizer = torch.optim.AdamW(model.parameters(),lr)
 dice_metric_evaluator = DiceMetric(include_background=False)
