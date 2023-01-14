@@ -1,13 +1,20 @@
 from xrayto3d_preprocess import *
 
 if __name__ == "__main__":
-    subject_list_path = "configs/subjects_list/lidc_subjects_test.lst"
-    config_path = "configs/test/LIDC-DRR-test.yaml"
 
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('config_file')
+
+    args = parser.parse_args()
+
+    # config_path = "configs/test/Verse2020-DRR-test.yaml"
+    config_path = args.config_file
     # use config to find the fullpath of x-ray and seg_roi pairs
 
     config = read_config_and_load_components(config_path)
-    subject_list = read_subject_list(subject_list_path).flatten()
+    subject_list = read_subject_list(config['subjects']['subject_list']).flatten()
 
     print(subject_list)
     input_seg_fileformat = config.filename_convention.input.seg
