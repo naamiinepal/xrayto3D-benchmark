@@ -10,7 +10,8 @@ import wandb
 
 lr = 1e-2
 NUM_EPOCHS = 1000
-WANDB_ON = True
+WANDB_ON = False
+TEST_ZERO_INPUT = False
 
 if WANDB_ON:
     wandb.init(project="pipeline-test-01", name="attentionUnet-01")
@@ -45,7 +46,11 @@ dice_metric_evaluator = DiceMetric(include_background=False)
 for i in range(NUM_EPOCHS):
     optimizer.zero_grad()
     input_volume = torch.cat((ap_tensor,lat_tensor),1)
-    pred_seg_logits = model(input_volume)
+    if TEST_ZERO_INPUT:
+        dummy_volume = torch.zeros_like(input_volume)
+        pred_seg_logits = model(dummy_volume)        
+    else:  
+        pred_seg_logits = model(input_volume)
 
     loss = loss_function(pred_seg_logits, seg_tensor)
     loss.backward()
