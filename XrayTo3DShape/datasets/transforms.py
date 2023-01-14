@@ -30,7 +30,7 @@ def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
                 mode="nearest",
                 padding_mode="zeros",
             ),
-            SpatialPadD(keys={"seg"}, spatial_size=(size, size, size)),
+            ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
             OrientationD(keys={"seg"}, axcodes="PIR"),
             ThresholdIntensityD(keys="seg", threshold=0.5, above=False, cval=1.0),
             NoiseLambda
@@ -91,7 +91,7 @@ def get_nonkasten_transforms(size=64, resolution=1.5):
                 mode="nearest",
                 padding_mode="zeros",
             ),
-            SpatialPadD(keys={"seg"}, spatial_size=(size, size, size)),
+            ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
             OrientationD(keys={"seg"}, axcodes="PIR"),
             ThresholdIntensityD(keys="seg", threshold=0.5, above=False, cval=1.0),
             # DataStatsD(keys='seg')
@@ -150,7 +150,7 @@ def get_kasten_transforms(size=64, resolution=1.5):
                 mode="nearest",
                 padding_mode="zeros",
             ),
-            SpatialPadD(keys={"seg"}, spatial_size=(size, size, size)),
+            ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
             OrientationD(keys={"seg"}, axcodes="PIR"),
             ThresholdIntensityD(keys="seg", threshold=0.5, above=False, cval=1.0),
             # DataStatsD(keys='seg')
