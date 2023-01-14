@@ -1,2 +1,5 @@
 **/__pycache__
 wandb/
+attentionUnet-01/
+default_attentionUnet-01/
+lightning_logs/
