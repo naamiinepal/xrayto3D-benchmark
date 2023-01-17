@@ -3,9 +3,13 @@ import numpy as np
 from monai.data.image_reader import PILReader
 import einops
 import torch
+from typing import Sequence
 from skimage.util import random_noise
 
-
+def get_resize_transform(keys,original_size:Sequence,reduction_rate:float,mode='nearest'):
+    target_size = list(map(lambda x: x / reduction_rate, original_size)) 
+    return ResizeD(keys=keys,spatial_size=target_size,mode=mode,align_corners=True)
+    
 def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
 
     NoiseLambda = Lambda(lambda d: {
@@ -40,34 +44,7 @@ def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
     callable_identity_transform = lambda x: x
     return {'ap':callable_identity_transform, 'lat':callable_identity_transform, 'seg':seg_transform}
 
-def get_deformation_transforms(size=64,resolution=1.5):
-    fixed_transform = Compose([
-        LoadImageD(
-            keys='fixed',
-            ensure_channel_first=False,
-            dtype=np.float32,
-            simple_keys=True,
-            image_only=False,
-            reader=PILReader()
-        ),
-        EnsureChannelFirstD(keys='fixed'),
-        ResizeD(keys='fixed',spatial_size=[size,size],size_mode='all',mode='bilinear',align_corners=True),
-        ScaleIntensityD(keys='fixed')
-    ])
-    moving_transform = Compose([
-        LoadImageD(
-            keys='moving',
-            ensure_channel_first=False,
-            dtype=np.float32,
-            simple_keys=True,
-            image_only=False,
-            reader=PILReader()
-        ),
-        EnsureChannelFirstD(keys='moving'),
-        ResizeD(keys='moving',spatial_size=[size,size],size_mode='all',mode='bilinear',align_corners=True),
-        ScaleIntensityD(keys='moving')
-    ])    
-    return {'fixed':fixed_transform, 'moving':moving_transform}
+
     
 def get_nonkasten_transforms(size=64, resolution=1.5):
     ap_transform = Compose(
