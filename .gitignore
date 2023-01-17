@@ -1,2 +1,4 @@
 **/__pycache__
 wandb/
+lightning_logs/
+*viz/
