@@ -1,2 +1,2 @@
 from .deformable_transforms import get_deformation_transforms, get_atlas_deformation_transforms
-from .transforms import get_kasten_transforms, get_nonkasten_transforms,get_denoising_autoencoder_transforms, get_resize_transform
+from .base_transforms import get_kasten_transforms, get_nonkasten_transforms,get_denoising_autoencoder_transforms,get_resize_transform
