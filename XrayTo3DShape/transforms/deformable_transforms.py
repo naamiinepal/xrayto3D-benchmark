@@ -1,6 +1,6 @@
 from monai.transforms import *
 from monai.data.image_reader import PILReader
-
+import numpy as np
 
 def get_atlas_deformation_transforms(size=64, resolution=1.5):
     ap_transform = Compose(
@@ -74,21 +74,21 @@ def get_atlas_deformation_transforms(size=64, resolution=1.5):
     atlas_transform = Compose(
         [
             LoadImageD(
-                keys={"seg"},
+                keys={"atlas"},
                 ensure_channel_first=True,
                 dtype=np.float32,
                 simple_keys=True,
                 image_only=False,
             ),
             SpacingD(
-                keys={"seg"},
+                keys={"atlas"},
                 pixdim=(resolution, resolution, resolution),
                 mode="nearest",
                 padding_mode="zeros",
             ),
-            ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
-            OrientationD(keys={"seg"}, axcodes="PIR"),
-            ThresholdIntensityD(keys="seg", threshold=0.5, above=False, cval=1.0),
+            ResizeWithPadOrCropD(keys={"atlas"}, spatial_size=(size, size, size)),
+            OrientationD(keys={"atlas"}, axcodes="PIR"),
+            ThresholdIntensityD(keys="atlas", threshold=0.5, above=False, cval=1.0),
             # DataStatsD(keys='seg')
         ]
     )
