@@ -39,3 +39,20 @@ class BaseDataset(Dataset):
 
     def __getitem__(self, index):
         return self._transform(index)
+
+class DeformationDataset(Dataset):
+    def __init__(self,data: Sequence, transforms: Dict[str, Callable]) -> None:
+        super().__init__()
+        self.data = data
+        self.transforms = transforms
+
+    def __len__(self) -> int:
+        return len(self.data)
+    
+    def transform(self, index: int):
+        data_i = self.data[index]
+        fixed_transform, moving_transform = (self.transforms['fixed'],self.transforms['moving'])
+        return (apply_transform(fixed_transform,data_i), apply_transform(moving_transform,data_i))
+    
+    def __getitem__(self, index):
+        return self.transform(index)

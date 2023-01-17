@@ -40,7 +40,35 @@ def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
     callable_identity_transform = lambda x: x
     return {'ap':callable_identity_transform, 'lat':callable_identity_transform, 'seg':seg_transform}
 
-
+def get_deformation_transforms(size=64,resolution=1.5):
+    fixed_transform = Compose([
+        LoadImageD(
+            keys='fixed',
+            ensure_channel_first=False,
+            dtype=np.float32,
+            simple_keys=True,
+            image_only=False,
+            reader=PILReader()
+        ),
+        EnsureChannelFirstD(keys='fixed'),
+        ResizeD(keys='fixed',spatial_size=[size,size],size_mode='all',mode='bilinear',align_corners=True),
+        ScaleIntensityD(keys='fixed')
+    ])
+    moving_transform = Compose([
+        LoadImageD(
+            keys='moving',
+            ensure_channel_first=False,
+            dtype=np.float32,
+            simple_keys=True,
+            image_only=False,
+            reader=PILReader()
+        ),
+        EnsureChannelFirstD(keys='moving'),
+        ResizeD(keys='moving',spatial_size=[size,size],size_mode='all',mode='bilinear',align_corners=True),
+        ScaleIntensityD(keys='moving')
+    ])    
+    return {'fixed':fixed_transform, 'moving':moving_transform}
+    
 def get_nonkasten_transforms(size=64, resolution=1.5):
     ap_transform = Compose(
         [
@@ -53,7 +81,7 @@ def get_nonkasten_transforms(size=64, resolution=1.5):
                 reader=PILReader(converter=lambda image: image.rotate(90)),
             ),
             EnsureChannelFirstD(keys="ap"),
-            ResizeD(keys={"ap"}, spatial_size=[size, size], size_mode="all", mode="bilinear"),
+            ResizeD(keys={"ap"}, spatial_size=[size, size], size_mode="all", mode="bilinear",align_corners=True),
             # LambdaD(keys={"ap"}, func=lambda t: einops.repeat(t, "1 m n -> 1 k m n", k=size)),
             ScaleIntensityD(keys={"ap"}),
             # DataStatsD(keys='ap')
@@ -70,7 +98,7 @@ def get_nonkasten_transforms(size=64, resolution=1.5):
                 reader=PILReader(converter=None),
             ),
             EnsureChannelFirstD(keys="lat"),
-            ResizeD(keys={"lat"}, spatial_size=[size, size], size_mode="all", mode="bilinear"),
+            ResizeD(keys={"lat"}, spatial_size=[size, size], size_mode="all", mode="bilinear",align_corners=True),
             # LambdaD(keys={"lat"}, func=lambda t: einops.repeat(t, "1 m n -> 1 m n k", k=size)),
             ScaleIntensityD(keys={"lat"}),
             # DataStatsD(keys='lat')
@@ -112,7 +140,7 @@ def get_kasten_transforms(size=64, resolution=1.5):
                 reader=PILReader(converter=lambda image: image.rotate(90)),
             ),
             EnsureChannelFirstD(keys="ap"),
-            ResizeD(keys={"ap"}, spatial_size=[size, size], size_mode="all", mode="bilinear"),
+            ResizeD(keys={"ap"}, spatial_size=[size, size], size_mode="all", mode="bilinear",align_corners=True),
             LambdaD(keys={"ap"}, func=lambda t: einops.repeat(t, "1 m n -> 1 k m n", k=size)),
             ScaleIntensityD(keys={"ap"}),
             # DataStatsD(keys='ap')
@@ -129,7 +157,7 @@ def get_kasten_transforms(size=64, resolution=1.5):
                 reader=PILReader(converter=None),
             ),
             EnsureChannelFirstD(keys="lat"),
-            ResizeD(keys={"lat"}, spatial_size=[size, size], size_mode="all", mode="bilinear"),
+            ResizeD(keys={"lat"}, spatial_size=[size, size], size_mode="all", mode="bilinear",align_corners=True),
             LambdaD(keys={"lat"}, func=lambda t: einops.repeat(t, "1 m n -> 1 m n k", k=size)),
             ScaleIntensityD(keys={"lat"}),
             # DataStatsD(keys='lat')
