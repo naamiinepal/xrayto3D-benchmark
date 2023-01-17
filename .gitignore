@@ -2,3 +2,6 @@
 wandb/
 lightning_logs/
 *viz/
+attentionUnet-01/
+default_attentionUnet-01/
+lightning_logs/
