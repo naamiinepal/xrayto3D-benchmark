@@ -63,6 +63,7 @@ def get_atlas_deformation_transforms(size=64, resolution=1.5):
                 pixdim=(resolution, resolution, resolution),
                 mode="nearest",
                 padding_mode="zeros",
+                align_corners=True
             ),
             ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
             OrientationD(keys={"seg"}, axcodes="PIR"),
@@ -85,6 +86,7 @@ def get_atlas_deformation_transforms(size=64, resolution=1.5):
                 pixdim=(resolution, resolution, resolution),
                 mode="nearest",
                 padding_mode="zeros",
+                align_corners=True
             ),
             ResizeWithPadOrCropD(keys={"atlas"}, spatial_size=(size, size, size)),
             OrientationD(keys={"atlas"}, axcodes="PIR"),

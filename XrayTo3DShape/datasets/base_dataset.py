@@ -53,8 +53,6 @@ class AtlasDeformationDataset(Dataset):
 
     def __getitem__(self, index: int):
         data_i = self.data[index]
-        print(data_i)
-        print(self.transforms)
         ap_transform, lat_transform, seg_transform, atlas_transform = (
             self.transforms["ap"],
             self.transforms["lat"],
