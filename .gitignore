@@ -5,3 +5,9 @@ lightning_logs/
 attentionUnet-01/
 default_attentionUnet-01/
 lightning_logs/
+logs/
+.vscode/
+*.toml
+2D-3D-Reconstruction-Datasets
+configs
+external/XrayTo3DPreprocess
