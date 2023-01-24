@@ -28,9 +28,9 @@ if __name__ == "__main__":
         xray_basepath = derivatives_path / "xray_from_ct"
         seg_roi_basepath = derivatives_path / "seg_roi"
 
-        vert_xray_ap = sorted(xray_basepath.rglob("*_ap.png"))
-        vert_xray_lat = sorted(xray_basepath.rglob("*_lat.png"))
-        vert_seg = sorted(seg_roi_basepath.rglob("*seg-vert_msk.nii.gz"))
+        vert_xray_ap = sorted(xray_basepath.rglob("*ap.png"))
+        vert_xray_lat = sorted(xray_basepath.rglob("*lat.png"))
+        vert_seg = sorted(seg_roi_basepath.rglob("*msk.nii.gz"))
 
         ap_paths.extend(vert_xray_ap)
         lat_paths.extend(vert_xray_lat)
