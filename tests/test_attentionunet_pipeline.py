@@ -13,10 +13,20 @@ NUM_EPOCHS = 1000
 WANDB_ON = False
 TEST_ZERO_INPUT = False
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('filepaths')
+
+args = parser.parse_args()
+
+
 if WANDB_ON:
     wandb.init(project="pipeline-test-01", name="attentionUnet-01")
 
-paths_location = "configs/test/LIDC-DRR-test.csv"
+# paths_location = "configs/test/LIDC-DRR-test.csv"
+paths_location = args.filepaths
+
 paths = pd.read_csv(paths_location, index_col=0).to_numpy()
 paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
 

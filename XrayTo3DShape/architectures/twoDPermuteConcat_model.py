@@ -109,7 +109,7 @@ class TwoDPermuteConcat(nn.Module):
         out_ap = self.ap_encoder(ap_image)
         out_lat = self.lat_encoder(lat_image)
 
-        fused_cube = torch.concat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
+        fused_cube = torch.cat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
         return self.decoder(fused_cube)
 
 

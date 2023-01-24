@@ -78,18 +78,18 @@ class TwoDPermuteConcatMultiScale(nn.Module):
     def forward(self,ap_image:torch.Tensor, lat_image: torch.Tensor):
         out_ap:list[torch.Tensor] = self.ap_encoder(ap_image)
         out_lat:list[torch.Tensor] = self.lat_encoder(lat_image)
-
+        print(out_ap[0].shape)
         x = torch.rand(0)
         # x: torch.Tensor
-
         # multiscale fuse and decode
-        for index, (ap_cube, lat_cube, decoder_layer) in enumerate(
-            zip(out_ap[::-1], out_lat[::-1], self.decoder)
-        ):
+        for index, decoder_layer in enumerate(
+            self.decoder):
+        # for index in range(len(out_ap)-1,0,-1):
+            ap_cube,lat_cube = out_ap[len(out_ap) - 1 - index], out_lat[len(out_lat) - 1 - index]
             # assume a PIR orientation and standing AP and LAT views.
             # permute the LAT orientation so that the last dim represents Left to Right orientation
-
-            permuted_lat_cube = torch.swapdims(lat_cube, 1, -1)
+            print(lat_cube.shape)
+            permuted_lat_cube = lat_cube.permute(2,1,0)#NCHW ->NWHC
             fused_cube = torch.stack((ap_cube, permuted_lat_cube), dim=1)  # 2 channels
             if index == 0:
                 x = decoder_layer(fused_cube)
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     model = TwoDPermuteConcatMultiScale(config)
     out = model(x_ray_img,x_ray_img)
-    print(out.shape)
+    print(f'output {out.shape}')
 
 
 

@@ -1,7 +1,7 @@
 import pandas as pd
-from XrayTo3DShape  import *
+from XrayTo3DShape  import TwoDPermuteConcat,BaseDataset,get_nonkasten_transforms
 from torch.utils.data import DataLoader
-from monai.losses.dice import DiceCELoss
+from monai.losses.dice import DiceLoss
 import torch
 from monai.metrics.meandice import DiceMetric
 from monai.transforms import *
@@ -11,7 +11,7 @@ lr = 1e-2
 NUM_EPOCHS = 1000
 wandb.init(project='pipeline-test-01',name='bayat-01')
 
-paths_location = 'configs/test/LIDC-DRR-test.csv'
+paths_location = 'configs/test/Verse2020-DRR-test.csv'
 paths = pd.read_csv(paths_location,index_col=0).to_numpy()
 paths = [ {'ap':ap,'lat':lat,'seg':seg} for ap,lat,seg in paths] 
 
@@ -55,10 +55,10 @@ config_bayat = {
 model = TwoDPermuteConcat(config_bayat)
 pred_tensor = model(ap_tensor,lat_tensor)
 print(pred_tensor.shape)
-from torchview import draw_graph
+# from torchview import draw_graph
 
-model_graph = draw_graph(model,input_data=[ap_tensor,lat_tensor],save_graph=True,filename='docs/arch_viz/TwoDPermuteConcat_modelgraph.dot')
-loss_function = DiceCELoss(sigmoid=True)
+# model_graph = draw_graph(model,input_data=[ap_tensor,lat_tensor],save_graph=True,filename='docs/arch_viz/TwoDPermuteConcat_modelgraph.dot')
+loss_function = DiceLoss(sigmoid=True)
 optimizer = torch.optim.AdamW(model.parameters(),lr)
 dice_metric_evaluator = DiceMetric(include_background=False)
 
