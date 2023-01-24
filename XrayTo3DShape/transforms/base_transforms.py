@@ -149,6 +149,7 @@ def get_kasten_transforms(size=64, resolution=1.5):
                 simple_keys=True,
                 image_only=False,
             ),
+            OrientationD(keys={"seg"}, axcodes="PIR"),
             SpacingD(
                 keys={"seg"},
                 pixdim=(resolution, resolution, resolution),
@@ -156,7 +157,6 @@ def get_kasten_transforms(size=64, resolution=1.5):
                 padding_mode="zeros",
             ),
             ResizeWithPadOrCropD(keys={"seg"}, spatial_size=(size, size, size)),
-            OrientationD(keys={"seg"}, axcodes="PIR"),
             ThresholdIntensityD(keys="seg", threshold=0.5, above=False, cval=1.0),
             # DataStatsD(keys='seg')
         ]
