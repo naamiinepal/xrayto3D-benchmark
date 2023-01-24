@@ -8,12 +8,26 @@ from monai.transforms import *
 from monai.metrics.metric import CumulativeIterationMetric,Cumulative
 from monai.utils.misc import set_determinism
 import argparse
-from typing import Callable,Dict
+from typing import Callable,Dict,Optional,Any,Sequence
 import pytorch_lightning as pl
 from pytorch_lightning import LightningModule,seed_everything
 from pytorch_lightning.loggers import WandbLogger,TensorBoardLogger
+from monai.data.nifti_saver import NiftiSaver
+from pytorch_lightning.callbacks import BasePredictionWriter
+import numpy as np
+
 import warnings
 warnings.filterwarnings("ignore")
+
+class NiftiPredictionWriter(BasePredictionWriter):
+    def __init__(self, output_dir, write_interval: str = "batch") -> None:
+        super().__init__(write_interval)
+        self.output_dir = output_dir
+        self.nifti_saver = NiftiSaver(output_dir=self.output_dir,resample=False,dtype=np.int16,separate_folder=False)
+    
+    def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
+        for pred in prediction:
+            self.nifti_saver.save_batch(prediction)
 
 def get_dataset(filepaths:str,transforms:Dict)->Dataset:
     import pandas as pd
@@ -85,19 +99,45 @@ class UNet_XrayTo3D(LightningModule):
         self.log('val_loss',val_loss,on_step=False,on_epoch=True,prog_bar=True,batch_size=BATCH_SIZE)
         return {"pred":pred}
 
+    def predict_step(self, batch: Any, batch_idx: int, dataloader_idx: Optional[int] = None) -> Any:
+        ap,lat,seg = batch
+        ap_tensor, lat_tensor, seg_tensor = ap["ap"], lat["lat"], seg["seg"]
+        input_volume = torch.cat((ap_tensor,lat_tensor),1)
+        pred_logits = model(input_volume)
+        pred = self.val_transform(pred_logits)
+        return pred
+
     def configure_optimizers(self):
         return self.optimizer
 
 if __name__ == '__main__':
+  
+    parser = argparse.ArgumentParser()
+    parser.add_argument('trainpaths')
+    parser.add_argument('valpaths')
+    parser.add_argument('--tags',nargs='*')
+    parser.add_argument('--gpu',type=int,default=1)
+    parser.add_argument('--accelerator',default='gpu')
+    parser.add_argument('--size',type=int,default=64)
+    parser.add_argument('--res',type=float,default=1.5)
+    parser.add_argument('--batch_size',type=int,default=4)
+    parser.add_argument('--epochs',type=int,default=100)
+    parser.add_argument('--evaluate',default=False,action='store_true')
+    parser.add_argument('--save_predictions',default=False,action='store_true')
+    parser.add_argument('--checkpoint_path')
+    parser.add_argument('--output_dir')
+
+    args = parser.parse_args()
+
     SEED = 12345
     EXPERIMENT = 'Unet'
     lr = 1e-2
-    NUM_EPOCHS = 100
-    IMG_SIZE = 64
-    IMG_RESOLUTION = 1.5
+    NUM_EPOCHS = args.epochs
+    IMG_SIZE = args.size
+    IMG_RESOLUTION = args.res
     WANDB_ON = False
     TEST_ZERO_INPUT = False
-    BATCH_SIZE = 4
+    BATCH_SIZE = args.batch_size
     WANDB_PROJECT = 'pipeline-test-01'
     config_kasten = {
         "in_channels": 2,
@@ -110,21 +150,13 @@ if __name__ == '__main__':
     }
 
     set_determinism(seed=SEED)
-    seed_everything(seed=SEED)    
-    parser = argparse.ArgumentParser()
-    parser.add_argument('trainpaths')
-    parser.add_argument('valpaths')
+    seed_everything(seed=SEED)  
 
-    args = parser.parse_args()
-    train_transforms = get_kasten_transforms()
+    train_transforms = get_kasten_transforms(size=IMG_SIZE,resolution=IMG_RESOLUTION)
     train_loader = DataLoader(get_dataset(args.trainpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
     val_loader = DataLoader(get_dataset(args.valpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
 
-    # loggers
-    wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=EXPERIMENT,tags=[EXPERIMENT,'model_selection'])
-    wandb_logger.log_hyperparams({'model':config_kasten})
-    tensorboard_logger = TensorBoardLogger(save_dir='runs/lightning_logs',name=EXPERIMENT)
-    tensorboard_logger.log_hyperparams({'model':config_kasten})
+
 
     model = UNet(spatial_dims=3,**config_kasten)
     loss_function = DiceLoss(sigmoid=True)
@@ -132,5 +164,16 @@ if __name__ == '__main__':
     dice_metric_evaluator = DiceMetric(include_background=False)
 
     attunet_experiment = UNet_XrayTo3D(model,optimizer,loss_function)
-    trainer = pl.Trainer(accelerator='gpu',max_epochs=-1,gpus=[0],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[tensorboard_logger,wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
-    trainer.fit(attunet_experiment,train_loader,val_loader)
+    if args.evaluate and args.save_predictions:
+        nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
+        trainer = pl.Trainer(callbacks=[nifti_saver])
+        trainer.predict(model=attunet_experiment,ckpt_path=args.checkpoint_path,dataloaders=val_loader,return_predictions=False)
+    else:
+        # loggers
+        wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=EXPERIMENT,tags=[EXPERIMENT,'model_selection',*args.tags])
+        wandb_logger.log_hyperparams({'model':config_kasten})
+        tensorboard_logger = TensorBoardLogger(save_dir='runs/lightning_logs',name=EXPERIMENT)
+        tensorboard_logger.log_hyperparams({'model':config_kasten})
+        trainer = pl.Trainer(accelerator=args.accelerator,max_epochs=-1,gpus=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[tensorboard_logger,wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
+        
+        trainer.fit(attunet_experiment,train_loader,val_loader)
