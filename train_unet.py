@@ -1,9 +1,9 @@
 import torch
 from XrayTo3DShape import BaseDataset,get_kasten_transforms
 from torch.utils.data import DataLoader,Dataset
-from monai.losses.dice import DiceCELoss
+from monai.losses.dice import DiceLoss
 from monai.metrics.meandice import DiceMetric,compute_dice
-from monai.networks.nets.attentionunet import AttentionUnet
+from monai.networks.nets.unet import UNet
 from monai.transforms import *
 from monai.metrics.metric import CumulativeIterationMetric,Cumulative
 from monai.utils.misc import set_determinism
@@ -48,7 +48,7 @@ def train(model:torch.nn.Module,optimizer:torch.optim.Optimizer,loss_function:Ca
     metric_evaluator.reset()
     epochwise_loss_aggregator.reset()
 
-class AttUNet_XrayTo3D(LightningModule):
+class UNet_XrayTo3D(LightningModule):
     def __init__(self,model,optimizer:torch.optim.Optimizer,loss_function:Callable) -> None:
         super().__init__()
         self.model = model
@@ -81,8 +81,8 @@ class AttUNet_XrayTo3D(LightningModule):
         val_loss = self.loss_function(pred_logits,seg_tensor)
         dice_metric = torch.mean(compute_dice(pred,seg_tensor))
         
-        self.log('val_dice',dice_metric.item(),on_step=False,on_epoch=True,batch_size=BATCH_SIZE)
-        self.log('val_loss',val_loss,on_step=False,on_epoch=True,batch_size=BATCH_SIZE)
+        self.log('val_dice',dice_metric.item(),on_step=False,on_epoch=True,prog_bar=True,batch_size=BATCH_SIZE)
+        self.log('val_loss',val_loss,on_step=False,on_epoch=True,prog_bar=True,batch_size=BATCH_SIZE)
         return {"pred":pred}
 
     def configure_optimizers(self):
@@ -90,7 +90,7 @@ class AttUNet_XrayTo3D(LightningModule):
 
 if __name__ == '__main__':
     SEED = 12345
-    EXPERIMENT = 'AttentionUnet'
+    EXPERIMENT = 'Unet'
     lr = 1e-2
     NUM_EPOCHS = 100
     IMG_SIZE = 64
@@ -99,13 +99,15 @@ if __name__ == '__main__':
     TEST_ZERO_INPUT = False
     BATCH_SIZE = 4
     WANDB_PROJECT = 'pipeline-test-01'
-    config_attunet = {
+    config_kasten = {
         "in_channels": 2,
         "out_channels": 1,
-        "channels": (64, 128, 256),
-        "strides": (2,2,2),
+        "channels": (64, 128, 256,512),
+        "strides": (2,2,2,2),
+        "act": "RELU",
+        "norm": "BATCH",
+        "num_res_units": 2,
     }
-  
 
     set_determinism(seed=SEED)
     seed_everything(seed=SEED)    
@@ -120,15 +122,15 @@ if __name__ == '__main__':
 
     # loggers
     wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=EXPERIMENT,tags=[EXPERIMENT,'model_selection'])
-    wandb_logger.log_hyperparams({'model':config_attunet})
+    wandb_logger.log_hyperparams({'model':config_kasten})
     tensorboard_logger = TensorBoardLogger(save_dir='runs/lightning_logs',name=EXPERIMENT)
-    tensorboard_logger.log_hyperparams({'model':config_attunet})
+    tensorboard_logger.log_hyperparams({'model':config_kasten})
 
-    model = AttentionUnet(spatial_dims=3,**config_attunet)
-    loss_function = DiceCELoss(sigmoid=True)
+    model = UNet(spatial_dims=3,**config_kasten)
+    loss_function = DiceLoss(sigmoid=True)
     optimizer = torch.optim.AdamW(model.parameters(), lr)
     dice_metric_evaluator = DiceMetric(include_background=False)
 
-    attunet_experiment = AttUNet_XrayTo3D(model,optimizer,loss_function)
+    attunet_experiment = UNet_XrayTo3D(model,optimizer,loss_function)
     trainer = pl.Trainer(accelerator='gpu',max_epochs=-1,gpus=[0],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[tensorboard_logger,wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
     trainer.fit(attunet_experiment,train_loader,val_loader)
