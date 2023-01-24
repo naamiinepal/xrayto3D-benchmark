@@ -8,18 +8,26 @@ def get_individual_fullpaths(subject_dir,config):
     xray_basepath = derivatives_path / "xray_from_ct"
     seg_roi_basepath = derivatives_path / "seg_roi"
 
-    vert_xray_ap = sorted(xray_basepath.rglob("*_ap.png"))
-    vert_xray_lat = sorted(xray_basepath.rglob("*_lat.png"))
-    vert_seg = sorted(seg_roi_basepath.rglob("*seg-vert_msk.nii.gz"))
+    vert_xray_ap = sorted(xray_basepath.rglob("*ap.png"))
+    vert_xray_lat = sorted(xray_basepath.rglob("*lat.png"))
+    vert_seg = sorted(seg_roi_basepath.rglob("*msk.nii.gz"))
     return vert_xray_ap,vert_xray_lat,vert_seg
 
 def get_fullpaths(subject_list:Sequence,config):
     ap,lat,seg = [], [], []
-    for subject,subject_dir in subject_list:
-        _ap,_lat,_seg = get_individual_fullpaths(subject_dir,config)
-        ap.extend(_ap)
-        lat.extend(_lat)
-        seg.extend(_seg)
+    if config['dataset'] == 'verse':
+        for subject,subject_dir in subject_list:
+            _ap,_lat,_seg = get_individual_fullpaths(subject_dir,config)
+            ap.extend(_ap)
+            lat.extend(_lat)
+            seg.extend(_seg)
+    else:
+        for subject in subject_list:
+            _ap,_lat,_seg = get_individual_fullpaths(subject,config)
+            ap.extend(_ap)
+            lat.extend(_lat)
+            seg.extend(_seg)        
+    assert len(ap) == len(seg), f'Number of segmentations {len(seg)} and Number of AP xrays {len(ap)} do not match'
 
     return {'ap':ap,'lat':lat,'seg':seg}
 
@@ -32,12 +40,17 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    dataset = 'verse' if str(args.config_file).split('-')[0].lower().startswith('verse') else 'others'
+
     # config_path = "configs/test/Verse2020-DRR-test.yaml"
     config_path = args.config_file
     # use config to find the fullpath of x-ray and seg_roi pairs
 
     config = read_config_and_load_components(config_path)
     subject_list = read_subject_list(config['subjects']['subject_list'])
+    config['dataset'] = dataset
+    if config['dataset'] != 'verse':
+        subject_list = subject_list.flatten()
 
     print(f'Number of subjects {len(subject_list)}')
     input_seg_fileformat = config.filename_convention.input.seg
