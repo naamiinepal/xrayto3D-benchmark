@@ -1,6 +1,14 @@
 **/__pycache__
 wandb/
+lightning_logs/
+*viz/
 attentionUnet-01/
 default_attentionUnet-01/
 lightning_logs/
 runs/
+logs/
+.vscode/
+*.toml
+2D-3D-Reconstruction-Datasets
+configs
+external/XrayTo3DPreprocess

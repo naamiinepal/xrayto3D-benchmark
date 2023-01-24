@@ -34,3 +34,26 @@ Each `transform` has to be a `compose` of `Dictionary`-based MONAI transformatio
         ]
     )
 ```
+
+## Rib Dataset (Original: TotalSegmentor)
+Rib Dataset: 
+- find views with all rib bones intact (reject cropped view)
+- Combine individual rib segments into a single segmentation 
+- Generate biplanar x-ray to 3D Segmentation dataset
+
+Total Ribs samples : 481 
+
+## Femur Dataset (Original: TotalSegmentor)
+Femur Dataset:
+-  Collect stats on femur segmentation volume
+-  Choose all femur segmentation with volume higher than a threshold. (There are various cropped views of femur bone. We want to choose those with sufficient bone segment. Crop bones if the segmentation consists of large section of femur length. We only want femur head and few centimeters of the bone.)
+-  Mirror the right femur so that it looks like a left femur.
+
+Total Femur samples (threshold 50k voxels): 451
+
+## Pelvic Dataset (Original: Totalsegmentor)
+Pelvic Dataset:
+- Find views with pelvic bones intact (not possible to reject cropped view)
+- Generate biplanar x-ray to 3D segmentation dataset
+  
+Total Pelvic samples : 

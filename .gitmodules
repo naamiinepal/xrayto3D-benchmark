@@ -1,3 +1,6 @@
 [submodule "external/XrayTo3DPreprocess"]
 	path = external/XrayTo3DPreprocess
 	url = git@github.com:naamiinepal/XrayTo3DPreprocess.git
+[submodule "external/TotalSegmentator"]
+	path = external/TotalSegmentator
+	url = https://github.com/wasserth/TotalSegmentator.git
