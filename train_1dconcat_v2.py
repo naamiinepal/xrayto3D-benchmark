@@ -1,21 +1,19 @@
 import torch
-from XrayTo3DShape import get_dataset,get_nonkasten_transforms,TwoDPermuteConcatMultiScale,BiplanarAsInputExperiment,parse_training_arguments,NiftiPredictionWriter
 from torch.utils.data import DataLoader
-from monai.losses.dice import DiceCELoss,DiceLoss
-from monai.utils.misc import set_determinism
 import pytorch_lightning as pl
-from pytorch_lightning import seed_everything
+from XrayTo3DShape import get_dataset,get_nonkasten_transforms,BiplanarAsInputExperiment,NiftiPredictionWriter,parse_training_arguments,OneDConcatModel
+from monai.utils.misc import set_determinism
+from monai.losses.dice import DiceLoss
 from pytorch_lightning.loggers import WandbLogger
-import warnings
-warnings.filterwarnings("ignore")
+from pytorch_lightning import seed_everything
 
 
 if __name__ == '__main__':
+    
 
     args = parse_training_arguments()
-
     SEED = 12345
-    EXPERIMENT = 'MultiScaleFusionUNet'
+    EXPERIMENT = 'OneDConcat'
     lr = 1e-2
     NUM_EPOCHS = args.epochs
     IMG_SIZE = args.size
@@ -24,37 +22,31 @@ if __name__ == '__main__':
     TEST_ZERO_INPUT = False
     BATCH_SIZE = args.batch_size
     WANDB_PROJECT = 'pipeline-test-01'
-    model_config = {
-        "in_shape": (1,IMG_SIZE,IMG_SIZE),
-        "kernel_size":3,
-        "act":'RELU',
-        "norm":"BATCH",
-        "encoder":{
-            "kernel_size":(3,)*4,
-            "strides":(1,2,2,2),   # keep the first element of the strides 1 so the input and output shape match
-
-        },
-        "decoder": {
-            "out_channel":16,
-            "kernel_size":3
-        }
+    model_config = {"input_image_size":[IMG_SIZE,IMG_SIZE],
+        "encoder": {'in_channels':[1,32,64,128,256], 'out_channels':[32,64,128,256,256],'strides':[2,2,2,2,2]},
+        "decoder": {'in_channels':[8192,1024,512,8,4,4,4], 'out_channels':[1024,512,8,4,4,4,1],'strides':[2,2,2,2,2,2,2]},
+        "kernel_size": 3,
+        "act": "RELU",
+        "norm": "BATCH",
+        "dropout": 0.0,
+        "bias": True,
     }
+  
 
     set_determinism(seed=SEED)
-    seed_everything(seed=SEED)    
+    seed_everything(seed=SEED)  
 
-    train_transforms = get_nonkasten_transforms()
-    train_loader = DataLoader(get_dataset(args.trainpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
-    val_loader = DataLoader(get_dataset(args.valpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
+    train_transforms = get_nonkasten_transforms(size=IMG_SIZE,resolution=IMG_RESOLUTION)
+    train_loader = DataLoader(get_dataset(args.trainpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20,shuffle=True)
+    val_loader = DataLoader(get_dataset(args.valpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20,shuffle=False)
 
 
 
-    model = TwoDPermuteConcatMultiScale(model_config)
+    model = OneDConcatModel(model_config)
     loss_function = DiceLoss(sigmoid=True)
     optimizer = torch.optim.AdamW(model.parameters(), lr)
 
     experiment = BiplanarAsInputExperiment(model,optimizer,loss_function,BATCH_SIZE)
-
     if args.evaluate and args.save_predictions:
         nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
         trainer = pl.Trainer(callbacks=[nifti_saver])
