@@ -1,1 +1,1 @@
-from .base_dataset import BaseDataset,DeformationDataset,AtlasDeformationDataset
+from .base_dataset import BaseDataset,DeformationDataset,AtlasDeformationDataset,get_dataset

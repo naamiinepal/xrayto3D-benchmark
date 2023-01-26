@@ -86,3 +86,10 @@ class DeformationDataset(Dataset):
 
     def __getitem__(self, index):
         return self.transform(index)
+
+def get_dataset(filepaths:str,transforms:Dict)->Dataset:
+    import pandas as pd
+    paths = pd.read_csv(filepaths,index_col=0).to_numpy()
+    paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
+    ds = BaseDataset(data=paths, transforms=transforms)
+    return ds
