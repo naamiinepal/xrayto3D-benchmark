@@ -47,3 +47,26 @@ class NiftiPredictionWriter(BasePredictionWriter):
     def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
         self.nifti_saver.save_batch(prediction['pred_seg'],prediction['pred_seg_meta_dict'])
 
+
+def parse_training_arguments():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('trainpaths')
+    parser.add_argument('valpaths')
+    parser.add_argument('--tags',nargs='*')
+    parser.add_argument('--gpu',type=int,default=1)
+    parser.add_argument('--accelerator',default='gpu')
+    parser.add_argument('--size',type=int,default=64)
+    parser.add_argument('--res',type=float,default=1.5)
+    parser.add_argument('--batch_size',type=int,default=4)
+    parser.add_argument('--epochs',type=int,default=100)
+    parser.add_argument('--evaluate',default=False,action='store_true')
+    parser.add_argument('--save_predictions',default=False,action='store_true')
+    parser.add_argument('--checkpoint_path')
+    parser.add_argument('--output_dir')
+    parser.add_argument('--precision',default=32,type=int)
+
+    args = parser.parse_args()
+
+    if args.precision == 16: args.precision = 'bf16'
+    return args
