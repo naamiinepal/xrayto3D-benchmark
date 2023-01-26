@@ -12,22 +12,11 @@ from typing import Callable,Dict,Optional,Any,Sequence
 import pytorch_lightning as pl
 from pytorch_lightning import LightningModule,seed_everything
 from pytorch_lightning.loggers import WandbLogger,TensorBoardLogger
-from monai.data.nifti_saver import NiftiSaver
-from pytorch_lightning.callbacks import BasePredictionWriter
+from XrayTo3DShape import NiftiPredictionWriter
 import numpy as np
 
 import warnings
 warnings.filterwarnings("ignore")
-
-class NiftiPredictionWriter(BasePredictionWriter):
-    def __init__(self, output_dir, write_interval: str = "batch") -> None:
-        super().__init__(write_interval)
-        self.output_dir = output_dir
-        self.nifti_saver = NiftiSaver(output_dir=self.output_dir,resample=False,dtype=np.int16,separate_folder=False)
-    
-    def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
-        for pred in prediction:
-            self.nifti_saver.save_batch(prediction)
 
 def get_dataset(filepaths:str,transforms:Dict)->Dataset:
     import pandas as pd
@@ -35,32 +24,6 @@ def get_dataset(filepaths:str,transforms:Dict)->Dataset:
     paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
     ds = BaseDataset(data=paths, transforms=transforms)
     return ds
-
-def train(model:torch.nn.Module,optimizer:torch.optim.Optimizer,loss_function:Callable,trainloader:DataLoader,valloader:DataLoader,metric_evaluator:CumulativeIterationMetric ):
-    epochwise_loss_aggregator = Cumulative()
-    for batch in trainloader:
-        # setup input output pairs
-        ap,lat,seg = batch
-        ap_tensor, lat_tensor, seg_tensor = ap["ap"], lat["lat"], seg["seg"]
-        input_volume = torch.cat((ap_tensor,lat_tensor),1)
-        
-        optimizer.zero_grad()
-        pred_logits = model(input_volume)
-        loss = loss_function(pred_logits,seg_tensor)
-        loss.backward()
-        optimizer.step()
-
-        with torch.no_grad():
-            eval_transform = Compose([Activations(sigmoid=True), AsDiscrete(threshold=0.5)])
-            pred = eval_transform(pred_logits)
-            metric_evaluator(y_pred=pred, y=seg_tensor)
-            epochwise_loss_aggregator.append(loss)
-
-        # print(f'loss {loss.item():.4f}')
-    aggregate_loss = torch.mean(epochwise_loss_aggregator.get_buffer()) # type: ignore    
-    print(f'Loss {aggregate_loss.item():.4f} Dice score {metric_evaluator.aggregate().item():.4f}')
-    metric_evaluator.reset()
-    epochwise_loss_aggregator.reset()
 
 class UNet_XrayTo3D(LightningModule):
     def __init__(self,model,optimizer:torch.optim.Optimizer,loss_function:Callable) -> None:
@@ -105,7 +68,11 @@ class UNet_XrayTo3D(LightningModule):
         input_volume = torch.cat((ap_tensor,lat_tensor),1)
         pred_logits = model(input_volume)
         pred = self.val_transform(pred_logits)
-        return pred
+
+        pred_seg = {}
+        pred_seg['pred_seg'] = pred
+        pred_seg['pred_seg_meta_dict'] = seg['seg_meta_dict']
+        return pred_seg
 
     def configure_optimizers(self):
         return self.optimizer
@@ -153,8 +120,8 @@ if __name__ == '__main__':
     seed_everything(seed=SEED)  
 
     train_transforms = get_kasten_transforms(size=IMG_SIZE,resolution=IMG_RESOLUTION)
-    train_loader = DataLoader(get_dataset(args.trainpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
-    val_loader = DataLoader(get_dataset(args.valpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20)
+    train_loader = DataLoader(get_dataset(args.trainpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20,shuffle=True)
+    val_loader = DataLoader(get_dataset(args.valpaths,transforms=train_transforms),batch_size=BATCH_SIZE,num_workers=20,shuffle=False)
 
 
 
