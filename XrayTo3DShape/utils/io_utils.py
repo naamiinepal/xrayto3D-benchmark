@@ -45,7 +45,7 @@ class NiftiPredictionWriter(BasePredictionWriter):
         self.nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='pred',resample=True,dtype=np.int16,separate_folder=False)
     
     def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
-        self.nifti_saver.save_batch(prediction['pred_seg'],prediction['pred_seg_meta_dict'])
+        self.nifti_saver.save_batch(prediction['pred'],prediction['seg_meta_dict'])
 
 
 def parse_training_arguments():
