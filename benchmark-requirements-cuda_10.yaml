@@ -9,6 +9,7 @@ dependencies:
   - torchvision
   - nibabel
   - itk
+  - simpleitk=2.0 # get rid of ITK ERROR: ITK only supports orthonormal direction cosines.  No orthonormal definition found!
   - scikit-image
   - pillow
   - pandas
