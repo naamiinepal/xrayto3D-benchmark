@@ -1,5 +1,5 @@
 import torch
-from XrayTo3DShape import BaseDataset,get_nonkasten_transforms,TwoDPermuteConcat
+from XrayTo3DShape import get_dataset,get_nonkasten_transforms,TwoDPermuteConcat
 from torch.utils.data import DataLoader,Dataset
 from monai.losses.dice import DiceCELoss
 from monai.metrics.meandice import DiceMetric,compute_dice
@@ -14,12 +14,6 @@ from pytorch_lightning.loggers import WandbLogger,TensorBoardLogger
 import warnings
 warnings.filterwarnings("ignore")
 
-def get_dataset(filepaths:str,transforms:Dict)->Dataset:
-    import pandas as pd
-    paths = pd.read_csv(filepaths,index_col=0).to_numpy()
-    paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
-    ds = BaseDataset(data=paths, transforms=transforms)
-    return ds
 
 class TwoDPermuteConcat_XrayTo3D(LightningModule):
     def __init__(self,model,optimizer:torch.optim.Optimizer,loss_function:Callable) -> None:

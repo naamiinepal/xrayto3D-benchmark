@@ -1,5 +1,5 @@
 import torch
-from XrayTo3DShape import BaseDataset,get_kasten_transforms
+from XrayTo3DShape import get_dataset,get_kasten_transforms
 from torch.utils.data import DataLoader,Dataset
 from monai.losses.dice import DiceLoss
 from monai.metrics.meandice import DiceMetric,compute_dice
@@ -18,12 +18,6 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-def get_dataset(filepaths:str,transforms:Dict)->Dataset:
-    import pandas as pd
-    paths = pd.read_csv(filepaths,index_col=0).to_numpy()
-    paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
-    ds = BaseDataset(data=paths, transforms=transforms)
-    return ds
 
 class UNet_XrayTo3D(LightningModule):
     def __init__(self,model,optimizer:torch.optim.Optimizer,loss_function:Callable) -> None:
@@ -93,6 +87,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_predictions',default=False,action='store_true')
     parser.add_argument('--checkpoint_path')
     parser.add_argument('--output_dir')
+    parser.add_argument('--precision',default='32',type=str)
 
     args = parser.parse_args()
 
@@ -141,6 +136,6 @@ if __name__ == '__main__':
         wandb_logger.log_hyperparams({'model':config_kasten})
         tensorboard_logger = TensorBoardLogger(save_dir='runs/lightning_logs',name=EXPERIMENT)
         tensorboard_logger.log_hyperparams({'model':config_kasten})
-        trainer = pl.Trainer(accelerator=args.accelerator,max_epochs=-1,gpus=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[tensorboard_logger,wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
+        trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=-1,gpus=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[tensorboard_logger,wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
         
         trainer.fit(attunet_experiment,train_loader,val_loader)
