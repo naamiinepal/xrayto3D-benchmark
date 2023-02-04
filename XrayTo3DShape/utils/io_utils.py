@@ -39,13 +39,21 @@ def read_image(img_path):
 
 
 class NiftiPredictionWriter(BasePredictionWriter):
-    def __init__(self, output_dir, write_interval: str = "batch") -> None:
+    def __init__(self, output_dir, write_interval: str = "batch",save_pred=True,save_gt=True) -> None:
         super().__init__(write_interval)
         self.output_dir = output_dir
-        self.nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='pred',resample=True,dtype=np.int16,separate_folder=False)
-    
+        self.save_pred = save_pred
+        self.save_gt = save_gt
+        
+        self.pred_nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='pred',resample=True,dtype=np.int16,separate_folder=False)
+        
+        self.gt_nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='gt',resample=True,dtype=np.int16,separate_folder=False)
+
     def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
-        self.nifti_saver.save_batch(prediction['pred'],prediction['seg_meta_dict'])
+        if self.save_pred:
+            self.pred_nifti_saver.save_batch(prediction['pred'],prediction['seg_meta_dict'])
+        if self.save_gt:
+            self.gt_nifti_saver.save_batch(prediction['gt'],prediction['seg_meta_dict'])
 
 
 def parse_training_arguments():
