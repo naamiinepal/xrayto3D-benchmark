@@ -1,29 +1,30 @@
 from xrayto3d_preprocess import *
 from sklearn.model_selection import train_test_split
 
-def get_individual_fullpaths(subject_dir,config):
+def get_individual_fullpaths(subject_dir,config,ap_pattern="*ap.png",lat_pattern="*lat.png",seg_pattern="*msk.nii.gz"):
     derivatives_path = (
             Path(config.subjects.subject_basepath).resolve() / f"{subject_dir}" / "derivatives"
         )
     xray_basepath = derivatives_path / "xray_from_ct"
     seg_roi_basepath = derivatives_path / "seg_roi"
 
-    vert_xray_ap = sorted(xray_basepath.rglob("*ap.png"))
-    vert_xray_lat = sorted(xray_basepath.rglob("*lat.png"))
-    vert_seg = sorted(seg_roi_basepath.rglob("*msk.nii.gz"))
-    return vert_xray_ap,vert_xray_lat,vert_seg
+    xray_ap = sorted(xray_basepath.rglob(ap_pattern))
+    xray_lat = sorted(xray_basepath.rglob(lat_pattern))
+    seg = sorted(seg_roi_basepath.rglob(seg_pattern))
+    return xray_ap,xray_lat,seg
 
-def get_fullpaths(subject_list:Sequence,config):
+def get_fullpaths(subject_list:Sequence,config,ap_pattern,lat_pattern,seg_pattern):
+    print(ap_pattern,lat_pattern,seg_pattern)
     ap,lat,seg = [], [], []
     if config['dataset'] == 'verse':
         for subject,subject_dir in subject_list:
-            _ap,_lat,_seg = get_individual_fullpaths(subject_dir,config)
+            _ap,_lat,_seg = get_individual_fullpaths(subject_dir,config,ap_pattern,lat_pattern,seg_pattern)
             ap.extend(_ap)
             lat.extend(_lat)
             seg.extend(_seg)
     else:
         for subject in subject_list:
-            _ap,_lat,_seg = get_individual_fullpaths(subject,config)
+            _ap,_lat,_seg = get_individual_fullpaths(subject,config,ap_pattern,lat_pattern,seg_pattern)
             ap.extend(_ap)
             lat.extend(_lat)
             seg.extend(_seg)        
@@ -37,9 +38,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('config_file')
-
+    parser.add_argument('--ap',default="*ap.png")
+    parser.add_argument('--lat',default="*lat.png")
+    parser.add_argument('--seg',default="*msk.nii.gz")
     args = parser.parse_args()
-
+    print(args)
     dataset = 'verse' if str(args.config_file).split('-')[0].lower().startswith('verse') else 'others'
 
     # config_path = "configs/test/Verse2020-DRR-test.yaml"
@@ -61,9 +64,9 @@ if __name__ == "__main__":
     train_subjects, val_subjects = train_test_split(train_subjects,test_size=0.15,shuffle=True,random_state=SEED)
     print(f'train {len(train_subjects)} val {len(val_subjects)} test {len(test_subjects)}')
 
-    train_paths = get_fullpaths(train_subjects,config)
-    val_paths = get_fullpaths(val_subjects,config)
-    test_paths = get_fullpaths(test_subjects,config)
+    train_paths = get_fullpaths(train_subjects,config,args.ap,args.lat,args.seg)
+    val_paths = get_fullpaths(val_subjects,config,args.ap,args.lat,args.seg)
+    test_paths = get_fullpaths(test_subjects,config,args.ap,args.lat,args.seg)
     # write csv
     df_train = pd.DataFrame(data=train_paths)
     df_val = pd.DataFrame(data=val_paths)
