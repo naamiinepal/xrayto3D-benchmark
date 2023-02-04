@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+python train_unetv2.py configs/full/TotalSegmentor-femur-left-DRR-full_train.csv configs/full/fullpaths/totalsegmentator_femur_left/TotalSegmentor-femur-left-DRR-full_val.csv --gpu 1 --tags full femur --size 128 --batch_size 4 --accelerator gpu --res 1.0
+python train_unetv2.py configs/full/TotalSegmentor-femur-left-DRR-full_train.csv configs/full/fullpaths/totalsegmentator_femur_left/TotalSegmentor-femur-left-DRR-full_val.csv --gpu 1 --tags full femur --size 128 --batch_size 4 --accelerator gpu --res 1.0 --evaluate --save_predictions --checkpoint_path pipeline-test-01/zygidk3d/checkpoints/epoch=26-step=2213.ckpt --output_dir pipeline-test-01/zygidk3d/out0
