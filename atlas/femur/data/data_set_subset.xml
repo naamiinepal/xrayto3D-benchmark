@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<data-set>
+    <subject id="sub0">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0423_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub1">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0550_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub2">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0762_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub3">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0341_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub4">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0358_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+</data-set>

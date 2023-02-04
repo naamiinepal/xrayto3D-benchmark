@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<optimization-parameters>
+    <optimization-method-type>ScipyLBFGS</optimization-method-type>
+    <max-iterations>100</max-iterations>
+    <save-every-n-iters>1</save-every-n-iters>
+    <downsampling-factor>4</downsampling-factor>
+    <initial-step-size>1e-5</initial-step-size>
+    <convergence-tolerance>1e-3</convergence-tolerance>
+    <state-file>output/deformetrica-state.p</state-file>
+    <memory-length>1</memory-length>
+</optimization-parameters>

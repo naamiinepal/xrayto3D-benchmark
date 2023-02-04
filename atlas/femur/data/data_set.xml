@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<data-set>
+    <subject id="sub0">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0423_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub1">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0550_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub2">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0762_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub3">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0341_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub4">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0358_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub5">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0982_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub6">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0091_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub7">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0475_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub8">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0416_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub9">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0076_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub10">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0574_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub11">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0680_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub12">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0406_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub13">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0801_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub14">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0971_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub15">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0979_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub16">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0143_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub17">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0705_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+    <subject id="sub18">
+        <visit id="t0">
+            <filename object_id="img">cleaned/s0327_femur_left_msk_gt.nii.gz</filename>
+        </visit>
+    </subject>
+</data-set>
