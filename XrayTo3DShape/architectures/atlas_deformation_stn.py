@@ -36,7 +36,7 @@ class AtlasDeformationSTN(nn.Module):
             act_type = Act[self.config['act']]
             layers.append(act_type())
 
-        layers.append(nn.Linear(self.config['affine']['out_channels'][-1],3*4)) # generate 2x3 affine matrix
+        layers.append(nn.Linear(self.config['affine']['out_channels'][-1],3*4)) # generate affine matrix
         return layers
 
     def _encoder_layer(self):
@@ -87,11 +87,11 @@ class AtlasDeformationSTN(nn.Module):
         return layers
 
     def forward(self,ap,lat,atlas_seg):
-        atlas_seg_scaled = torch.nn.functional.interpolate(atlas_seg.clone(),scale_factor=1.0 / 4.0,mode='nearest')
+        atlas_seg_scaled = F.interpolate(atlas_seg.clone(),scale_factor=1.0 / 4.0,mode='nearest')
 
         out_ap = self.ap_encoder(ap)
         out_lat = self.lat_encoder(lat)
-        fused_cube = torch.concat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
+        fused_cube = torch.cat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
         print('fused cube',fused_cube.shape,'atlas seg',atlas_seg.shape)
         out = torch.cat([fused_cube,atlas_seg_scaled],dim=1) # concatenate along channels
         out = self.affine_decoder(out)
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     in_tensor = torch.zeros((1,1,64,64))
     atlas_seg_tensor = torch.zeros(1,1,64,64,64)
 
-    atlas_seg_scaled = torch.nn.functional.interpolate(atlas_seg_tensor.clone(),scale_factor=1.0 / 4.0,mode='nearest')
+    atlas_seg_scaled = F.interpolate(atlas_seg_tensor.clone(),scale_factor=1.0 / 4.0,mode='nearest')
 
     print(f'Atlas scaled {atlas_seg_scaled.shape}')
     out = model(in_tensor,in_tensor,atlas_seg_tensor)

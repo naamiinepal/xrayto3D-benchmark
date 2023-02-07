@@ -1,10 +1,12 @@
 import torch
-from torch.utils.data import DataLoader
+from torch.nn import BCEWithLogitsLoss
+from torch.utils.data.dataloader import DataLoader
+from torch.optim import Adam
 import pytorch_lightning as pl
 from XrayTo3DShape import get_dataset,get_kasten_transforms,VolumeAsInputExperiment,NiftiPredictionWriter,parse_training_arguments
 from monai.utils.misc import set_determinism
-from monai.networks.nets import UNet
-from monai.losses.dice import DiceLoss
+from monai.networks.nets.unet import UNet
+from monai.losses.dice import DiceLoss,DiceCELoss
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning import seed_everything
 
@@ -32,6 +34,7 @@ if __name__ == '__main__':
         "act": "RELU",
         "norm": "BATCH",
         "num_res_units": 2,
+        "dropout": 0.1,
     }
 
     set_determinism(seed=SEED)
@@ -44,8 +47,8 @@ if __name__ == '__main__':
 
 
     model = UNet(spatial_dims=3,**model_config)
-    loss_function = DiceLoss(sigmoid=True)
-    optimizer = torch.optim.AdamW(model.parameters(), lr)
+    loss_function = DiceLoss()
+    optimizer = Adam(model.parameters(), lr)
 
     experiment = VolumeAsInputExperiment(model,optimizer,loss_function,BATCH_SIZE)
     if args.evaluate and args.save_predictions:
