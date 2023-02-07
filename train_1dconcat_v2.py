@@ -1,5 +1,6 @@
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data.dataloader import DataLoader
+from torch.optim import Adam
 import pytorch_lightning as pl
 from XrayTo3DShape import get_dataset,get_nonkasten_transforms,BiplanarAsInputExperiment,NiftiPredictionWriter,parse_training_arguments,OneDConcatModel
 from monai.utils.misc import set_determinism
@@ -44,7 +45,7 @@ if __name__ == '__main__':
 
     model = OneDConcatModel(model_config)
     loss_function = DiceLoss(sigmoid=True)
-    optimizer = torch.optim.AdamW(model.parameters(), lr)
+    optimizer = Adam(model.parameters(), lr)
 
     experiment = BiplanarAsInputExperiment(model,optimizer,loss_function,BATCH_SIZE)
     if args.evaluate and args.save_predictions:

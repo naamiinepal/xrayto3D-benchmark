@@ -22,7 +22,11 @@ class OneDConcatModel(nn.Module):
         self.lat_encoder: nn.Module
         self.decoder: nn.Module
 
+        # verify config
+        assert len(self.config['input_image_size']) == 2, f'expected images to be 2D but got {len(self.config["input_image_size"])}D'
         assert self._calculate_1d_vec_channels() == self.config['decoder']['in_channels'][0], f"expected {self._calculate_1d_vec_channels()}, got {self.config['decoder']['in_channels'][0]}"
+
+
         self.ap_encoder = nn.Sequential(*self._encoder_layer())
         self.lat_encoder = nn.Sequential(*self._encoder_layer())
         self.decoder = nn.Sequential(*self._decoder_layers())
@@ -58,10 +62,10 @@ class OneDConcatModel(nn.Module):
             self.config["decoder"]["out_channels"],
             self.config["decoder"]["strides"],
         )):
+            # the last layer does not have activation
             if index == len(self.config['decoder']['strides']) - 1:
                 conv_only = True
-                # According to `Performance Tuning Guide <https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html>`_,
-                # if a conv layer is directly followed by a batch norm layer, bias should be false.
+
             else:
                 conv_only = False
             layers.append(
@@ -83,13 +87,13 @@ class OneDConcatModel(nn.Module):
 
     def _calculate_1d_vec_channels(self)->int:
         """calculate size of the 1D Low-dim embedding for given model layers"""
-        input_width,input_height = self.config['input_image_size']
-        output_width, output_height = input_width, input_height
+        iw,ih = self.config['input_image_size'] # width , height
+        
         for stride in self.config['encoder']['strides']:
-            output_width /= stride
-            output_height /= stride
-        ap_encoder_1d_vecsize = output_height * output_height * self.config['encoder']['out_channels'][-1]
-        lat_encoder_1d_vecsize = ap_encoder_1d_vecsize
+            iw /= stride
+            ih /= stride
+        lat_encoder_1d_vecsize = ap_encoder_1d_vecsize = ih * iw * self.config['encoder']['out_channels'][-1]
+
         decoded_cube_channels = ap_encoder_1d_vecsize  + lat_encoder_1d_vecsize
 
         return int(decoded_cube_channels)
