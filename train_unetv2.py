@@ -29,7 +29,7 @@ if __name__ == '__main__':
     model_config = {
         "in_channels": 2,
         "out_channels": 1,
-        "channels": (64, 128, 256,512),
+        "channels": (64, 128, 256, 512),
         "strides": (2,2,2,2),
         "act": "RELU",
         "norm": "BATCH",
@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
 
     model = UNet(spatial_dims=3,**model_config)
-    loss_function = DiceLoss()
+    loss_function = DiceLoss(sigmoid=True)
     optimizer = Adam(model.parameters(), lr)
 
     experiment = VolumeAsInputExperiment(model,optimizer,loss_function,BATCH_SIZE)
