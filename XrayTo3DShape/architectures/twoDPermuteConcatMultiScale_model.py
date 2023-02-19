@@ -24,9 +24,10 @@ class TwoDPermuteConcatMultiScale(nn.Module):
             kernel_size=self.config['encoder']["kernel_size"],
             strides=self.config['encoder']["strides"],
             upsample_kernel_size=self.config['encoder']["strides"][1:],
-            deep_supervision=True,
+            deep_supervision=self.config['encoder']['deep_supervision'],
             deep_supr_num=len(self.config['encoder']['strides']) - 2,
             interpolate_flag=False,
+            filters= self.config['encoder']['filters'],
         )
 
         self.lat_encoder = DynUnetNoInterp(
@@ -36,12 +37,14 @@ class TwoDPermuteConcatMultiScale(nn.Module):
             kernel_size=self.config['encoder']["kernel_size"],
             strides=self.config['encoder']["strides"],
             upsample_kernel_size=self.config['encoder']["strides"][1:],
-            deep_supervision=True,
+            deep_supervision=self.config['encoder']['deep_supervision'],
             deep_supr_num=len(self.config['encoder']['strides']) - 2,
             interpolate_flag=False,
+            filters= self.config['encoder']['filters'],
+
         ) 
 
-        self.decoder =  nn.ModuleList(self.get_decoder_block(out_channel=self.config['decoder']['out_channel']))
+        self.decoder =  nn.ModuleList(self.get_decoder_block(out_channel=self.config['decoder']['out_channel'])) if self.config['encoder']['deep_supervision'] else nn.ModuleList([])
         self.segmentation_head = Convolution(
             spatial_dims=3,
             in_channels=self.config['decoder']['out_channel']+2,
@@ -81,21 +84,25 @@ class TwoDPermuteConcatMultiScale(nn.Module):
         x = torch.rand(0) # dummy namesake variable
         # x: torch.Tensor
         # multiscale fuse and decode
-        for index, decoder_layer in enumerate(
-            self.decoder):
-        # for index in range(len(out_ap)-1,0,-1):
-            ap_cube,lat_cube = out_ap[len(out_ap) - 1 - index], out_lat[len(out_lat) - 1 - index]
-            # assume a PIR orientation and standing AP and LAT views.
-            # permute the LAT orientation so that the last dim represents Left to Right orientation
-            # print(lat_cube.shape)
-            permuted_lat_cube = lat_cube.permute(0,3,2,1)#NCHW ->NWHC
-            fused_cube = torch.stack((ap_cube, permuted_lat_cube), dim=1)  # 2 channels
-            if index == 0:
-                x = decoder_layer(fused_cube)
-            else:
-                x = decoder_layer(torch.cat((fused_cube, x), dim=1))        
-        final_fused_cube = torch.stack((out_ap[0],out_lat[0]),dim=1)
-        return self.segmentation_head(torch.cat((final_fused_cube,x),dim=1))
+        if self.config['encoder']['deep_supervision']:
+            for index, decoder_layer in enumerate(
+                self.decoder):
+            # for index in range(len(out_ap)-1,0,-1):
+                ap_cube,lat_cube = out_ap[len(out_ap) - 1 - index], out_lat[len(out_lat) - 1 - index]
+                # assume a PIR orientation and standing AP and LAT views.
+                # permute the LAT orientation so that the last dim represents Left to Right orientation
+                # print(lat_cube.shape)
+                permuted_lat_cube = lat_cube.permute(0,3,2,1)#NCHW ->NWHC
+                fused_cube = torch.stack((ap_cube, permuted_lat_cube), dim=1)  # 2 channels
+                if index == 0:
+                    x = decoder_layer(fused_cube)
+                else:
+                    x = decoder_layer(torch.cat((fused_cube, x), dim=1))    
+        # permuted_lat_cube_0 = out_lat[0].permute(0,3,2,1)#NCHW ->NWHC
+        permuted_lat_cube_0 = out_lat[0]
+        final_fused_cube = torch.stack((out_ap[0],permuted_lat_cube_0),dim=1)
+        return final_fused_cube
+        # return self.segmentation_head(torch.cat((final_fused_cube,x),dim=1))
         
 if __name__ == "__main__":
     config = {
