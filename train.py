@@ -8,7 +8,9 @@ from XrayTo3DShape import (
     get_kasten_transforms,
     VolumeAsInputExperiment,
     BiplanarAsInputExperiment,
+    BaseExperiment,
     NiftiPredictionWriter,
+    MetricsLogger,
     parse_training_arguments,
     get_model,
     get_model_config
@@ -16,9 +18,10 @@ from XrayTo3DShape import (
 import XrayTo3DShape
 from monai.utils.misc import set_determinism
 from monai.losses.dice import DiceLoss
+from torch.nn import BCEWithLogitsLoss
 from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning import seed_everything
-
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 if __name__ == "__main__":
 
@@ -64,20 +67,35 @@ if __name__ == "__main__":
     MODEL_CONFIG = get_model_config(model_name,IMG_SIZE)
 
     loss_function = DiceLoss(sigmoid=True)
+    # loss_function = BCEWithLogitsLoss()
     optimizer = Adam(model.parameters(), lr)
     # load pytorch lightning module
-    experiment = getattr(XrayTo3DShape.experiments,experiment_name)(model,optimizer,loss_function,BATCH_SIZE)
+    experiment:BaseExperiment = getattr(XrayTo3DShape.experiments,experiment_name)(model,optimizer,loss_function,BATCH_SIZE)
 
-    if args.evaluate and args.save_predictions:
-        nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
-        trainer = pl.Trainer(callbacks=[nifti_saver])
+    # batch = next(iter(train_loader))
+    # input,output = experiment.get_input_output_from_batch(batch)
+    # pred_logits = experiment.model(*input)
+    # loss = experiment.loss_function(pred_logits,output)
+    # print(loss)
+    evaluation_callbacks = []
+    if args.evaluate:
+        if args.save_predictions:
+            nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
+            evaluation_callbacks.append(nifti_saver)
+        
+        metric_saver = MetricsLogger(output_dir=args.output_dir,voxel_spacing=  IMG_RESOLUTION,nsd_tolerance=1)
+        evaluation_callbacks.append(metric_saver)
+        
+        trainer = pl.Trainer(callbacks=evaluation_callbacks)
         trainer.predict(model=experiment,ckpt_path=args.checkpoint_path,dataloaders=val_loader,return_predictions=False)
+        
     else:
         # loggers
         wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
+        wandb_logger.watch(model,log_graph=False)
         wandb_logger.log_hyperparams({'model':MODEL_CONFIG})
-
-        trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=3,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],enable_progress_bar=True,enable_checkpointing=True)
+        checkpoint_callback = ModelCheckpoint(monitor='val/loss',mode='min',save_last=True,save_top_k=5)
+        trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=NUM_EPOCHS,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],callbacks=[checkpoint_callback],enable_progress_bar=True,enable_checkpointing=True)
 
         trainer.fit(experiment,train_loader,val_loader)
 
