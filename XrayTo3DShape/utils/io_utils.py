@@ -61,6 +61,8 @@ def parse_training_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('trainpaths')
     parser.add_argument('valpaths')
+    parser.add_argument('--model_name')
+    parser.add_argument('--experiment_name')
     parser.add_argument('--tags',nargs='*')
     parser.add_argument('--gpu',type=int,default=1)
     parser.add_argument('--accelerator',default='gpu')
