@@ -4,3 +4,6 @@
 [submodule "external/TotalSegmentator"]
 	path = external/TotalSegmentator
 	url = https://github.com/wasserth/TotalSegmentator.git
+[submodule "external/surface-distance"]
+	path = external/surface-distance
+	url = https://github.com/deepmind/surface-distance.git
