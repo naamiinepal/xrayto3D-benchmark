@@ -1,10 +1,26 @@
 from pathlib import Path
 import SimpleITK as sitk
-from monai.data.nifti_saver import NiftiSaver
-from pytorch_lightning.callbacks import BasePredictionWriter
-import pytorch_lightning as pl
-from typing import Any,Sequence,Optional
 import numpy as np
+import os
+
+def get_nifti_stem(path):
+    """
+    '/home/user/image.nii.gz' -> 'image'
+    1.3.6.1.4.1.14519.5.2.1.6279.6001.905371958588660410240398317235.nii.gz ->1.3.6.1.4.1.14519.5.2.1.6279.6001.905371958588660410240398317235
+    """
+    def _get_stem(path_string) -> str:
+        name_subparts = Path(path_string).name.split('.')
+        return '.'.join(name_subparts[:-2]) # get rid of nii.gz
+    if isinstance(path, (str, os.PathLike)):
+        return _get_stem(path)
+
+
+
+def to_numpy(x)->np.ndarray:
+    try:
+        return x.detach().cpu().numpy()
+    except AttributeError:
+        return x
 
 def write_image(img, out_path,pixeltype=None):
     if isinstance(out_path, Path):
@@ -38,22 +54,6 @@ def read_image(img_path):
     return sitk.ReadImage(img_path)
 
 
-class NiftiPredictionWriter(BasePredictionWriter):
-    def __init__(self, output_dir, write_interval: str = "batch",save_pred=True,save_gt=True) -> None:
-        super().__init__(write_interval)
-        self.output_dir = output_dir
-        self.save_pred = save_pred
-        self.save_gt = save_gt
-        
-        self.pred_nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='pred',resample=True,dtype=np.int16,separate_folder=False)
-        
-        self.gt_nifti_saver = NiftiSaver(output_dir=self.output_dir,output_postfix='gt',resample=True,dtype=np.int16,separate_folder=False)
-
-    def write_on_batch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule", prediction: Any, batch_indices: Optional[Sequence[int]], batch: Any, batch_idx: int, dataloader_idx: int) -> None:
-        if self.save_pred:
-            self.pred_nifti_saver.save_batch(prediction['pred'],prediction['seg_meta_dict'])
-        if self.save_gt:
-            self.gt_nifti_saver.save_batch(prediction['gt'],prediction['seg_meta_dict'])
 
 
 def parse_training_arguments():
