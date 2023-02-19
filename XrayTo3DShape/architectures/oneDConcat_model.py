@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from typing import List, Dict
 from monai.networks.blocks.convolutions import Convolution
-
+from .utils import calculate_1d_vec_channels
 
 class OneDConcatModel(nn.Module):
     """
@@ -86,18 +86,11 @@ class OneDConcatModel(nn.Module):
         return layers
 
     def _calculate_1d_vec_channels(self)->int:
-        """calculate size of the 1D Low-dim embedding for given model layers"""
-        iw,ih = self.config['input_image_size'] # width , height
+        image_size = self.config['input_image_size']
+        encoder_strides = self.config['encoder']['strides']
+        encoder_out_channel = self.config['encoder']['out_channels'][-1]
+        return calculate_1d_vec_channels(image_size[0],encoder_strides,encoder_out_channel)
         
-        for stride in self.config['encoder']['strides']:
-            iw /= stride
-            ih /= stride
-        lat_encoder_1d_vecsize = ap_encoder_1d_vecsize = ih * iw * self.config['encoder']['out_channels'][-1]
-
-        decoded_cube_channels = ap_encoder_1d_vecsize  + lat_encoder_1d_vecsize
-
-        return int(decoded_cube_channels)
-
     def forward(self, ap_image: torch.Tensor, lat_image: torch.Tensor):
         out_ap = self.ap_encoder(ap_image)
         out_lat = self.lat_encoder(lat_image)
