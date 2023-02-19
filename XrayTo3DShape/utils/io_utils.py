@@ -70,6 +70,7 @@ def parse_training_arguments():
     parser.add_argument('--res',type=float,default=1.5)
     parser.add_argument('--batch_size',type=int,default=4)
     parser.add_argument('--epochs',type=int,default=100)
+    parser.add_argument('--dropout',default=False,type=bool)
     parser.add_argument('--evaluate',default=False,action='store_true')
     parser.add_argument('--save_predictions',default=False,action='store_true')
     parser.add_argument('--checkpoint_path')

@@ -5,7 +5,7 @@ from monai.networks.nets.unet import Unet
 from .utils import calculate_1d_vec_channels
 from torch import nn
 
-def get_model(model_name,image_size)->nn.Module:
+def get_model(model_name,image_size,dropout=False)->nn.Module:
     if model_name == OneDConcatModel.__name__:
         return OneDConcatModel(get_1dconcatmodel_config(image_size))
     elif model_name == AttentionUnet.__name__:
@@ -13,11 +13,11 @@ def get_model(model_name,image_size)->nn.Module:
     elif model_name == TwoDPermuteConcatModel.__name__:
         return TwoDPermuteConcatModel(get_2dconcatmodel_config(image_size))
     elif model_name == Unet.__name__:
-        return Unet(spatial_dims=3,**get_unet_config())
+        return Unet(spatial_dims=3,**get_unet_config(dropout))
     else:
         raise ValueError(f'invalid model name {model_name}')
 
-def get_model_config(model_name,image_size):
+def get_model_config(model_name,image_size,dropout=False):
     if model_name == OneDConcatModel.__name__:
         return get_1dconcatmodel_config(image_size)
     elif model_name == AttentionUnet.__name__:
@@ -25,11 +25,11 @@ def get_model_config(model_name,image_size):
     elif model_name == TwoDPermuteConcatModel.__name__:
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
-        return get_unet_config()
+        return get_unet_config(dropout)
     else:
         raise ValueError(f'invalud model name {model_name}')
 
-def get_unet_config():
+def get_unet_config(dropout):
     # End-To-End Convolutional Neural Network for 3D Reconstruction of Knee Bones From Bi-Planar X-Ray Images
     # https://arxiv.org/pdf/2004.00871.pdf
     model_config = {
@@ -40,7 +40,7 @@ def get_unet_config():
         "act": "RELU",
         "norm": "BATCH",
         "num_res_units": 2,
-        "dropout": 0.1,
+        "dropout": 0.1 if dropout else 0.0,
     }
     return model_config
 
