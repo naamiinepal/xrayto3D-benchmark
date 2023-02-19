@@ -1,5 +1,5 @@
 import pandas as pd
-from XrayTo3DShape  import TwoDPermuteConcat,BaseDataset,get_nonkasten_transforms
+from XrayTo3DShape  import TwoDPermuteConcatModel,BaseDataset,get_nonkasten_transforms
 from torch.utils.data import DataLoader
 from monai.losses.dice import DiceLoss
 import torch
@@ -52,7 +52,7 @@ config_bayat = {
     "dropout": 0.0,
     "bias": False
 }
-model = TwoDPermuteConcat(config_bayat)
+model = TwoDPermuteConcatModel(config_bayat)
 pred_tensor = model(ap_tensor,lat_tensor)
 print(pred_tensor.shape)
 # from torchview import draw_graph
