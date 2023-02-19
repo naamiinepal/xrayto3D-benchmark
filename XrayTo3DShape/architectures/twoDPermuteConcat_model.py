@@ -4,7 +4,7 @@ from typing import Dict, List
 from monai.networks.blocks.convolutions import Convolution
 
 
-class TwoDPermuteConcat(nn.Module):
+class TwoDPermuteConcatModel(nn.Module):
     """
     Transvert Architecture
     Bayat, Amirhossein, et al. "Inferring the 3D standing spine posture from 2D radiographs.", 2020.
@@ -109,17 +109,21 @@ class TwoDPermuteConcat(nn.Module):
         out_ap = self.ap_encoder(ap_image)
         out_lat = self.lat_encoder(lat_image)
 
-        fused_cube = torch.cat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
+        out_ap_expansion = self.ap_expansion(out_ap.unsqueeze(2))
+        out_lat_expansion = self.lat_expansion(out_lat.unsqueeze(-1))
+
+        
+        fused_cube = torch.cat((out_ap_expansion,out_lat_expansion),dim=1) # add new dimension assuming PIR orientation
         return self.decoder(fused_cube)
 
 
 if __name__ == "__main__":
     import torch
 
-    ap_img = torch.zeros((1, 8, 64, 64))  # BCHWD
-    lat_img = torch.zeros((1, 8, 64, 64))
+    ap_img = torch.zeros((1, 8, 96, 96))  # BCHWD
+    lat_img = torch.zeros((1, 8, 96, 96))
     config = {
-        "input_image_size": [64, 64],
+        "input_image_size": [96, 96],
         "encoder": {
             "in_channels": [8, 16, 32, 32, 32, 32],
             "out_channels": [16, 32, 32, 32, 32, 32],
@@ -127,15 +131,15 @@ if __name__ == "__main__":
             "kernel_size": 7,
         },
         "ap_expansion": {
-            "in_channels": [32, 32, 32, 32],
-            "out_channels": [32, 32, 32, 32],
-            "strides": ((2, 1, 1),) * 4,
+            "in_channels": [32, 32, 32, 32,32],
+            "out_channels": [32, 32, 32, 32,32],
+            "strides": ((2, 1, 1),) * 5,
             "kernel_size": 3,
         },
         "lat_expansion": {
-            "in_channels": [32, 32, 32, 32],
-            "out_channels": [32, 32, 32, 32],
-            "strides": ((1, 1, 2),) * 4,
+            "in_channels": [32, 32, 32, 32, 32],
+            "out_channels": [32, 32, 32, 32, 32],
+            "strides": ((1, 1, 2),) * 5,
             "kernel_size": 3,
         },
         "decoder": {
@@ -147,8 +151,20 @@ if __name__ == "__main__":
         "act": "RELU",
         "norm": "BATCH",
         "dropout": 0.0,
+        "bias":False
     }
-    model = TwoDPermuteConcat(config)
-    print(model)
-    fused_cube = model(ap_img, lat_img)
-    print(fused_cube.shape)
+    model = TwoDPermuteConcatModel(config)
+    # print(model)
+    # fused_cube = model(ap_img, lat_img)
+    # print(fused_cube.shape)
+    ap_enc_out = model.ap_encoder(ap_img)
+    lat_enc_out = model.lat_encoder(lat_img)
+    print(ap_enc_out.shape,lat_enc_out.shape)
+    
+    ap_after_expansion = model.ap_expansion(ap_enc_out.unsqueeze(2))
+    lat_after_expansion = model.lat_expansion(lat_enc_out.unsqueeze(-1))
+
+    print(ap_after_expansion.shape, lat_after_expansion.shape)
+    fused_cube = torch.cat((ap_after_expansion,lat_after_expansion),dim=1) # add new dimension assuming PIR orientation
+    out = model.decoder(fused_cube)    
+    print(out.shape)
