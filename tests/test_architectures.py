@@ -52,7 +52,7 @@ if __name__ == "__main__":
         "dropout": 0.0,
         "bias": False
     }
-    model = TwoDPermuteConcat(config_bayat)
+    model = TwoDPermuteConcatModel(config_bayat)
     pred_tensor = model(ap_img,lat_img)
     from torchview import draw_graph
 
