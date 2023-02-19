@@ -29,13 +29,17 @@ if __name__ == '__main__':
         "kernel_size":3,
         "act":'RELU',
         "norm":"BATCH",
+        # "deep_supr_num" : 2,
+
         "encoder":{
             "kernel_size":(3,)*4,
+            'deep_supervision':False,
+            'filters':[8,16,32,64],
             "strides":(1,2,2,2),   # keep the first element of the strides 1 so the input and output shape match
 
         },
         "decoder": {
-            "out_channel":16,
+            "out_channel":2,
             "kernel_size":3
         }
     }
@@ -50,6 +54,29 @@ if __name__ == '__main__':
 
 
     model = TwoDPermuteConcatMultiScale(model_config)
+    x_ray_img = torch.zeros(1,1,64, 64)
+
+    ap_out = model.ap_encoder(x_ray_img)
+    lat_out = model.lat_encoder(x_ray_img)
+    [print(a.shape) for a in ap_out]
+    [print(a.shape) for a in lat_out]
+    # print(f'decoders {len(model.decoder)}')
+    # fused_cube_0 = torch.stack((ap_out[-1],lat_out[-1]),dim=1)
+    # print(f'fused cube 0 {fused_cube_0.shape}')
+    # dec_out_0 = model.decoder[0](fused_cube_0)
+    # print(dec_out_0.shape)
+    # fused_cube_1 = torch.stack((ap_out[-2],lat_out[-2]),dim=1)
+    # dec_out_1 = model.decoder[1](torch.cat((dec_out_0,fused_cube_1),dim=1))
+    # print(f'fused cube 1 {fused_cube_1.shape}')
+    # print(dec_out_1.shape)
+    # fused_cube_2 = torch.stack((ap_out[-3],lat_out[-3]),dim=1)
+    # dec_out_2 = model.segmentation_head(torch.cat((dec_out_1,fused_cube_2),dim=1))
+    # print('fused cube 2',fused_cube_2.shape)
+    # print(dec_out_2.shape)
+    # out = model(x_ray_img,x_ray_img)
+    # print(f'output {out.shape}')
+    out = model(x_ray_img,x_ray_img)
+    print(out.shape)
     loss_function = DiceLoss(sigmoid=True)
     optimizer = torch.optim.AdamW(model.parameters(), lr)
 
