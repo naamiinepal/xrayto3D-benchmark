@@ -64,6 +64,8 @@ def parse_training_arguments():
     parser.add_argument('--experiment_name')
     parser.add_argument('--anatomy')
     parser.add_argument('--loss')
+    parser.add_argument('--lambda_bce',default=1.0)
+    parser.add_argument('--lambda_dice',default=1.0)
     parser.add_argument('--tags',nargs='*')
     parser.add_argument('--gpu',type=int,default=1)
     parser.add_argument('--accelerator',default='gpu')
