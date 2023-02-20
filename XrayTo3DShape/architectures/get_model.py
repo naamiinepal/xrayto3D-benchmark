@@ -1,5 +1,6 @@
 from .oneDConcat_model import OneDConcatModel
 from .twoDPermuteConcat_model import TwoDPermuteConcatModel
+from .twoDPermuteConcatMultiScale_v2 import MultiScale2DPermuteConcat
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.unet import Unet
 from .utils import calculate_1d_vec_channels
@@ -8,12 +9,17 @@ from torch import nn
 def get_model(model_name,image_size,dropout=False)->nn.Module:
     if model_name == OneDConcatModel.__name__:
         return OneDConcatModel(get_1dconcatmodel_config(image_size))
+
     elif model_name == AttentionUnet.__name__:
         return AttentionUnet(spatial_dims=3,**get_attunet_config())
+
     elif model_name == TwoDPermuteConcatModel.__name__:
         return TwoDPermuteConcatModel(get_2dconcatmodel_config(image_size))
+
     elif model_name == Unet.__name__:
         return Unet(spatial_dims=3,**get_unet_config(dropout))
+    elif model_name == MultiScale2DPermuteConcat.__name__:
+        return MultiScale2DPermuteConcat()
     else:
         raise ValueError(f'invalid model name {model_name}')
 
@@ -26,8 +32,10 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
         return get_unet_config(dropout)
+    elif model_name == MultiScale2DPermuteConcat.__name__:
+        return get_multiscale2dconcatmodel_config(image_size)
     else:
-        raise ValueError(f'invalud model name {model_name}')
+        raise ValueError(f'invalid model name {model_name}')
 
 def get_unet_config(dropout):
     # End-To-End Convolutional Neural Network for 3D Reconstruction of Knee Bones From Bi-Planar X-Ray Images
@@ -44,6 +52,15 @@ def get_unet_config(dropout):
     }
     return model_config
 
+def get_multiscale2dconcatmodel_config(image_size):
+    model_config = {
+        "encoder":{
+            "in_channels":[1,16,32,64],
+            'kernel_size':3,
+            'strides': 2,
+        }
+    }
+    return model_config
 def get_2dconcatmodel_config(image_size):
     # Inferring the 3D Standing Spine Posture from 2D Radiographs
     # https://arxiv.org/abs/2007.06612
