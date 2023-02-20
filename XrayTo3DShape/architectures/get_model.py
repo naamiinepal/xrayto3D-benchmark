@@ -1,6 +1,6 @@
 from .oneDConcat_model import OneDConcatModel
 from .twoDPermuteConcat_model import TwoDPermuteConcatModel
-from .twoDPermuteConcatMultiScale_v2 import MultiScale2DPermuteConcat
+from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.unet import Unet
 from .utils import calculate_1d_vec_channels
