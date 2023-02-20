@@ -3,7 +3,7 @@ import SimpleITK as sitk
 import numpy as np
 import os
 
-def get_nifti_stem(path):
+def get_nifti_stem(path)->str:
     """
     '/home/user/image.nii.gz' -> 'image'
     1.3.6.1.4.1.14519.5.2.1.6279.6001.905371958588660410240398317235.nii.gz ->1.3.6.1.4.1.14519.5.2.1.6279.6001.905371958588660410240398317235
@@ -11,8 +11,7 @@ def get_nifti_stem(path):
     def _get_stem(path_string) -> str:
         name_subparts = Path(path_string).name.split('.')
         return '.'.join(name_subparts[:-2]) # get rid of nii.gz
-    if isinstance(path, (str, os.PathLike)):
-        return _get_stem(path)
+    return _get_stem(path)
 
 
 
@@ -63,6 +62,8 @@ def parse_training_arguments():
     parser.add_argument('valpaths')
     parser.add_argument('--model_name')
     parser.add_argument('--experiment_name')
+    parser.add_argument('--anatomy')
+    parser.add_argument('--loss')
     parser.add_argument('--tags',nargs='*')
     parser.add_argument('--gpu',type=int,default=1)
     parser.add_argument('--accelerator',default='gpu')
