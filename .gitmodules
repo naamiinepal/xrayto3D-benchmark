@@ -7,3 +7,9 @@
 [submodule "external/surface-distance"]
 	path = external/surface-distance
 	url = https://github.com/deepmind/surface-distance.git
+[submodule "external/FracReconNet"]
+	path = external/FracReconNet
+	url = https://github.com/DanupongBu/FracReconNet.git
+[submodule "external/SegLoss"]
+	path = external/SegLoss
+	url = https://github.com/JunMa11/SegLoss.git
