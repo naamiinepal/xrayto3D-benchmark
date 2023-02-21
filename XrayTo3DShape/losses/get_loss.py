@@ -7,7 +7,7 @@ pos_weights_dict = {'hip':719,'femur':612,'vertebra':23,'rib':5231}
 
 def get_loss(loss_name,**kwargs):
     if loss_name == BCEWithLogitsLoss.__name__:
-        return get_WCE(**kwargs)
+        return get_WCE(kwargs['anatomy'],kwargs['image_size'])
     elif loss_name == CrossEntropyLoss.__name__:
         return get_CE(**kwargs)
     elif loss_name == DiceLoss.__name__:
