@@ -37,7 +37,7 @@ class BaseExperiment(pl.LightningModule):
         pred_logits = self.model(*input)
         loss = self.loss_function(pred_logits,output)
         pred = post_transform(pred_logits)
-        dice_metric = torch.mean(compute_dice(pred,output))
+        dice_metric = torch.mean(compute_dice(pred,output,ignore_empty=False))
         self.log('val/loss',loss.item(),on_step=False,on_epoch=True,prog_bar=True,batch_size=self.batch_size)
         self.log('val/dice',dice_metric.item(),on_step=False,on_epoch=True,prog_bar=True,batch_size=self.batch_size)
 
