@@ -8,7 +8,8 @@ from XrayTo3DShape import (
     get_nonkasten_transforms,
     get_kasten_transforms,
     VolumeAsInputExperiment,
-    BiplanarAsInputExperiment,
+    ParallelHeadsExperiment,
+    SingleHeadExperiment,
     BaseExperiment,
     NiftiPredictionWriter,
     MetricsLogger,
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     set_determinism(seed=SEED)
     seed_everything(seed=SEED)
 
-    if experiment_name == BiplanarAsInputExperiment.__name__:
+    if experiment_name == ParallelHeadsExperiment.__name__ or experiment_name == SingleHeadExperiment.__name__:
         callable_transform = get_nonkasten_transforms
     elif experiment_name == VolumeAsInputExperiment.__name__:
         callable_transform = get_kasten_transforms

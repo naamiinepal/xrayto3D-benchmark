@@ -2,10 +2,12 @@ from .oneDConcat_model import OneDConcatModel
 from .twoDPermuteConcat_model import TwoDPermuteConcatModel
 from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
 from monai.networks.nets.attentionunet import AttentionUnet
+from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.networks.nets.unet import Unet
 from .utils import calculate_1d_vec_channels
 from torch import nn
 import math
+from typing import Dict
 
 def get_model(model_name,image_size,dropout=False)->nn.Module:
     if model_name == OneDConcatModel.__name__:
@@ -13,6 +15,9 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
 
     elif model_name == AttentionUnet.__name__:
         return AttentionUnet(spatial_dims=3,**get_attunet_config())
+
+    elif model_name == SwinUNETR.__name__:
+        return SwinUNETR(**get_swinunetr_config(image_size))
 
     elif model_name == TwoDPermuteConcatModel.__name__:
         return TwoDPermuteConcatModel(get_2dconcatmodel_config(image_size))
@@ -29,6 +34,8 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_1dconcatmodel_config(image_size)
     elif model_name == AttentionUnet.__name__:
         return get_attunet_config()
+    elif model_name == SwinUNETR.__name__:
+        return get_swinunetr_config(image_size)
     elif model_name == TwoDPermuteConcatModel.__name__:
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
@@ -37,6 +44,25 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_multiscale2dconcatmodel_config(image_size)
     else:
         raise ValueError(f'invalid model name {model_name}')
+
+def get_swinunetr_config(image_size)->Dict:
+    model_config = {
+        'img_size':image_size,
+        'in_channels':2,
+        'out_channels':1 ,
+        'depths': (2, 2, 2, 2),
+        'num_heads':  (2,2,2,2),
+        'feature_size':  12,
+        'norm_name':  "instance",
+        'drop_rate': 0.0,
+        'attn_drop_rate':  0.0,
+        'dropout_path_rate': 0.0,
+        'normalize': True,
+        'use_checkpoint': True,
+        'spatial_dims': 3,
+        'downsample':"merging",
+    }
+    return model_config
 
 def get_unet_config(dropout):
     # End-To-End Convolutional Neural Network for 3D Reconstruction of Knee Bones From Bi-Planar X-Ray Images
@@ -162,7 +188,7 @@ def get_attunet_config():
     model_config = {
         "in_channels": 2,
         "out_channels": 1,
-        "channels": (8, 16, 32, 64, 64),
+        "channels": (8, 16, 32, 64, 128),
         "strides": (2,2,2,2),
     }
     return model_config

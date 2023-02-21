@@ -1,2 +1,2 @@
 from .base_experiment import BaseExperiment
-from .experiments import VolumeAsInputExperiment,BiplanarAsInputExperiment
+from .experiments import VolumeAsInputExperiment,ParallelHeadsExperiment,SingleHeadExperiment
