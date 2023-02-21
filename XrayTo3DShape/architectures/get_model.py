@@ -19,7 +19,7 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
     elif model_name == Unet.__name__:
         return Unet(spatial_dims=3,**get_unet_config(dropout))
     elif model_name == MultiScale2DPermuteConcat.__name__:
-        return MultiScale2DPermuteConcat()
+        return MultiScale2DPermuteConcat(get_multiscale2dconcatmodel_config(image_size))
     else:
         raise ValueError(f'invalid model name {model_name}')
 
@@ -53,11 +53,29 @@ def get_unet_config(dropout):
     return model_config
 
 def get_multiscale2dconcatmodel_config(image_size):
+    # fully conv: image size does not matter
     model_config = {
-        "encoder":{
-            "in_channels":[1,16,32,64],
+        'encoder':{
+            'in_channels':[16,32],
+            'out_channels':[4,8],
+            'encoder_count':4,
             'kernel_size':3,
-            'strides': 2,
+            'act':'RELU',
+            'norm':'BATCH'
+        },
+        'decoder_2D':{
+            'in_channels':[64,96],
+            'out_channels':[64,128],
+            'kernel_size':3,
+            'act':'RELU',
+            'norm':'BATCH'
+        },
+        'fusion_3D':{
+            'in_channels':[2,34],
+            'out_channels':[32,32],
+            'kernel_size':3,
+            'act':'RELU',
+            'norm':'BATCH'
         }
     }
     return model_config
