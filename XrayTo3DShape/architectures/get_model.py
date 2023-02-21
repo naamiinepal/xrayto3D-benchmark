@@ -5,6 +5,7 @@ from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.unet import Unet
 from .utils import calculate_1d_vec_channels
 from torch import nn
+import math
 
 def get_model(model_name,image_size,dropout=False)->nn.Module:
     if model_name == OneDConcatModel.__name__:
@@ -116,7 +117,9 @@ def get_2dconcatmodel_config(image_size):
     # Inferring the 3D Standing Spine Posture from 2D Radiographs
     # https://arxiv.org/abs/2007.06612
     # default baseline for 64^3 volume
-    if (image_size == 128) or (image_size == 64):
+    if image_size == 64 or image_size == 128:
+        expansion_depth = int(math.log2(image_size)) - 2 
+
         model_config = {
             "input_image_size": [image_size, image_size],
             "encoder": {
@@ -126,15 +129,15 @@ def get_2dconcatmodel_config(image_size):
                 "kernel_size": 7,
             },
             "ap_expansion": {
-                "in_channels": [32, 32, 32, 32],
-                "out_channels": [32, 32, 32, 32],
-                "strides": ((2, 1, 1),) * 4,
+                "in_channels": [32, 32, 32, 32, 32][:expansion_depth],
+                "out_channels": [32, 32, 32, 32, 32][:expansion_depth],
+                "strides": ((2, 1, 1),) * expansion_depth,
                 "kernel_size": 3,
             },
             "lat_expansion": {
-                "in_channels": [32, 32, 32, 32],
-                "out_channels": [32, 32, 32, 32],
-                "strides": ((1, 1, 2),) * 4,
+                "in_channels": [32, 32, 32, 32, 32][:expansion_depth],
+                "out_channels": [32, 32, 32, 32, 32][:expansion_depth],
+                "strides": ((1, 1, 2),) * expansion_depth,
                 "kernel_size": 3,
             },
             "decoder": {
@@ -146,14 +149,8 @@ def get_2dconcatmodel_config(image_size):
             "act": "RELU",
             "norm": "BATCH",
             "dropout": 0.0,
-            "bias": False
+            "bias": True
         }
-        if image_size == 128:
-            # add a decoder layer
-            model_config['decoder']["in_channels"] = [64, 64, 64, 64, 64, 32, 16]
-            model_config['decoder']["out_channels"] = [64, 64, 64, 64, 32, 16, 1]
-            model_config['decoder']["strides"] = (1, 1, 1, 1, 2, 2, 1)
-            model_config['decoder']["kernel_size"] = (3,3,3,3,3,3,7)
     else:
         raise ValueError(f'Image size can be either 64 or 128,, got {image_size}')
 

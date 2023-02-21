@@ -119,11 +119,13 @@ class TwoDPermuteConcatModel(nn.Module):
 
 if __name__ == "__main__":
     import torch
-
-    ap_img = torch.zeros((1, 8, 96, 96))  # BCHWD
-    lat_img = torch.zeros((1, 8, 96, 96))
+    import math
+    image_size = 96
+    ap_img = torch.zeros((1, 8, image_size, image_size))  # BCHWD
+    lat_img = torch.zeros((1, 8, image_size, image_size))
+    model_depth = int(math.log2(image_size)) - 2 
     config = {
-        "input_image_size": [96, 96],
+        "input_image_size": [image_size, image_size],
         "encoder": {
             "in_channels": [8, 16, 32, 32, 32, 32],
             "out_channels": [16, 32, 32, 32, 32, 32],
@@ -131,15 +133,15 @@ if __name__ == "__main__":
             "kernel_size": 7,
         },
         "ap_expansion": {
-            "in_channels": [32, 32, 32, 32,32],
-            "out_channels": [32, 32, 32, 32,32],
-            "strides": ((2, 1, 1),) * 5,
+            "in_channels": [32, 32, 32, 32,32,32,32][:model_depth],
+            "out_channels": [32, 32, 32, 32,32,32,32][:model_depth],
+            "strides": ((2, 1, 1),) * model_depth,
             "kernel_size": 3,
         },
         "lat_expansion": {
-            "in_channels": [32, 32, 32, 32, 32],
-            "out_channels": [32, 32, 32, 32, 32],
-            "strides": ((1, 1, 2),) * 5,
+            "in_channels": [32, 32, 32, 32, 32, 32,32][:model_depth],
+            "out_channels": [32, 32, 32, 32, 32, 32,32][:model_depth],
+            "strides": ((1, 1, 2),) * model_depth,
             "kernel_size": 3,
         },
         "decoder": {
