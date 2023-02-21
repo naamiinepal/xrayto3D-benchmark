@@ -59,7 +59,7 @@ def get_multiscale2dconcatmodel_config(image_size):
         'encoder':{
             "initial_channel":16,
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[8,16,32],
+            'out_channels':[4,8,16,32],
             'encoder_count':4,
             'kernel_size':3,
             'act':'RELU',
@@ -67,14 +67,14 @@ def get_multiscale2dconcatmodel_config(image_size):
         },
         'decoder_2D':{
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[32,64,128],
+            'out_channels':[16,32,64,128],
             'kernel_size':3,
             'act':'RELU',
             'norm':'BATCH'
         },
         'fusion_3D':{
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[32,32,32],
+            'out_channels':[32,32,32,32],
             'kernel_size':3,
             'act':'RELU',
             'norm':'BATCH'
@@ -111,7 +111,7 @@ def get_multiscale2dconcatmodel_config(image_size):
     model_config['fusion_3D']['in_channels'] = fusion_in
 
     return model_config
-    
+
 def get_2dconcatmodel_config(image_size):
     # Inferring the 3D Standing Spine Posture from 2D Radiographs
     # https://arxiv.org/abs/2007.06612
