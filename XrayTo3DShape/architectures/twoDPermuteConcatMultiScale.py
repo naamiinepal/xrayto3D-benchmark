@@ -89,7 +89,11 @@ class MultiScale2DPermuteConcat(nn.Module):
 
             Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][1],out_channels=config_decoder_2d['out_channels'][1],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            
 
-            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][2],out_channels=config_decoder_2d['out_channels'][2],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            ])
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][2],out_channels=config_decoder_2d['out_channels'][2],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            
+
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][3],out_channels=config_decoder_2d['out_channels'][3],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'), 
+
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][4],out_channels=config_decoder_2d['out_channels'][4],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            ])
 
 
         self.upconv2d_lat_pipeline = nn.ModuleList([
@@ -98,7 +102,11 @@ class MultiScale2DPermuteConcat(nn.Module):
 
             Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][1],out_channels=config_decoder_2d['out_channels'][1],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            
 
-            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][2],out_channels=config_decoder_2d['out_channels'][2],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            ])
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][2],out_channels=config_decoder_2d['out_channels'][2],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),            
+
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][3],out_channels=config_decoder_2d['out_channels'][3],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'), 
+
+            Convolution(spatial_dims=2,act='RELU',in_channels=config_decoder_2d['out_channels'][4],out_channels=config_decoder_2d['out_channels'][4],is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),        ])
         
         config_fusion_3d = config['fusion_3D']
         fusion_decoder_list = [
@@ -114,7 +122,11 @@ class MultiScale2DPermuteConcat(nn.Module):
             
             Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),
 
-            Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH')])
+            Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),
+            
+            Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),
+
+            Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH'),Convolution(spatial_dims=3,act='RELU',in_channels=32,out_channels=32,is_transposed=True,kernel_size=3,strides=2,norm='BATCH')            ])
 
         self.segmentation_head = nn.Sequential(Convolution(spatial_dims=3,in_channels=32,out_channels=1,kernel_size=1,strides=1,padding=0,act=None,norm=None))
 
@@ -180,7 +192,7 @@ if __name__ == '__main__':
         'encoder':{
             "initial_channel":16,
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[8,16,32,64],
+            'out_channels':[4,4,8,16,32,64],
             'encoder_count':4,
             'kernel_size':3,
             'act':'RELU',
@@ -188,14 +200,14 @@ if __name__ == '__main__':
         },
         'decoder_2D':{
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[16,32,64,128],
+            'out_channels':[4,8,16,32,64,128],
             'kernel_size':3,
             'act':'RELU',
             'norm':'BATCH'
         },
         'fusion_3D':{
             'in_channels':[], # this will be filled in by autoconfig
-            'out_channels':[32,32,32,32],
+            'out_channels':[32,32,32,32,32,32],
             'kernel_size':3,
             'act':'RELU',
             'norm':'BATCH'
