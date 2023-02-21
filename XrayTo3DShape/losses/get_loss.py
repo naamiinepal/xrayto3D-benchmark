@@ -1,6 +1,7 @@
 from torch.nn import BCEWithLogitsLoss,CrossEntropyLoss
 from monai.losses.dice import DiceLoss
 from .losses_zoo import DiceCELoss
+from .hausdorff import HausdorffDTLoss, HausdorffERLoss
 import torch
 
 pos_weights_dict = {'hip':719,'femur':612,'vertebra':23,'rib':5231}
@@ -14,6 +15,10 @@ def get_loss(loss_name,**kwargs):
         return DiceLoss(sigmoid=True)
     elif loss_name == DiceCELoss.__name__:
         return get_DiceCE(**kwargs,sigmoid=True)
+    elif loss_name == HausdorffDTLoss.__name__:
+        return HausdorffDTLoss(device=kwargs['device'])
+    elif loss_name == HausdorffERLoss.__name__:
+        return HausdorffERLoss(device=kwargs['device']) # broken
     else:
         raise ValueError(f'invalid loss name {loss_name}')
 
