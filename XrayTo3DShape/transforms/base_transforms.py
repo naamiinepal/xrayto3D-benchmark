@@ -16,7 +16,6 @@ def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
         "orig": d["seg"],
         "gaus": torch.tensor(
             random_noise(d["seg"], mode='gaussian',mean=0,var=0.01), dtype=torch.float32),
-        "s&p": torch.tensor(random_noise(d["seg"], mode='s&p', salt_vs_pepper=0.1)),
     })
 
     seg_transform = Compose(

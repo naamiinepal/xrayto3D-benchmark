@@ -1,4 +1,4 @@
-from torch.nn import BCEWithLogitsLoss,CrossEntropyLoss
+from torch.nn import BCEWithLogitsLoss,CrossEntropyLoss,MSELoss
 from monai.losses.dice import DiceLoss
 from .losses_zoo import DiceCELoss
 from .hausdorff import HausdorffDTLoss, HausdorffERLoss
@@ -7,6 +7,8 @@ import torch
 pos_weights_dict = {'hip':719,'femur':612,'vertebra':23,'rib':5231}
 
 def get_loss(loss_name,**kwargs):
+    if loss_name == MSELoss.__name__:
+        return MSELoss()
     if loss_name == BCEWithLogitsLoss.__name__:
         return get_WCE(kwargs['anatomy'],kwargs['image_size'])
     elif loss_name == CrossEntropyLoss.__name__:
