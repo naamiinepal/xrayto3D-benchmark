@@ -57,6 +57,8 @@ def read_image(img_path):
 
 def parse_training_arguments():
     import argparse
+    import os
+
     parser = argparse.ArgumentParser()
     parser.add_argument('trainpaths')
     parser.add_argument('valpaths')
@@ -67,6 +69,7 @@ def parse_training_arguments():
     parser.add_argument('--lr',default=1e-2,type=float)
     parser.add_argument('--lambda_bce',default=1.0)
     parser.add_argument('--lambda_dice',default=1.0)
+    parser.add_argument('--num_workers',default=os.cpu_count(),type=int)
     parser.add_argument('--tags',nargs='*')
     parser.add_argument('--wandb-project',default='2d-3d-benchmark')
     parser.add_argument('--gpu',type=int,default=1)
