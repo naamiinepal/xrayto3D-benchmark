@@ -55,9 +55,10 @@ def get_unet_config(dropout):
 def get_multiscale2dconcatmodel_config(image_size):
     # fully conv: image size does not matter
     model_config = {
+        "permute":True,
         'encoder':{
             'in_channels':[16,32],
-            'out_channels':[4,8],
+            'out_channels':[4,16],
             'encoder_count':4,
             'kernel_size':3,
             'act':'RELU',
@@ -78,6 +79,19 @@ def get_multiscale2dconcatmodel_config(image_size):
             'norm':'BATCH'
         }
     }
+    # constrain decoder configuration based on encoder
+    enc_out = [in_ch + out_ch*model_config['encoder']['encoder_count'] for in_ch,out_ch in zip(model_config['encoder']['in_channels'],model_config['encoder']['out_channels'])]
+    enc_out.reverse()
+    dec_out = model_config['decoder_2D']['out_channels']
+    dec_in = []
+    for i in range(len(enc_out)):
+        # decoder takes input from the adjacent encoder and previous decoder
+        if i == 0: # if this is the first decoder, then there is no previous decoder
+            dec_in.append(enc_out[i])
+        else:
+            dec_in.append(enc_out[i]+dec_out[i-1])
+    model_config['decoder_2D']['in_channels'] = dec_in
+
     return model_config
 def get_2dconcatmodel_config(image_size):
     # Inferring the 3D Standing Spine Posture from 2D Radiographs

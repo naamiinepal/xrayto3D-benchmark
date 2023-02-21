@@ -34,7 +34,7 @@ class MultiScaleEncoder2d(nn.Module):
     '''
     def __init__(self,config:Dict) -> None:
         super().__init__()
-        self.conv1 =  Convolution(spatial_dims=2,in_channels=1,out_channels=config['in_channels'][0],strides=1,padding=1,act=config['act'],norm=config['norm'])
+        self.conv1 =  Convolution(spatial_dims=2,in_channels=1,out_channels=config['in_channels'][0],strides=1,kernel_size=config['kernel_size'],act=config['act'],norm=config['norm'])
         # (B,16,H,W)->(B,32,H,W) 32 = 16 + 4 + 4 + 4 + 4
         # (B,32,H/2,W/2)->(B,64,H,W) 64 = 32 + 8 + 8 + 8 + 8
         self.multiscale_encoder = nn.ModuleList([
@@ -56,10 +56,10 @@ class MultiScaleEncoder2d(nn.Module):
 
 
 class MultiScale2DPermuteConcat(nn.Module):
-    def __init__(self,config:Dict,permute:bool=True) -> None:
+    def __init__(self,config:Dict) -> None:
         super().__init__()
         self.config = config
-        self.permute = permute
+        self.permute = config['permute']
         self.ap_encoder :nn.Module
         self.lat_encoder : nn.Module
 
@@ -72,13 +72,13 @@ class MultiScale2DPermuteConcat(nn.Module):
 
         config_decoder_2d = config['decoder_2D']
         ap_decoder_list = [
-            Convolution(spatial_dims=2,in_channels=in_ch,out_channels=out_ch,kernel_size=config_decoder_2d['kernel_size'],strides=1,padding=1,act=config_decoder_2d['act'],norm=config_decoder_2d['norm'])
+            Convolution(spatial_dims=2,in_channels=in_ch,out_channels=out_ch,kernel_size=config_decoder_2d['kernel_size'],strides=1,act=config_decoder_2d['act'],norm=config_decoder_2d['norm'])
                 for in_ch, out_ch in zip(config_decoder_2d['in_channels'],config_decoder_2d['out_channels'])
         ]
         self.ap_decoder_pipeline = nn.ModuleList(ap_decoder_list)
 
         lat_decoder_list = [
-            Convolution(spatial_dims=2,in_channels=in_ch,out_channels=out_ch,kernel_size=config_decoder_2d['kernel_size'],strides=1,padding=1,act=config_decoder_2d['act'],norm=config_decoder_2d['norm'])
+            Convolution(spatial_dims=2,in_channels=in_ch,out_channels=out_ch,kernel_size=config_decoder_2d['kernel_size'],strides=1,act=config_decoder_2d['act'],norm=config_decoder_2d['norm'])
                 for in_ch, out_ch in zip(config_decoder_2d['in_channels'],config_decoder_2d['out_channels'])
         ] # (B,104,H,W)->(B,H,H,W)
         self.lat_decoder_pipeline = nn.ModuleList(lat_decoder_list)        
@@ -94,7 +94,7 @@ class MultiScale2DPermuteConcat(nn.Module):
         
         config_fusion_3d = config['fusion_3D']
         fusion_decoder_list = [
-            Convolution(spatial_dims=3,in_channels=in_ch,out_channels=out_ch,strides=1,padding=1,kernel_size=config_fusion_3d['kernel_size'],act='RELU',norm='BATCH')                 
+            Convolution(spatial_dims=3,in_channels=in_ch,out_channels=out_ch,strides=1,kernel_size=config_fusion_3d['kernel_size'],act='RELU',norm='BATCH')                 
                 for in_ch, out_ch in zip(config_fusion_3d['in_channels'],config_fusion_3d['out_channels'])
 
         ]
@@ -153,29 +153,20 @@ class MultiScale2DPermuteConcat(nn.Module):
 
         return self.segmentation_head(dec_3d_fusion_out[-1])
 
-        # fused_out =  [torch.cat((ap.unsqueeze(dim=1),lat.unsqueeze(dim=1)),dim=1) 
-        #     for ap,lat in zip(decoded_ap,permuted_decoded_lat)]
 
-        # fusion_out = [ fusion_layer(fused_cube) for fused_cube,fusion_layer in zip(fused_out,self.fusion_decoder_pipeline)]
-        # [print('Before UpSampling ',out.shape) for out in fusion_out]
-
-        # fusion_scaled_out = [upsampler(out)for out,upsampler in zip(fusion_out,self.upconv3d_pipeline)]
-        # [print('After UpSampling ',out.shape) for out in fusion_scaled_out]
-
-        # return fusion_out
-        # return decoded_ap,decoded_lat
 
 
 if __name__ == '__main__':
     import torch 
-    
+    import numpy as np
     ap_img = torch.zeros((1,1,128,128))
     lat_img = torch.zeros((1,1,128,128))
 
     model_config = {
+        'permute':True,
         'encoder':{
             'in_channels':[16,32],
-            'out_channels':[4,8],
+            'out_channels':[4,16],
             'encoder_count':4,
             'kernel_size':3,
             'act':'RELU',
@@ -196,7 +187,16 @@ if __name__ == '__main__':
             'norm':'BATCH'
         }
     }
-
+    enc_out = [in_ch + out_ch*model_config['encoder']['encoder_count'] for in_ch,out_ch in zip(model_config['encoder']['in_channels'],model_config['encoder']['out_channels'])]
+    enc_out.reverse()
+    dec_out = model_config['decoder_2D']['out_channels']
+    dec_in = []
+    for i in range(len(enc_out)):
+        if i == 0:
+            dec_in.append(enc_out[i])
+        else:
+            dec_in.append(enc_out[i]+dec_out[i-1])
+    model_config['decoder_2D']['in_channels'] = dec_in
     model = MultiScale2DPermuteConcat(config=model_config)
     fused_out = model(ap_img,lat_img)
     print(f'out {fused_out.shape}')
