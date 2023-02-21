@@ -1,5 +1,6 @@
 import wandb
 import torch
+from pathlib import Path
 from torch.utils.data.dataloader import DataLoader
 from torch.optim import Adam
 import pytorch_lightning as pl
@@ -7,10 +8,12 @@ from XrayTo3DShape import (
     get_dataset,
     get_nonkasten_transforms,
     get_kasten_transforms,
+    get_denoising_autoencoder_transforms,
     VolumeAsInputExperiment,
     ParallelHeadsExperiment,
     SingleHeadExperiment,
     BaseExperiment,
+    AutoencoderExperiment,
     NiftiPredictionWriter,
     MetricsLogger,
     parse_training_arguments,
@@ -48,6 +51,8 @@ if __name__ == "__main__":
         callable_transform = get_nonkasten_transforms
     elif experiment_name == VolumeAsInputExperiment.__name__:
         callable_transform = get_kasten_transforms
+    elif experiment_name == AutoencoderExperiment.__name__:
+        callable_transform = get_denoising_autoencoder_transforms
     else:
         raise ValueError(f'Invalid experiment name {experiment_name}')
     train_transforms = callable_transform(size=IMG_SIZE,resolution=IMG_RESOLUTION)
@@ -56,13 +61,13 @@ if __name__ == "__main__":
     train_loader = DataLoader(
         get_dataset(args.trainpaths, transforms=train_transforms),
         batch_size=BATCH_SIZE,
-        num_workers=20,
+        num_workers=args.num_workers,
         shuffle=True,
     )
     val_loader = DataLoader(
         get_dataset(args.valpaths, transforms=train_transforms),
         batch_size=BATCH_SIZE,
-        num_workers=20,
+        num_workers=args.num_workers,
         shuffle=False,
     )
 
@@ -80,13 +85,13 @@ if __name__ == "__main__":
     # batch = next(iter(train_loader))
     # input,output = experiment.get_input_output_from_batch(batch)
     # pred_logits = experiment.model(*input)
-    # bs = pred_logits.shape[0]
     # print('pred shape',pred_logits.shape)
     # loss = experiment.loss_function(pred_logits,output)
-    # # loss = experiment.loss_function(pred_logits.reshape(bs,-1),output.reshape(bs,-1))
     # print(loss)
+    # print(model)
     evaluation_callbacks = []
     if args.evaluate:
+        Path(args.output_dir).mkdir(exist_ok=True)
         if args.save_predictions:
             nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
             evaluation_callbacks.append(nifti_saver)
@@ -94,7 +99,7 @@ if __name__ == "__main__":
         metric_saver = MetricsLogger(output_dir=args.output_dir,voxel_spacing=  IMG_RESOLUTION,nsd_tolerance=1)
         evaluation_callbacks.append(metric_saver)
 
-        trainer = pl.Trainer(callbacks=evaluation_callbacks)
+        trainer = pl.Trainer(callbacks=evaluation_callbacks,accelerator=args.accelerator,auto_select_gpus=True,devices=[args.gpu])
         trainer.predict(model=experiment,ckpt_path=args.checkpoint_path,dataloaders=val_loader,return_predictions=False)
         
     else:
