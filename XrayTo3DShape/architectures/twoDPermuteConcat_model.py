@@ -4,7 +4,7 @@ from typing import Dict, List
 from monai.networks.blocks.convolutions import Convolution
 
 
-class TwoDPermuteConcatModel(nn.Module):
+class TwoDPermuteConcat(nn.Module):
     """
     Transvert Architecture
     Bayat, Amirhossein, et al. "Inferring the 3D standing spine posture from 2D radiographs.", 2020.
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         "dropout": 0.0,
         "bias":False
     }
-    model = TwoDPermuteConcatModel(config)
+    model = TwoDPermuteConcat(config)
     # print(model)
     # fused_cube = model(ap_img, lat_img)
     # print(fused_cube.shape)

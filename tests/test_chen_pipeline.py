@@ -33,7 +33,7 @@ config_chen = {"input_image_size":[64,64],
     "dropout": 0.0,
     "bias": True,
 }
-model = OneDConcatModel(config_chen)
+model = OneDConcat(config_chen)
 pred_tensor = model(ap_tensor,lat_tensor)
 print(pred_tensor.shape)
 

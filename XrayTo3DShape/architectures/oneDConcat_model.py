@@ -4,7 +4,7 @@ from typing import List, Dict
 from monai.networks.blocks.convolutions import Convolution
 from .utils import calculate_1d_vec_channels
 
-class OneDConcatModel(nn.Module):
+class OneDConcat(nn.Module):
     """
     The idea of this model is to encode each of the PA and LAT images into 1D vectors.
     These are then concatenated and decoded into a 3D segmentation.
@@ -21,14 +21,15 @@ class OneDConcatModel(nn.Module):
         self.ap_encoder: nn.Module
         self.lat_encoder: nn.Module
         self.decoder: nn.Module
-
+        self.bottlneck_size = config['bottleneck_size']
         # verify config
         assert len(self.config['input_image_size']) == 2, f'expected images to be 2D but got {len(self.config["input_image_size"])}D'
-        assert self._calculate_1d_vec_channels() == self.config['decoder']['in_channels'][0], f"expected {self._calculate_1d_vec_channels()}, got {self.config['decoder']['in_channels'][0]}"
+        # assert self._calculate_1d_vec_channels() == self.config['decoder']['in_channels'][0], f"expected {self._calculate_1d_vec_channels()}, got {self.config['decoder']['in_channels'][0]}"
 
 
         self.ap_encoder = nn.Sequential(*self._encoder_layer())
         self.lat_encoder = nn.Sequential(*self._encoder_layer())
+        self.fully_connected_bottlneck = nn.Sequential(nn.Linear(in_features=self._calculate_1d_vec_channels(),out_features=self.bottlneck_size),nn.BatchNorm1d(num_features=config['bottleneck_size']),nn.ReLU())
         self.decoder = nn.Sequential(*self._decoder_layers())
 
     def _encoder_layer(self):
@@ -97,7 +98,10 @@ class OneDConcatModel(nn.Module):
 
         # concatenate along channel dimension BCHWD
         fused_1d_vec = torch.cat([out_ap, out_lat], dim=1)
-        fused_cube = fused_1d_vec.view(size=(-1,self._calculate_1d_vec_channels(),*(1,1,1)))
+        # print(f'fused 1d vec {fused_1d_vec.shape}')
+        embedding_vector = self.fully_connected_bottlneck(fused_1d_vec)
+        # print(f'embedding vector {embedding_vector.shape}')
+        fused_cube = embedding_vector.view(size=(-1,self.bottlneck_size,*(1,1,1)))
 
         # decoder
         out_decoder = self.decoder(fused_cube)

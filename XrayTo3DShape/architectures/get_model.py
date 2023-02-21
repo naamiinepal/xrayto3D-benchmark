@@ -1,6 +1,7 @@
-from .oneDConcat_model import OneDConcatModel
-from .twoDPermuteConcat_model import TwoDPermuteConcatModel
+from .oneDConcat_model import OneDConcat
+from .twoDPermuteConcat_model import TwoDPermuteConcat
 from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
+from .autoencoder import AutoEncoder1DEmbed
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.networks.nets.unet import Unet
@@ -10,8 +11,8 @@ import math
 from typing import Dict
 
 def get_model(model_name,image_size,dropout=False)->nn.Module:
-    if model_name == OneDConcatModel.__name__:
-        return OneDConcatModel(get_1dconcatmodel_config(image_size))
+    if model_name == OneDConcat.__name__:
+        return OneDConcat(get_1dconcatmodel_config(image_size))
 
     elif model_name == AttentionUnet.__name__:
         return AttentionUnet(spatial_dims=3,**get_attunet_config())
@@ -19,31 +20,45 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
     elif model_name == SwinUNETR.__name__:
         return SwinUNETR(**get_swinunetr_config(image_size))
 
-    elif model_name == TwoDPermuteConcatModel.__name__:
-        return TwoDPermuteConcatModel(get_2dconcatmodel_config(image_size))
+    elif model_name == TwoDPermuteConcat.__name__:
+        return TwoDPermuteConcat(get_2dconcatmodel_config(image_size))
 
     elif model_name == Unet.__name__:
         return Unet(spatial_dims=3,**get_unet_config(dropout))
     elif model_name == MultiScale2DPermuteConcat.__name__:
         return MultiScale2DPermuteConcat(get_multiscale2dconcatmodel_config(image_size))
+    elif model_name == AutoEncoder1DEmbed.__name__:
+        return AutoEncoder1DEmbed(**get_autoencoder_config(image_size))
     else:
         raise ValueError(f'invalid model name {model_name}')
 
 def get_model_config(model_name,image_size,dropout=False):
-    if model_name == OneDConcatModel.__name__:
+    if model_name == OneDConcat.__name__:
         return get_1dconcatmodel_config(image_size)
     elif model_name == AttentionUnet.__name__:
         return get_attunet_config()
     elif model_name == SwinUNETR.__name__:
         return get_swinunetr_config(image_size)
-    elif model_name == TwoDPermuteConcatModel.__name__:
+    elif model_name == TwoDPermuteConcat.__name__:
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
         return get_unet_config(dropout)
     elif model_name == MultiScale2DPermuteConcat.__name__:
         return get_multiscale2dconcatmodel_config(image_size)
+    elif model_name == AutoEncoder1DEmbed.__name__:
+        return get_autoencoder_config(image_size)
     else:
         raise ValueError(f'invalid model name {model_name}')
+
+def get_autoencoder_config(image_size):
+    model_config = {'spatial_dims':3,
+        'in_shape' : (1, image_size, image_size, image_size),
+        'out_channels': 1,
+        'latent_size': 64,
+        'channels' : (16, 32, 64),
+        'strides' : (1, 2, 2)
+    }
+    return model_config
 
 def get_swinunetr_config(image_size)->Dict:
     model_config = {
@@ -195,17 +210,19 @@ def get_attunet_config():
 
 def get_1dconcatmodel_config(image_size):
     # base model for 128^3 volume (2^7)
+    bottleneck_size = 256
+
     if (image_size == 128) or (image_size == 64) :
         model_config = {
             "input_image_size": [image_size, image_size],
             "encoder": {
-                "in_channels": [1, 32, 64, 128, 256],
-                "out_channels": [32, 64, 128, 256, 256],
-                "strides": [2, 2, 2, 2, 2],
+                "in_channels": [1, 32, 64, 128, 256,512,],
+                "out_channels": [32, 64, 128, 256, 512,1024],
+                "strides": [2, 2, 2, 2, 2, 2],
             },
             "decoder": {
-                "in_channels": [1024, 512, 8, 4, 4, 4],
-                "out_channels": [1024, 512, 8, 4, 4, 4, 1],
+                "in_channels": [1024, 512, 256, 128, 64, 32],
+                "out_channels": [1024, 512, 256, 128, 64, 32, 1],
                 "strides": [2,]*7,
             },
             "kernel_size": 3,
@@ -213,15 +230,16 @@ def get_1dconcatmodel_config(image_size):
             "norm": "BATCH",
             "dropout": 0.0,
             "bias": True,
+            'bottleneck_size':bottleneck_size
         }
         if image_size == 64:
             # remove a decoder layer for 64^3 voume
-            model_config['decoder']['in_channels'] = [1024, 512, 8, 4, 4]
-            model_config['decoder']['out_channels'] = [1024, 512, 8, 4, 4, 1]
+            model_config['decoder']['in_channels'] = [1024, 512, 256, 128, 64,]
+            model_config['decoder']['out_channels'] = [1024, 512, 256, 128, 64, 1]
             model_config['decoder']['strides'] = [2,]*6
     else:
         raise ValueError(f'Image size can be either 64 or 128,, got {image_size}')
 
-    embedding_vec_size = calculate_1d_vec_channels(image_size,model_config['encoder']['strides'],model_config['encoder']['out_channels'][-1])
-    model_config['decoder']['in_channels'].insert(0,embedding_vec_size)
+    # embedding_vec_size = calculate_1d_vec_channels(image_size,model_config['encoder']['strides'],model_config['encoder']['out_channels'][-1])
+    model_config['decoder']['in_channels'].insert(0,bottleneck_size)
     return model_config

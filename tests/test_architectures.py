@@ -15,7 +15,7 @@ if __name__ == "__main__":
         "dropout": 0.0,
         'bias': False
     }
-    model = OneDConcatModel(config)
+    model = OneDConcat(config)
     pred = model(ap_img,lat_img)
     print(model._calculate_1d_vec_channels())
     model_graph = draw_graph(model,input_data=[ap_img,lat_img],save_graph=True,filename='docs/arch_viz/onedconcat_modelgraph')
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         "dropout": 0.0,
         "bias": False
     }
-    model = TwoDPermuteConcatModel(config_bayat)
+    model = TwoDPermuteConcat(config_bayat)
     pred_tensor = model(ap_img,lat_img)
     from torchview import draw_graph
 
