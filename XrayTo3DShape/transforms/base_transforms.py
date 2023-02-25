@@ -15,7 +15,7 @@ def get_denoising_autoencoder_transforms(size=64, resolution=1.5):
     NoiseLambda = Lambda(lambda d: {
         "orig": d["seg"],
         "gaus": torch.tensor(
-            random_noise(d["seg"], mode='gaussian',mean=0,var=0.01), dtype=torch.float32),
+            random_noise(d["seg"], mode='gaussian',mean=0,var=0.01,clip=False), dtype=torch.float32),
     })
 
     seg_transform = Compose(
