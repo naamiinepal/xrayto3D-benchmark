@@ -87,10 +87,13 @@ class OneDConcat(nn.Module):
         return layers
 
     def _calculate_1d_vec_channels(self)->int:
-        image_size = self.config['input_image_size']
+        image_width, image_height = self.config['input_image_size']
         encoder_strides = self.config['encoder']['strides']
         encoder_out_channel = self.config['encoder']['out_channels'][-1]
-        return calculate_1d_vec_channels(image_size[0],encoder_strides,encoder_out_channel)
+        return calculate_1d_vec_channels(spatial_dims=2,
+                                         image_size=image_width,
+                                         encoder_strides=encoder_strides,
+                                         encoder_last_channel=encoder_out_channel)
         
     def forward(self, ap_image: torch.Tensor, lat_image: torch.Tensor):
         out_ap = self.ap_encoder(ap_image)
