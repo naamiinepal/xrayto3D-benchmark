@@ -6,18 +6,27 @@ import numpy as np
 import math
 from functools import reduce
 import operator
+from monai.networks.layers.convutils import calculate_out_shape,same_padding
 
 class CustomAutoEncoder(AutoEncoder):
-    def __init__(self,latent_dim:int, spatial_dims: int, in_channels: int, out_channels: int, channels: Sequence[int], strides: Sequence[int], kernel_size: Union[Sequence[int], int] = 3, up_kernel_size: Union[Sequence[int], int] = 3, num_res_units: int = 0, inter_channels: Optional[list] = None, inter_dilations: Optional[list] = None, num_inter_units: int = 2, act: Optional[Union[Tuple, str]] = 'RELU', norm: Union[Tuple, str] = 'INSTANCE', dropout: Optional[Union[Tuple, str, float]] = None, bias: bool = True) -> None:
+    def __init__(self,latent_dim:int, image_size:int, spatial_dims: int, in_channels: int, out_channels: int, channels: Sequence[int], strides: Sequence[int], kernel_size: Union[Sequence[int], int] = 3, up_kernel_size: Union[Sequence[int], int] = 3, num_res_units: int = 0, inter_channels: Optional[list] = None, inter_dilations: Optional[list] = None, num_inter_units: int = 2, act: Optional[Union[Tuple, str]] = 'RELU', norm: Union[Tuple, str] = 'INSTANCE', dropout: Optional[Union[Tuple, str, float]] = None, bias: bool = True) -> None:
         super().__init__(spatial_dims, in_channels, out_channels, channels, strides, kernel_size, up_kernel_size, num_res_units, inter_channels, inter_dilations, num_inter_units, act, norm, dropout, bias)
+
+        self.enc_conv_out_shape = image_size
+        for stride in strides:
+            self.enc_conv_out_shape = calculate_out_shape(in_shape=self.enc_conv_out_shape,
+                                kernel_size=kernel_size,
+                                stride=stride,
+                                padding=same_padding(kernel_size,dilation=1))
+        self.enc_conv_out_shape = self.enc_conv_out_shape * spatial_dims
 
         self.bottleneck_fcn_encode = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(np.prod((channels[-1],2,2,2)),latent_dim)
+            nn.Linear(np.prod((channels[-1],*self.enc_conv_out_shape)),latent_dim)
         )
 
         self.bottleneck_fcn_decode = nn.Sequential(
-            nn.Linear(latent_dim,np.prod((channels[-1],2,2,2)))
+            nn.Linear(latent_dim,np.prod((channels[-1],*self.enc_conv_out_shape)))
             
         )
 
@@ -25,7 +34,7 @@ class CustomAutoEncoder(AutoEncoder):
 
     def latent_vec_decode(self, latent_vec):
         x = self.bottleneck_fcn_decode(latent_vec)
-        x = x.reshape(x.shape[0],-1,2,2,2)
+        x = x.reshape(x.shape[0],-1,*self.enc_conv_out_shape)
         pred_logits = self.decode(x) 
         return pred_logits
     
@@ -63,8 +72,11 @@ class CustomAutoEncoder(AutoEncoder):
 
 class TLPredictor(nn.Module):
     def __init__(self,
+                image_size: int,
                 spatial_dims: int,
                 in_channel: int,
+                channels:Sequence[int],
+                strides:Sequence[int],
                 latent_dim : int,
                 kernel_size: Union[Sequence[int],int] = 3,
                 act: Optional[Union[Tuple, str]] = "RELU",
@@ -74,17 +86,27 @@ class TLPredictor(nn.Module):
                  ):
         super().__init__()
         self.spatial_dims = spatial_dims
-
+        self.enc_conv_out_shape = image_size
+        for stride in strides:
+            self.enc_conv_out_shape = calculate_out_shape(in_shape=self.enc_conv_out_shape,
+                                kernel_size=kernel_size,
+                                stride=stride,
+                                padding=same_padding(kernel_size,dilation=1))
+        self.enc_conv_out_shape = self.enc_conv_out_shape * spatial_dims
+                
+        encode_layers = []
+        layer_channel = in_channel
+        for i, (c,s) in enumerate(zip(channels,strides)):
+            layer = Convolution(spatial_dims=spatial_dims,in_channels=layer_channel,out_channels=c,strides=s,kernel_size=kernel_size,act=act,norm=norm,bias=bias,dropout=dropout)
+            layer_channel = c
+            encode_layers.append(layer)
 
         self.model = nn.Sequential(
-            Convolution(spatial_dims=3,in_channels=in_channel,out_channels=16,strides=2,kernel_size=kernel_size,act=act,norm=norm,bias=bias,dropout=dropout),
-            Convolution(spatial_dims=3,in_channels=16,out_channels=32,strides=2,kernel_size=kernel_size,act=act,norm=norm,bias=bias,dropout=dropout),
-            Convolution(spatial_dims=3,in_channels=32,out_channels=64,strides=2,kernel_size=kernel_size,act=act,norm=norm,bias=bias,dropout=dropout),  
-            Convolution(spatial_dims=3,in_channels=64,out_channels=128,strides=2,kernel_size=kernel_size,act=act,norm=norm,bias=bias,dropout=dropout),                      
+            *encode_layers,                    
             nn.Flatten(),
-            nn.Linear(np.prod((128, 8,8,8,)),latent_dim)
+            nn.Linear(np.prod((channels[-1], *self.enc_conv_out_shape)),latent_dim)
         )
-        
+
     def forward(self,x):
         return self.model(x)
 

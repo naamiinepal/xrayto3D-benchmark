@@ -61,23 +61,26 @@ def get_model_config(model_name,image_size,dropout=False):
 
 def get_tlpredictor_config(image_size):
     model_config = {
+        'image_size':image_size,
         'spatial_dims': 3,
         'in_channel':2,
         'latent_dim': 64,
         'kernel_size' : 3,
-
+        'channels': [16,32,64,128],
+        'strides': [2,2,2,2]
 
     }
     return model_config
 
 def get_autoencoder_config(image_size):
     model_config = {
+        'image_size':image_size,
         'latent_dim':64,
         'spatial_dims': 3,
         'in_channels': 1,
         'out_channels': 1,
-        'channels': (16,32,64,128,256,128),
-        'strides' : (2,2,2,2,2,2)
+        'channels': (16,32,64,128),
+        'strides' : (2,2,2,2)
 
     }
     return model_config
