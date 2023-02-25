@@ -1,7 +1,6 @@
 import pytorch_lightning as pl
 from typing  import Any,Tuple, Optional
-from XrayTo3DShape import post_transform,reproject
-import wandb
+from XrayTo3DShape import post_transform
 import torch
 from monai.metrics.meandice import compute_dice
 

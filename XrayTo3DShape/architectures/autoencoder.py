@@ -6,6 +6,9 @@ from monai.networks.blocks.convolutions import Convolution, ResidualUnit
 import torch
 from torch import nn
 import torch.nn.functional as F
+import math
+import operator
+from functools import reduce
 
 # adapted from monai.networks.nets.varautoencoder
 # The original Autoencoder in the monai.networks.nets.autoencoder does not have a
@@ -53,7 +56,7 @@ class Encoder1DEmbed(nn.Module):
         kernel_size: Union[Sequence[int], int] = 3,
         num_res_units: int = 0,
         act: Optional[str] = "RELU",
-        norm: Union[Tuple, str] = "BATCH",
+        norm: Union[Tuple, str] = "INSTANCE",
         dropout: Optional[float] = None,
         bias: bool = True,
     ) -> None:
@@ -160,8 +163,8 @@ class AutoEncoder1DEmbed(AutoEncoder):
         inter_channels: Optional[list] = None,
         inter_dilations: Optional[list] = None,
         num_inter_units: int = 2,
-        act: Optional[Union[Tuple, str]] = "PRELU",
-        norm: Union[Tuple, str] = "BATCH",
+        act: Optional[Union[Tuple, str]] = "RELU",
+        norm: Union[Tuple, str] = "INSTANCE",
         dropout: Optional[Union[Tuple, str, float]] = None,
         bias: bool = True,
         use_sigmoid: bool = True,
@@ -196,8 +199,13 @@ class AutoEncoder1DEmbed(AutoEncoder):
             self.final_size = calculate_out_shape(self.final_size, self.kernel_size, s, padding)
 
         linear_size = int(np.product(self.final_size)) * self.encoded_channels
-        self.latent_encode_layer = nn.Linear(linear_size, self.latent_size)
-        self.latent_decoder_layer = nn.Linear(self.latent_size, linear_size)
+        self.latent_encode_layer = nn.Sequential(nn.Linear(linear_size, self.latent_size),
+                                                 nn.InstanceNorm1d(num_features=self.latent_size),
+                                                 nn.Tanh())
+        self.latent_decoder_layer = nn.Sequential(nn.Linear(self.latent_size, linear_size),
+                                                  nn.InstanceNorm1d(num_features=linear_size),
+                                                  nn.ReLU())
+        self._initialize_weights()
 
     def encode_forward(self, x: torch.Tensor):
         x = self.encode(x)
@@ -207,7 +215,7 @@ class AutoEncoder1DEmbed(AutoEncoder):
         return x
 
     def decode_forward(self, x: torch.Tensor, use_sigmoid: bool = True) -> torch.Tensor:
-        x = F.relu(self.latent_decoder_layer(x))
+        x = self.latent_decoder_layer(x)
         x = x.view(x.shape[0], self.channels[-1], *self.final_size)
         x = self.decode(x)
         if use_sigmoid:
@@ -215,8 +223,34 @@ class AutoEncoder1DEmbed(AutoEncoder):
         return x
 
     def forward(self, x: torch.Tensor) -> Any:
-        return self.decode_forward(self.encode_forward(x))
+        latent_vector = self.encode_forward(x)
+        return self.decode_forward(latent_vector),latent_vector
 
+    def _initialize_weights(self)-> None:
+        """
+        Args:
+            None, initializes weights for conv/linear/batchnorm layers
+            following weight init methods from
+            `official Tensorflow EfficientNet implementation
+            <https://github.com/tensorflow/tpu/blob/master/models/official/efficientnet/efficientnet_model.py#L61>`_.
+            Adapted from `EfficientNet-PyTorch's init method
+            <https://github.com/rwightman/gen-efficientnet-pytorch/blob/master/geffnet/efficientnet_builder.py>`_.
+        """
+        for name, m in self.named_modules():
+            if isinstance(m, (nn.Conv1d, nn.Conv2d, nn.Conv3d)):
+                fan_out = reduce(operator.mul, m.kernel_size, 1) * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2.0 / fan_out))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, (nn.BatchNorm1d, nn.BatchNorm2d, nn.BatchNorm3d)):
+                m.weight.data.fill_(1.0)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                fan_out = m.weight.size(0)
+                fan_in = 0
+                init_range = 1.0 / math.sqrt(fan_in + fan_out)
+                m.weight.data.uniform_(-init_range, init_range)
+                m.bias.data.zero_()
 
 if __name__ == "__main__":
     model = AutoEncoder1DEmbed(

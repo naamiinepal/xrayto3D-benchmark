@@ -1,11 +1,11 @@
 from .oneDConcat_model import OneDConcat
 from .twoDPermuteConcat_model import TwoDPermuteConcat
 from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
-from .autoencoder import AutoEncoder1DEmbed
+from .autoencoder_v2 import CustomAutoEncoder,TLPredictor
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.networks.nets.unet import Unet
-from .utils import calculate_1d_vec_channels
+from monai.networks.nets.autoencoder import AutoEncoder
 from torch import nn
 import math
 from typing import Dict
@@ -25,10 +25,15 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
 
     elif model_name == Unet.__name__:
         return Unet(spatial_dims=3,**get_unet_config(dropout))
+    
     elif model_name == MultiScale2DPermuteConcat.__name__:
         return MultiScale2DPermuteConcat(get_multiscale2dconcatmodel_config(image_size))
-    elif model_name == AutoEncoder1DEmbed.__name__:
-        return AutoEncoder1DEmbed(**get_autoencoder_config(image_size))
+    
+    elif model_name == CustomAutoEncoder.__name__:
+        return CustomAutoEncoder(**get_autoencoder_config(image_size))
+
+    elif model_name == TLPredictor.__name__:
+        return TLPredictor(**get_tlpredictor_config(image_size))
     else:
         raise ValueError(f'invalid model name {model_name}')
 
@@ -45,18 +50,35 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_unet_config(dropout)
     elif model_name == MultiScale2DPermuteConcat.__name__:
         return get_multiscale2dconcatmodel_config(image_size)
-    elif model_name == AutoEncoder1DEmbed.__name__:
+    elif model_name == AutoEncoder.__name__:
         return get_autoencoder_config(image_size)
+    elif model_name == CustomAutoEncoder.__name__:
+        return get_autoencoder_config(image_size)
+    elif model_name == TLPredictor.__name__:
+        return get_tlpredictor_config(image_size)
     else:
         raise ValueError(f'invalid model name {model_name}')
 
+def get_tlpredictor_config(image_size):
+    model_config = {
+        'spatial_dims': 3,
+        'in_channel':2,
+        'latent_dim': 64,
+        'kernel_size' : 3,
+
+
+    }
+    return model_config
+
 def get_autoencoder_config(image_size):
-    model_config = {'spatial_dims':3,
-        'in_shape' : (1, image_size, image_size, image_size),
+    model_config = {
+        'latent_dim':64,
+        'spatial_dims': 3,
+        'in_channels': 1,
         'out_channels': 1,
-        'latent_size': 64,
-        'channels' : (16, 32, 64),
-        'strides' : (1, 2, 2)
+        'channels': (16,32,64,128,256,128),
+        'strides' : (2,2,2,2,2,2)
+
     }
     return model_config
 
