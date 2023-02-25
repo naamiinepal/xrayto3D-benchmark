@@ -103,9 +103,14 @@ if __name__ == "__main__":
         input,output = experiment.get_input_output_from_batch(batch)
 
         pred_logits = experiment.model(*input)
+        if experiment_name == AutoencoderExperiment.__name__:
+            pred_logits, latent_vec = pred_logits
         if experiment_name == TLPredictorExperiment.__name__:
             pred_logits = ae_model.latent_vec_decode(pred_logits)
-        print('pred shape',pred_logits.shape,output.shape,'\n Groundtruth',torch.min(output),torch.max(output),'\n Input',torch.min(*input),torch.max(*input),'\n logits',torch.min((pred_logits)),torch.max((pred_logits)))
+        print('pred shape',pred_logits.shape,'gt shape',output.shape)
+        print('\n Groundtruth',torch.min(output),torch.max(output))
+        print('\n Input',torch.min(*input),torch.max(*input))
+        print('\n logits',torch.min((pred_logits)),torch.max((pred_logits)))
         loss = experiment.loss_function(pred_logits,output)
         print(loss)
     else:
