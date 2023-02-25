@@ -15,9 +15,9 @@ def repeat_along_dim(img: np.ndarray, dim, times):
 
 def reproject(volume: Union[torch.Tensor, np.ndarray], dim):
     if isinstance(volume, torch.Tensor):
-        return torch.sum(volume, dim=dim)
+        return torch.mean(volume, dim=dim)*255
     if isinstance(volume, np.ndarray):
-        return np.sum(volume, axis=dim)
+        return np.mean(volume, axis=dim)*255
 
 
 def get_projectionslices_from_3d(image) -> List:
