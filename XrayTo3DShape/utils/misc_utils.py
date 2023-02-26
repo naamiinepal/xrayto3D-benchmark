@@ -1,5 +1,20 @@
 from collections import ChainMap
 import inspect
+from pathlib import Path
+import wandb
+
+def filter_wandb_run(anatomy,project_name='msrepo/2d-3d-benchmark',tags=['model-compare']):
+    api = wandb.Api()
+    runs = api.runs(project_name,filters={
+        'tags':{'$in':tags}
+    })
+    filtered_runs = [ run for run in runs if run.config['ANATOMY'] == anatomy]
+    return filtered_runs
+
+def get_latest_checkpoint(path):
+    checkpoints = list(Path(path).glob('epoch=*.ckpt'))
+    latest_checkpoint_path = max(checkpoints,key=lambda x: x.lstat().st_ctime)
+    return str(latest_checkpoint_path)
 
 def merge_dicts(dict1, dict2):
     return ChainMap(dict1, dict2)
