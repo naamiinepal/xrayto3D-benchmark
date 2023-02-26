@@ -38,9 +38,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('config_file')
-    parser.add_argument('--ap',default="*ap.png")
-    parser.add_argument('--lat',default="*lat.png")
-    parser.add_argument('--seg',default="*msk.nii.gz")
+    parser.add_argument('--ap',type=str,default="*hip-ap.png")
+    parser.add_argument('--lat',type=str,default="*hip-lat.png")
+    parser.add_argument('--seg',type=str,default='*hip_msk.nii.gz')
     args = parser.parse_args()
     print(args)
     dataset = 'verse' if str(args.config_file).split('-')[0].lower().startswith('verse') else 'others'
@@ -66,16 +66,18 @@ if __name__ == "__main__":
 
     train_paths = get_fullpaths(train_subjects,config,args.ap,args.lat,args.seg)
     val_paths = get_fullpaths(val_subjects,config,args.ap,args.lat,args.seg)
+    train_val_paths = get_fullpaths(np.concatenate((train_subjects,val_subjects)),config,args.ap,args.lat,args.seg)
     test_paths = get_fullpaths(test_subjects,config,args.ap,args.lat,args.seg)
     # write csv
     df_train = pd.DataFrame(data=train_paths)
     df_val = pd.DataFrame(data=val_paths)
+    df_train_val = pd.DataFrame(data=train_val_paths)
     df_test = pd.DataFrame(data=test_paths)
 
     print(df_train.describe())
     print(df_val.describe())
     print(df_test.describe())
+    print(df_train_val.describe())
 
-
-    for df, suffix in zip([df_train,df_val,df_test],['train','val','test']):
+    for df, suffix in zip([df_train,df_val,df_test,df_train_val],['train','val','test','train+val']):
         df.to_csv(Path(config_path).with_name(Path(config_path).stem+'_'+suffix).with_suffix('.csv'))
