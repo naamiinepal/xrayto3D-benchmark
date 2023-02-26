@@ -85,6 +85,7 @@ def parse_training_arguments():
     parser.add_argument('--dropout',default=False,type=bool)
     parser.add_argument('--evaluate',default=False,action='store_true')
     parser.add_argument('--save_predictions',default=False,action='store_true')
+    parser.add_argument('--load_autoencoder_from',default='',type=str)
     parser.add_argument('--checkpoint_path')
     parser.add_argument('--output_dir')
     parser.add_argument('--precision',default=32,type=int)

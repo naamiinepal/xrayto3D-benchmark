@@ -91,7 +91,10 @@ if __name__ == "__main__":
         experiment.make_sparse = args.make_sparse
     if experiment_name == TLPredictorExperiment.__name__:
         ae_model = get_model(model_name=CustomAutoEncoder.__name__,image_size=IMG_SIZE)
-        checkpoint = torch.load('runs/2d-3d-benchmark/vgz4ooy5/checkpoints/last.ckpt')
+        if Path(args.load_autoencoder_from).exists():
+            checkpoint = torch.load(args.load_autoencoder_from)
+        else:
+            raise ValueError(f'autoencoder checkpoint {args.laod_autoencoder_from} does not exist')
         for key in list(checkpoint['state_dict'].keys()):
             checkpoint['state_dict'][key.replace('model.', '')] = checkpoint['state_dict'].pop(key)
         checkpoint['state_dict'].pop('loss_function.pos_weight')
@@ -112,7 +115,7 @@ if __name__ == "__main__":
         print('\n Input',torch.min(*input),torch.max(*input))
         print('\n logits',torch.min((pred_logits)),torch.max((pred_logits)))
         loss = experiment.loss_function(pred_logits,output)
-        print(loss)
+        print('\n Loss',loss)
     else:
         evaluation_callbacks = []
         if args.evaluate:
