@@ -170,3 +170,5 @@ if __name__ == "__main__":
     fused_cube = torch.cat((ap_after_expansion,lat_after_expansion),dim=1) # add new dimension assuming PIR orientation
     out = model.decoder(fused_cube)    
     print(out.shape)
+
+TwoDPermuteConcatModel = TwoDPermuteConcat

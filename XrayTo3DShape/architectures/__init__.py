@@ -1,5 +1,5 @@
-from .oneDConcat_model import OneDConcat
-from .twoDPermuteConcat_model import TwoDPermuteConcat
+from .oneDConcat_model import OneDConcat,OneDConcatModel
+from .twoDPermuteConcat_model import TwoDPermuteConcat,TwoDPermuteConcatModel
 from .autoencoder import AutoEncoder1DEmbed,Encoder1DEmbed
 from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
 from .atlas_deformation_stn import AtlasDeformationSTN

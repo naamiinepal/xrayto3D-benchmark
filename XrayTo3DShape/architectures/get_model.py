@@ -11,7 +11,7 @@ import math
 from typing import Dict
 
 def get_model(model_name,image_size,dropout=False)->nn.Module:
-    if model_name == OneDConcat.__name__:
+    if model_name == OneDConcat.__name__ or model_name == 'OneDConcatModel':
         return OneDConcat(get_1dconcatmodel_config(image_size))
 
     elif model_name == AttentionUnet.__name__:
@@ -20,7 +20,7 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
     elif model_name == SwinUNETR.__name__:
         return SwinUNETR(**get_swinunetr_config(image_size))
 
-    elif model_name == TwoDPermuteConcat.__name__:
+    elif model_name == TwoDPermuteConcat.__name__ or model_name == 'TwoDPermuteConcatModel':
         return TwoDPermuteConcat(get_2dconcatmodel_config(image_size))
 
     elif model_name == Unet.__name__:
@@ -38,13 +38,13 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
         raise ValueError(f'invalid model name {model_name}')
 
 def get_model_config(model_name,image_size,dropout=False):
-    if model_name == OneDConcat.__name__:
+    if model_name == OneDConcat.__name__ or model_name == 'OneDConcatModel':
         return get_1dconcatmodel_config(image_size)
     elif model_name == AttentionUnet.__name__:
         return get_attunet_config()
     elif model_name == SwinUNETR.__name__:
         return get_swinunetr_config(image_size)
-    elif model_name == TwoDPermuteConcat.__name__:
+    elif model_name == TwoDPermuteConcat.__name__ or model_name == 'TwoDPermuteConcatModel':
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
         return get_unet_config(dropout)
@@ -66,7 +66,7 @@ def get_tlpredictor_config(image_size):
         'in_channel':2,
         'latent_dim': 64,
         'kernel_size' : 3,
-        'channels': [16,32,64,128],
+        'channels': [8,16,32,64],
         'strides': [2,2,2,2]
 
     }
@@ -79,7 +79,7 @@ def get_autoencoder_config(image_size):
         'spatial_dims': 3,
         'in_channels': 1,
         'out_channels': 1,
-        'channels': (16,32,64,128),
+        'channels': (8,16,32,64),
         'strides' : (2,2,2,2)
 
     }

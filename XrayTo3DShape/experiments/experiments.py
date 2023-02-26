@@ -67,7 +67,7 @@ class AutoencoderExperiment(BaseExperiment):
         if self.global_step % 20 and batch_idx == 0:
             with torch.no_grad():
                 self.log_3d_images(pred_logits.detach(),label='train/predictions')
-                # self.log_3d_images(output,label='train/groundtruth')
+                self.log_3d_images(output,label='train/groundtruth')
                 pass
         return total_loss
 
@@ -83,6 +83,8 @@ class AutoencoderExperiment(BaseExperiment):
         self.log('val/loss',total_loss.item(),on_step=False,on_epoch=True,prog_bar=True,batch_size=self.batch_size)
         if self.global_step % 20 and batch_idx == 0:
             self.log_3d_images(pred_logits.detach(),label='val/predictions')
+            self.log_3d_images(output,label='val/groundtruth')
+
             pass
 
 

@@ -4,6 +4,7 @@ from pathlib import Path
 from torch.utils.data.dataloader import DataLoader
 from torch.optim import Adam
 import pytorch_lightning as pl
+import os
 from XrayTo3DShape import (
     get_dataset,
     get_nonkasten_transforms,
@@ -127,7 +128,11 @@ if __name__ == "__main__":
             metric_saver = MetricsLogger(output_dir=args.output_dir,voxel_spacing=  IMG_RESOLUTION,nsd_tolerance=1)
             evaluation_callbacks.append(metric_saver)
 
-            trainer = pl.Trainer(callbacks=evaluation_callbacks,accelerator=args.accelerator,auto_select_gpus=True,devices=[args.gpu])
+            if args.accelerator == 'cpu':
+                devices = os.cpu_count()
+            else:
+                devices = [args.gpu]
+            trainer = pl.Trainer(callbacks=evaluation_callbacks,accelerator=args.accelerator,auto_select_gpus=True,devices=devices)
             trainer.predict(model=experiment,ckpt_path=args.checkpoint_path,dataloaders=val_loader,return_predictions=False)
             
         else:

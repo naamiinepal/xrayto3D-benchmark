@@ -111,3 +111,4 @@ class OneDConcat(nn.Module):
         return out_decoder
 
 
+OneDConcatModel = OneDConcat
