@@ -26,13 +26,40 @@ from XrayTo3DShape import (
 )
 import XrayTo3DShape
 from monai.utils.misc import set_determinism
+from monai.networks.nets.unet import UNet
+from monai.networks.nets.attentionunet import AttentionUnet
 from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
 
+anatomy_resolution  = {'totalseg_femur':(128,1.0),
+                       'totalseg_ribs':(320,1.0),
+                       'totalseg_hips':(288,1.0),
+                       'verse2019':(96,1.0),
+                       'verse2020':(96,1.0)}
+
+model_experiment = {
+    CustomAutoEncoder.__name__ : AutoencoderExperiment.__name__,
+    UNet.__name__ : VolumeAsInputExperiment.__name__,
+    AttentionUnet.__name__: VolumeAsInputExperiment.__name__,
+    XrayTo3DShape.TwoDPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
+    XrayTo3DShape.OneDConcat.__name__: ParallelHeadsExperiment.__name__,
+    XrayTo3DShape.MultiScale2DPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
+}
+
+TOTALSEG_HIP = 'totalseg_hips'
+
+def update_args(args):
+    # assert the resolution and size agree for each anatomy
+    if args.anatomy == TOTALSEG_HIP:
+        orig_size,orig_res = anatomy_resolution[TOTALSEG_HIP]
+        assert int(args.size * args.res) == int(orig_size * orig_res), f'({args.size},{args.res}) does not match ({orig_size},{orig_res})'
+    args.experiment_name = model_experiment[args.model_name]
+
 if __name__ == "__main__":
 
     args = parse_training_arguments()
+    update_args(args)
     SEED = 12345
     lr = args.lr
     NUM_EPOCHS = args.epochs
