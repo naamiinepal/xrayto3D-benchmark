@@ -40,6 +40,7 @@ anatomy_resolution  = {'totalseg_femur':(128,1.0),
 
 model_experiment = {
     CustomAutoEncoder.__name__ : AutoencoderExperiment.__name__,
+    XrayTo3DShape.TLPredictor.__name__ : TLPredictorExperiment.__name__,
     UNet.__name__ : VolumeAsInputExperiment.__name__,
     AttentionUnet.__name__: VolumeAsInputExperiment.__name__,
     XrayTo3DShape.TwoDPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
@@ -95,12 +96,14 @@ if __name__ == "__main__":
         batch_size=BATCH_SIZE,
         num_workers=args.num_workers,
         shuffle=True,
+        drop_last=True
     )
     val_loader = DataLoader(
         get_dataset(args.valpaths, transforms=train_transforms),
         batch_size=BATCH_SIZE,
         num_workers=args.num_workers,
         shuffle=False,
+        drop_last=True
     )
 
     print(f'training samples {len(train_loader.dataset)} validation samples {len(val_loader.dataset)}')
