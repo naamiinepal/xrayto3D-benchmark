@@ -22,7 +22,8 @@ from XrayTo3DShape import (
     parse_training_arguments,
     get_model,
     get_model_config,
-    get_loss
+    get_loss,
+    get_anatomy_from_path,
 )
 import XrayTo3DShape
 from monai.utils.misc import set_determinism
@@ -36,7 +37,12 @@ anatomy_resolution  = {'totalseg_femur':(128,1.0),
                        'totalseg_ribs':(320,1.0),
                        'totalseg_hips':(288,1.0),
                        'verse2019':(96,1.0),
-                       'verse2020':(96,1.0)}
+                       'verse2020':(96,1.0),
+                       'femur':(128,1.0),
+                       'rib':(320,1.0),
+                       'hip':(288,1.0),
+                       'verse':(96,1.0),
+                       }
 
 model_experiment = {
     CustomAutoEncoder.__name__ : AutoencoderExperiment.__name__,
@@ -51,11 +57,18 @@ model_experiment = {
 TOTALSEG_HIP = 'totalseg_hips'
 
 def update_args(args):
+    args.anatomy = get_anatomy_from_path(args.trainpaths)
+    
     # assert the resolution and size agree for each anatomy
-    if args.anatomy == TOTALSEG_HIP:
-        orig_size,orig_res = anatomy_resolution[TOTALSEG_HIP]
-        assert int(args.size * args.res) == int(orig_size * orig_res), f'({args.size},{args.res}) does not match ({orig_size},{orig_res})'
+    orig_size,orig_res = anatomy_resolution[args.anatomy]
+    assert int(args.size * args.res) == int(orig_size * orig_res), f'({args.size},{args.res}) does not match ({orig_size},{orig_res})'
     args.experiment_name = model_experiment[args.model_name]
+
+
+    if args.gpu == 0:
+        args.precision = 16 # use bfloat16 on RTX 3090
+    else:
+        args.precision = 32
 
 if __name__ == "__main__":
 
@@ -103,7 +116,7 @@ if __name__ == "__main__":
         batch_size=BATCH_SIZE,
         num_workers=args.num_workers,
         shuffle=False,
-        drop_last=True
+        drop_last=False
     )
 
     print(f'training samples {len(train_loader.dataset)} validation samples {len(val_loader.dataset)}')
