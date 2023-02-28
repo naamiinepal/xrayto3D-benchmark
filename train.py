@@ -120,13 +120,7 @@ if __name__ == "__main__":
         drop_last=False
     )
 
-    print(f'training samples {len(train_loader.dataset)} validation samples {len(val_loader.dataset)}')
     model = get_model(model_name=args.model_name,image_size=IMG_SIZE)
-    MODEL_CONFIG = get_model_config(model_name,IMG_SIZE)
-    # save hyperparameters
-    HYPERPARAMS = {'IMG_SIZE':IMG_SIZE,'RESOLUTION':IMG_RESOLUTION,'BATCH_SIZE':BATCH_SIZE,'LR':lr,'SEED':SEED,'ANATOMY':ANATOMY,'MODEL_NAME':model_name,'LOSS':LOSS_NAME,'EXPERIMENT_NAME':experiment_name}
-    HYPERPARAMS.update(MODEL_CONFIG)
-
     loss_function = get_loss(loss_name=LOSS_NAME,anatomy=ANATOMY,image_size=IMG_SIZE,lambda_bce=args.lambda_bce,lambda_dice=args.lambda_dice,device=f'cuda:{args.gpu}') 
     optimizer = Adam(model.parameters(), lr)
 
@@ -139,35 +133,41 @@ if __name__ == "__main__":
         if Path(args.load_autoencoder_from).exists():
             checkpoint = torch.load(args.load_autoencoder_from)
         else:
-            raise ValueError(f'autoencoder checkpoint {args.laod_autoencoder_from} does not exist')
+            raise ValueError(f'autoencoder checkpoint {args.load_autoencoder_from} does not exist')
         for key in list(checkpoint['state_dict'].keys()):
             checkpoint['state_dict'][key.replace('model.', '')] = checkpoint['state_dict'].pop(key)
         checkpoint['state_dict'].pop('loss_function.pos_weight')
         ae_model.load_state_dict(checkpoint['state_dict'])
         experiment.set_decoder(ae_model) #type: ignore
-    if args.debug:
-        # print(model)
-        batch = next(iter(train_loader))
-        input,output = experiment.get_input_output_from_batch(batch)
 
-        pred_logits = experiment.model(*input)
-        if experiment_name == AutoencoderExperiment.__name__:
-            pred_logits, latent_vec = pred_logits
-        if experiment_name == TLPredictorExperiment.__name__:
-            pred_logits = ae_model.latent_vec_decode(pred_logits)
-        loss = experiment.loss_function(pred_logits,output).item()
-        input_zero = input[0]
-        printarr(pred_logits,output,input_zero,loss)
-    else:
-        # loggers
-        wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
-        wandb_logger.watch(model,log_graph=False)
-        wandb_logger.log_hyperparams(HYPERPARAMS)
-        
-        checkpoint_callback = ModelCheckpoint(monitor='val/loss',mode='min',save_last=True,save_top_k=args.top_k_checkpoints,filename='epoch={epoch}-step={step}-val_loss={val/loss:.2f}-val_acc={val/dice:.2f}',auto_insert_metric_name=False)
-        trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=NUM_EPOCHS,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],callbacks=[checkpoint_callback],enable_progress_bar=True,enable_checkpointing=True,max_steps=args.steps)
+    #------------------ run a sanity check -----------------#
+    batch = next(iter(train_loader))
+    input,output = experiment.get_input_output_from_batch(batch)
 
-        trainer.fit(experiment,train_loader,val_loader)
+    pred_logits = experiment.model(*input)
+    if experiment_name == AutoencoderExperiment.__name__:
+        pred_logits, latent_vec = pred_logits
+    if experiment_name == TLPredictorExperiment.__name__:
+        pred_logits = ae_model.latent_vec_decode(pred_logits)
+    loss = experiment.loss_function(pred_logits,output).item()
+    input_zero = input[0]
+    printarr(pred_logits,output,input_zero,loss)
+    print(f'training samples {len(train_loader)} validation samples {len(val_loader)}')
 
 
-        wandb.finish()
+    # loggers
+    wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
+    wandb_logger.watch(model,log_graph=False)
+    MODEL_CONFIG = get_model_config(model_name,IMG_SIZE)
+    # save hyperparameters
+    HYPERPARAMS = {'IMG_SIZE':IMG_SIZE,'RESOLUTION':IMG_RESOLUTION,'BATCH_SIZE':BATCH_SIZE,'LR':lr,'SEED':SEED,'ANATOMY':ANATOMY,'MODEL_NAME':model_name,'LOSS':LOSS_NAME,'EXPERIMENT_NAME':experiment_name}
+    HYPERPARAMS.update(MODEL_CONFIG)
+    wandb_logger.log_hyperparams(HYPERPARAMS)
+    
+    checkpoint_callback = ModelCheckpoint(monitor='val/loss',mode='min',save_last=True,save_top_k=args.top_k_checkpoints,filename='epoch={epoch}-step={step}-val_loss={val/loss:.2f}-val_acc={val/dice:.2f}',auto_insert_metric_name=False)
+    trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=NUM_EPOCHS,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],callbacks=[checkpoint_callback],enable_progress_bar=True,enable_checkpointing=True,max_steps=args.steps)
+
+    trainer.fit(experiment,train_loader,val_loader)
+
+
+    wandb.finish()
