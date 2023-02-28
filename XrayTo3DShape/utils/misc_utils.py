@@ -1,6 +1,7 @@
 from collections import ChainMap
 import inspect
 from pathlib import Path
+from monai.data.meta_tensor import MetaTensor
 import wandb
 
 def get_anatomy_from_path(path:str):
@@ -46,6 +47,7 @@ def printarr(*arrs, float_width=6):
         - Pytorch tensor arrays
         - Jax tensor arrays
         - Python ints / floats
+        - additionally monai.data.meta_tensor.MetaTensor
         - None
 
     It may also work with other array-like types, but they have not been tested.
@@ -103,7 +105,8 @@ def printarr(*arrs, float_width=6):
             return ('N/A', 'N/A', 'N/A')
         if isinstance(a, int) or isinstance(a, float): 
             return (format_float(a), format_float(a), format_float(a))
-
+        if isinstance(a,MetaTensor):
+            a = a.as_tensor()
         # compute min/max/mean. if anything goes wrong, just print 'N/A'
         min_str = "N/A"
         try: min_str = format_float(a.min())
