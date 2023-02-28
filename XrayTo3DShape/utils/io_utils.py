@@ -1,7 +1,6 @@
 from pathlib import Path
 import SimpleITK as sitk
 import numpy as np
-import os
 
 def get_nifti_stem(path)->str:
     """
@@ -55,43 +54,3 @@ def read_image(img_path):
 
 
 
-def parse_training_arguments():
-    import argparse
-    import os
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('trainpaths')
-    parser.add_argument('valpaths')
-    parser.add_argument('--model_name')
-    parser.add_argument('--experiment_name',default='',type=str)
-    parser.add_argument('--anatomy')
-    parser.add_argument('--loss')
-    parser.add_argument('--visualize',action='store_true',default=False)
-    parser.add_argument('--lr',default=1e-2,type=float)
-    parser.add_argument('--debug',default=False,action='store_true')
-    parser.add_argument('--lambda_bce',default=1.0)
-    parser.add_argument('--lambda_dice',default=1.0)
-    parser.add_argument('--num_workers',default=os.cpu_count(),type=int)
-    parser.add_argument('--top_k_checkpoints',default=3,type=int)
-    parser.add_argument('--make_sparse',default=False,action='store_true')
-    parser.add_argument('--tags',nargs='*')
-    parser.add_argument('--wandb-project',default='2d-3d-benchmark')
-    parser.add_argument('--gpu',type=int,default=1)
-    parser.add_argument('--accelerator',default='gpu')
-    parser.add_argument('--size',type=int,default=64)
-    parser.add_argument('--res',type=float,default=1.5)
-    parser.add_argument('--batch_size',type=int,default=4)
-    parser.add_argument('--epochs',type=int,default=100)
-    parser.add_argument('--steps',default=5000,type=int)
-    parser.add_argument('--dropout',default=False,type=bool)
-    parser.add_argument('--evaluate',default=False,action='store_true')
-    parser.add_argument('--save_predictions',default=False,action='store_true')
-    parser.add_argument('--load_autoencoder_from',default='',type=str)
-    parser.add_argument('--checkpoint_path')
-    parser.add_argument('--output_dir')
-    parser.add_argument('--precision',default=32,type=int)
-
-    args = parser.parse_args()
-
-    if args.precision == 16: args.precision = 'bf16'
-    return args

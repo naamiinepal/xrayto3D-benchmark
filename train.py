@@ -1,23 +1,25 @@
 import wandb
 import torch
+import argparse
+import os
 from pathlib import Path
 from torch.utils.data.dataloader import DataLoader
 from torch.optim import Adam
 import pytorch_lightning as pl
-import os
 from XrayTo3DShape import (
     get_dataset,
     TLPredictorExperiment,
     CustomAutoEncoder,
     BaseExperiment,
     AutoencoderExperiment,
-    parse_training_arguments,
     get_model,
     get_model_config,
     get_loss,
     get_anatomy_from_path,
     model_experiment_dict,
-    get_transform_from_model_name
+    get_transform_from_model_name,
+    anatomy_resolution_dict,
+    printarr
 )
 import XrayTo3DShape
 from monai.utils.misc import set_determinism
@@ -25,33 +27,59 @@ from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
 
-anatomy_resolution  = {'totalseg_femur':(128,1.0),
-                       'totalseg_ribs':(320,1.0),
-                       'totalseg_hips':(288,1.0),
-                       'verse2019':(96,1.0),
-                       'verse2020':(96,1.0),
-                       'femur':(128,1.0),
-                       'rib':(320,1.0),
-                       'hip':(288,1.0),
-                       'verse':(96,1.0),
-                       }
+def parse_training_arguments():
 
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('trainpaths')
+    parser.add_argument('valpaths')
+    parser.add_argument('--model_name')
+    parser.add_argument('--loss')
+    parser.add_argument('--size',type=int)
+    parser.add_argument('--res',type=float)
+    parser.add_argument('--batch_size',type=int)
+    parser.add_argument('--lr',type=float)
+
+    parser.add_argument('--epochs',type=int,default=-1)
+    parser.add_argument('--steps',default=5000,type=int)
+
+    parser.add_argument('--visualize',action='store_true',default=False)
+    parser.add_argument('--debug',default=False,action='store_true')
+
+    parser.add_argument('--tags',nargs='*')
+    parser.add_argument('--wandb-project',default='2d-3d-benchmark')
+
+    parser.add_argument('--lambda_bce',default=1.0)
+    parser.add_argument('--lambda_dice',default=1.0)
+    parser.add_argument('--make_sparse',default=False,action='store_true')
+
+    parser.add_argument('--gpu',type=int,default=0)
+    parser.add_argument('--accelerator',default='gpu')
+    parser.add_argument('--num_workers',default=os.cpu_count(),type=int)
+
+
+    parser.add_argument('--dropout',default=False,type=bool)
+    parser.add_argument('--load_autoencoder_from',default='',type=str)
+    parser.add_argument('--top_k_checkpoints',default=3,type=int)
+
+    parser.add_argument('--precision',default=32,type=int)
+
+    args = parser.parse_args()
+
+    if args.precision == 16: args.precision = 'bf16'
+    return args
 
 
 def update_args(args):
     args.anatomy = get_anatomy_from_path(args.trainpaths)
 
     # assert the resolution and size agree for each anatomy
-    orig_size,orig_res = anatomy_resolution[args.anatomy]
+    orig_size,orig_res = anatomy_resolution_dict[args.anatomy]
     assert int(args.size * args.res) == int(orig_size * orig_res), f'({args.size},{args.res}) does not match ({orig_size},{orig_res})'
     args.experiment_name = model_experiment_dict[args.model_name]
 
+    args.precision = 16 if args.gpu == 0 else 32 # use bfloat16 on RTX 3090
 
-    if args.gpu == 0:
-        args.precision = 16 # use bfloat16 on RTX 3090
-    else:
-        args.precision = 32
 
 if __name__ == "__main__":
 
@@ -127,12 +155,9 @@ if __name__ == "__main__":
             pred_logits, latent_vec = pred_logits
         if experiment_name == TLPredictorExperiment.__name__:
             pred_logits = ae_model.latent_vec_decode(pred_logits)
-        print('pred shape',pred_logits.shape,'gt shape',output.shape)
-        print('\n Groundtruth',torch.min(output),torch.max(output))
-        print('\n Input',torch.min(*input),torch.max(*input))
-        print('\n logits',torch.min((pred_logits)),torch.max((pred_logits)))
-        loss = experiment.loss_function(pred_logits,output)
-        print('\n Loss',loss)
+        loss = experiment.loss_function(pred_logits,output).item()
+        input_zero = input[0]
+        printarr(pred_logits,output,input_zero,loss)
     else:
         # loggers
         wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
