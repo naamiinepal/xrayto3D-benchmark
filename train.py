@@ -7,28 +7,20 @@ import pytorch_lightning as pl
 import os
 from XrayTo3DShape import (
     get_dataset,
-    get_nonkasten_transforms,
-    get_kasten_transforms,
-    get_denoising_autoencoder_transforms,
-    VolumeAsInputExperiment,
-    ParallelHeadsExperiment,
-    SingleHeadExperiment,
     TLPredictorExperiment,
     CustomAutoEncoder,
     BaseExperiment,
     AutoencoderExperiment,
-    NiftiPredictionWriter,
-    MetricsLogger,
     parse_training_arguments,
     get_model,
     get_model_config,
     get_loss,
     get_anatomy_from_path,
+    model_experiment_dict,
+    get_transform_from_model_name
 )
 import XrayTo3DShape
 from monai.utils.misc import set_determinism
-from monai.networks.nets.unet import UNet
-from monai.networks.nets.attentionunet import AttentionUnet
 from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -44,25 +36,16 @@ anatomy_resolution  = {'totalseg_femur':(128,1.0),
                        'verse':(96,1.0),
                        }
 
-model_experiment = {
-    CustomAutoEncoder.__name__ : AutoencoderExperiment.__name__,
-    XrayTo3DShape.TLPredictor.__name__ : TLPredictorExperiment.__name__,
-    UNet.__name__ : VolumeAsInputExperiment.__name__,
-    AttentionUnet.__name__: VolumeAsInputExperiment.__name__,
-    XrayTo3DShape.TwoDPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
-    XrayTo3DShape.OneDConcat.__name__: ParallelHeadsExperiment.__name__,
-    XrayTo3DShape.MultiScale2DPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
-}
 
-TOTALSEG_HIP = 'totalseg_hips'
+
 
 def update_args(args):
     args.anatomy = get_anatomy_from_path(args.trainpaths)
-    
+
     # assert the resolution and size agree for each anatomy
     orig_size,orig_res = anatomy_resolution[args.anatomy]
     assert int(args.size * args.res) == int(orig_size * orig_res), f'({args.size},{args.res}) does not match ({orig_size},{orig_res})'
-    args.experiment_name = model_experiment[args.model_name]
+    args.experiment_name = model_experiment_dict[args.model_name]
 
 
     if args.gpu == 0:
@@ -91,17 +74,7 @@ if __name__ == "__main__":
     set_determinism(seed=SEED)
     seed_everything(seed=SEED)
 
-    if experiment_name == ParallelHeadsExperiment.__name__ or experiment_name == SingleHeadExperiment.__name__:
-        callable_transform = get_nonkasten_transforms
-    elif experiment_name == VolumeAsInputExperiment.__name__:
-        callable_transform = get_kasten_transforms
-    elif experiment_name == AutoencoderExperiment.__name__:
-        callable_transform = get_denoising_autoencoder_transforms
-    elif experiment_name == TLPredictorExperiment.__name__:
-        callable_transform = get_kasten_transforms
-    else:
-        raise ValueError(f'Invalid experiment name {experiment_name}')
-    train_transforms = callable_transform(size=IMG_SIZE,resolution=IMG_RESOLUTION)
+    train_transforms = get_transform_from_model_name(model_name,image_size=IMG_SIZE,resolution=IMG_RESOLUTION)
 
     
     train_loader = DataLoader(
@@ -161,33 +134,15 @@ if __name__ == "__main__":
         loss = experiment.loss_function(pred_logits,output)
         print('\n Loss',loss)
     else:
-        evaluation_callbacks = []
-        if args.evaluate:
-            Path(args.output_dir).mkdir(exist_ok=True)
-            if args.save_predictions:
-                nifti_saver = NiftiPredictionWriter(output_dir=args.output_dir,write_interval='batch')
-                evaluation_callbacks.append(nifti_saver)
-            
-            metric_saver = MetricsLogger(output_dir=args.output_dir,voxel_spacing=  IMG_RESOLUTION,nsd_tolerance=1)
-            evaluation_callbacks.append(metric_saver)
+        # loggers
+        wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
+        wandb_logger.watch(model,log_graph=False)
+        wandb_logger.log_hyperparams(HYPERPARAMS)
+        
+        checkpoint_callback = ModelCheckpoint(monitor='val/loss',mode='min',save_last=True,save_top_k=args.top_k_checkpoints,filename='epoch={epoch}-step={step}-val_loss={val/loss:.2f}-val_acc={val/dice:.2f}',auto_insert_metric_name=False)
+        trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=NUM_EPOCHS,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],callbacks=[checkpoint_callback],enable_progress_bar=True,enable_checkpointing=True,max_steps=args.steps)
 
-            if args.accelerator == 'cpu':
-                devices = os.cpu_count()
-            else:
-                devices = [args.gpu]
-            trainer = pl.Trainer(callbacks=evaluation_callbacks,accelerator=args.accelerator,auto_select_gpus=True,devices=devices)
-            trainer.predict(model=experiment,ckpt_path=args.checkpoint_path,dataloaders=val_loader,return_predictions=False)
-            
-        else:
-            # loggers
-            wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
-            wandb_logger.watch(model,log_graph=False)
-            wandb_logger.log_hyperparams(HYPERPARAMS)
-            
-            checkpoint_callback = ModelCheckpoint(monitor='val/loss',mode='min',save_last=True,save_top_k=args.top_k_checkpoints,filename='epoch={epoch}-step={step}-val_loss={val/loss:.2f}-val_acc={val/dice:.2f}',auto_insert_metric_name=False)
-            trainer = pl.Trainer(accelerator=args.accelerator,precision=args.precision,max_epochs=NUM_EPOCHS,devices=[args.gpu],deterministic=False,log_every_n_steps=1,auto_select_gpus=True,logger=[wandb_logger],callbacks=[checkpoint_callback],enable_progress_bar=True,enable_checkpointing=True,max_steps=args.steps)
-
-            trainer.fit(experiment,train_loader,val_loader)
+        trainer.fit(experiment,train_loader,val_loader)
 
 
-            wandb.finish()
+        wandb.finish()
