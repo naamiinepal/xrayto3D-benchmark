@@ -9,6 +9,17 @@ from .transforms import get_kasten_transforms,get_nonkasten_transforms, get_deno
 from monai.transforms.compose import Compose
 from typing import Dict
 
+anatomy_resolution_dict  = {'totalseg_femur':(128,1.0),
+                       'totalseg_ribs':(320,1.0),
+                       'totalseg_hips':(288,1.0),
+                       'verse2019':(96,1.0),
+                       'verse2020':(96,1.0),
+                       'femur':(128,1.0),
+                       'rib':(320,1.0),
+                       'hip':(288,1.0),
+                       'verse':(96,1.0),
+                       }
+
 model_experiment_dict = {
     CustomAutoEncoder.__name__ : AutoencoderExperiment.__name__,
     TLPredictor.__name__ : TLPredictorExperiment.__name__,
