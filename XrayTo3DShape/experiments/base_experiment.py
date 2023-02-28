@@ -3,9 +3,11 @@ from typing  import Any,Tuple, Optional
 from XrayTo3DShape import post_transform
 import torch
 from monai.metrics.meandice import compute_dice
+from ..utils import reproject,to_numpy
+import wandb
 
 class BaseExperiment(pl.LightningModule):
-    def __init__(self, model, optimizer,loss_function,batch_size, **kwargs: Any) -> None:
+    def __init__(self, model, optimizer=None,loss_function=None,batch_size=None, **kwargs: Any) -> None:
         super().__init__()
         self.model = model
         self.optimizer = optimizer
@@ -61,3 +63,9 @@ class BaseExperiment(pl.LightningModule):
     
     def configure_optimizers(self):
         return self.optimizer
+
+    def log_3d_images(self, predictions,label):
+        projections = [
+            reproject(volume.squeeze(), 0) for volume in predictions]
+        wandb.log({f"{label}": [wandb.Image(
+            to_numpy(image.float())) for image in projections]})
