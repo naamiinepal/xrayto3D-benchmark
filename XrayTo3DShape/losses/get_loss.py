@@ -4,7 +4,7 @@ from .losses_zoo import DiceCELoss
 from .hausdorff import HausdorffDTLoss, HausdorffERLoss
 import torch
 
-pos_weights_dict = {'hip':719,'femur':612,'vertebra':23,'ribs':5231}
+pos_weights_dict = {'hip':719,'femur':612,'vertebra':23,'ribs':5231, 'rib':5231}
 
 def get_loss(loss_name,**kwargs):
     if loss_name == MSELoss.__name__:

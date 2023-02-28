@@ -3,12 +3,28 @@ import inspect
 from pathlib import Path
 import wandb
 
-def filter_wandb_run(anatomy,project_name='msrepo/2d-3d-benchmark',tags=['model-compare']):
+def get_anatomy_from_path(path:str):
+    anatomy = ['rib','femur','hip','verse','lidc','rsna']
+    for anat in anatomy:
+        if anat in path.lower():
+            return anat
+    return 'None'
+
+def get_run_from_model_name(model_name,wandb_runs):
+    """return the first wandb run with given model name """
+    for run in wandb_runs:
+        if run.config['MODEL_NAME'] == model_name:
+            return run
+    raise ValueError(f'{model_name} not found')
+
+
+def filter_wandb_run(anatomy:str,project_name='msrepo/2d-3d-benchmark',tags=['model-compare']):
     api = wandb.Api()
     runs = api.runs(project_name,filters={
         'tags':{'$in':tags}
     })
-    filtered_runs = [ run for run in runs if run.config['ANATOMY'] == anatomy]
+
+    filtered_runs = [ run for run in runs if 'ANATOMY' in run.config and run.config['ANATOMY'] == anatomy]
     return filtered_runs
 
 def get_latest_checkpoint(path):
@@ -149,3 +165,16 @@ def printarr(*arrs, float_width=6):
 
     finally:
         del frame
+
+if __name__ == '__main__':
+    paths = ['configs/paths/totalsegmentator_ribs/TotalSegmentor-ribs-DRR-full_train+val.csv',
+             'configs/paths/verse19/Verse2019-DRR-full_train.csv',
+             'configs/paths/totalsegmentator_hips/TotalSegmentor-hips-DRR-full_train.csv',
+             'configs/paths/rsna_cervical_fracture/RSNACervicalFracture-DRR-full_test.csv',
+             'configs/paths/lidc+verse19/LIDC-IDRI-DRR-full_test.csv',
+             'configs/paths/femur/30k/TotalSegmentor-femur-left-DRR-30k_test.csv',
+             'configs/paths/lidc/LIDC-IDRI-DRR-full_train+val.csv'
+             ]
+    for path in paths:
+        anat = get_anatomy_from_path(path)
+        print(anat,Path(path).stem)
