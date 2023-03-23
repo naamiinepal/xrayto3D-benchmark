@@ -14,18 +14,24 @@ def get_anatomy_from_path(path:str):
 def get_run_from_model_name(model_name,wandb_runs):
     """return the first wandb run with given model name """
     for run in wandb_runs:
-        if run.config['MODEL_NAME'] == model_name:
+        if model_name in run.config['MODEL_NAME']: # allow partial match  
             return run
     raise ValueError(f'{model_name} not found')
 
 
-def filter_wandb_run(anatomy:str,project_name='msrepo/2d-3d-benchmark',tags=['model-compare']):
+def filter_wandb_run(anatomy:str,project_name='msrepo/2d-3d-benchmark',tags=['model-compare'],verbose=False):
     api = wandb.Api()
     runs = api.runs(project_name,filters={
         'tags':{'$in':tags}
     })
+    if verbose:
+        print(f'found {len(runs)} unfiltered runs')
 
     filtered_runs = [ run for run in runs if 'ANATOMY' in run.config and run.config['ANATOMY'] == anatomy]
+
+    if verbose:
+        print(f'got {len(filtered_runs)} runs after filtering anatomy={anatomy}')
+        
     return filtered_runs
 
 def get_latest_checkpoint(path):
