@@ -33,6 +33,7 @@ class NiftiPredictionWriter(BasePredictionWriter):
 class MetricsLogger(BasePredictionWriter):
     def __init__(self, output_dir,voxel_spacing,nsd_tolerance=1,write_interval: Literal["batch", "epoch", "batch_and_epoch"] = "batch") -> None:
         super().__init__(write_interval)
+        Path(output_dir).mkdir(exist_ok=True,parents=False)
         self.filestream_writer = csv.writer(open(Path(output_dir)/'metric-log.csv','w'))
         header = ['subject-id', 'DSC', 'ASD','HD95',  'NSD']
         self.filestream_writer.writerow(header)
