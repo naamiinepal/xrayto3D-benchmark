@@ -2,6 +2,9 @@ import wandb
 import torch
 import argparse
 import os
+import sys
+import numpy as np
+import monai.data.meta_obj as monai_meta_obj 
 from pathlib import Path
 from torch.utils.data.dataloader import DataLoader
 from torch.optim import Adam
@@ -26,6 +29,9 @@ from monai.utils.misc import set_determinism
 from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
+
+np.set_printoptions(precision=2,suppress=True)
+torch.set_printoptions(precision=2,sci_mode=False)
 
 def parse_training_arguments():
 
@@ -58,7 +64,7 @@ def parse_training_arguments():
     parser.add_argument('--num_workers',default=os.cpu_count(),type=int)
 
 
-    parser.add_argument('--dropout',default=False,type=bool)
+    parser.add_argument('--dropout',default=False,action='store_true')
     parser.add_argument('--load_autoencoder_from',default='',type=str)
     parser.add_argument('--top_k_checkpoints',default=3,type=int)
 
@@ -85,6 +91,10 @@ if __name__ == "__main__":
 
     args = parse_training_arguments()
     update_args(args)
+    
+    # print commandline arguments: all print outputs are logged by wandb
+    print(sys.argv)
+
     SEED = 12345
     lr = args.lr
     NUM_EPOCHS = args.epochs
@@ -120,7 +130,7 @@ if __name__ == "__main__":
         drop_last=False
     )
 
-    model = get_model(model_name=args.model_name,image_size=IMG_SIZE)
+    model = get_model(model_name=args.model_name,image_size=IMG_SIZE,dropout=args.dropout)
     loss_function = get_loss(loss_name=LOSS_NAME,anatomy=ANATOMY,image_size=IMG_SIZE,lambda_bce=args.lambda_bce,lambda_dice=args.lambda_dice,device=f'cuda:{args.gpu}') 
     optimizer = Adam(model.parameters(), lr)
 
@@ -142,19 +152,21 @@ if __name__ == "__main__":
 
     #------------------ run a sanity check -----------------#
     batch = next(iter(train_loader))
+    seg_meta_dict = experiment.get_segmentation_meta_dict(batch)
     input,output = experiment.get_input_output_from_batch(batch)
 
     pred_logits = experiment.model(*input)
     if experiment_name == AutoencoderExperiment.__name__:
         pred_logits, latent_vec = pred_logits
     if experiment_name == TLPredictorExperiment.__name__:
-        pred_logits = ae_model.latent_vec_decode(pred_logits)
-    loss = experiment.loss_function(pred_logits,output).item()
+        pred_logits = ae_model.latent_vec_decode(pred_logits) #type: ignore
+    loss = experiment.loss_function(pred_logits,output).item() #type: ignore
     input_zero = input[0]
     printarr(pred_logits,output,input_zero,loss)
     print(f'training samples {len(train_loader)} validation samples {len(val_loader)}')
-
-
+    print(f'Track meta data : {monai_meta_obj.get_track_meta()}')
+    if args.debug:
+        sys.exit()
     # loggers
     wandb_logger = WandbLogger(save_dir='runs/',project=WANDB_PROJECT,group=WANDB_EXPERIMENT_GROUP,tags=WANDB_TAGS)
     wandb_logger.watch(model,log_graph=False)
