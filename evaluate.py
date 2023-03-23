@@ -17,7 +17,7 @@ def parse_evaluation_arguments():
     parser.add_argument('--res',type=float)
     parser.add_argument('--image_size',type=int)
     parser.add_argument('--output_path',default=None)
-    parser.add_argument('--gpu',default=0)
+    parser.add_argument('--gpu',default=0,type=int)
     parser.add_argument('--batch_size',default=2,type=int)
     parser.add_argument('--num_workers',default=20,type=int)
     parser.add_argument('--accelerator',default='gpu')
