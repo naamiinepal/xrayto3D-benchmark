@@ -1,6 +1,7 @@
 from .architectures import CustomAutoEncoder,TLPredictor,MultiScale2DPermuteConcat,OneDConcat,TwoDPermuteConcat
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.unet import UNet
+from monai.networks.nets.unetr import UNETR
 
 from .experiments import ParallelHeadsExperiment,VolumeAsInputExperiment,TLPredictorExperiment,AutoencoderExperiment
 
@@ -25,6 +26,7 @@ model_experiment_dict = {
     TLPredictor.__name__ : TLPredictorExperiment.__name__,
     UNet.__name__ : VolumeAsInputExperiment.__name__,
     AttentionUnet.__name__: VolumeAsInputExperiment.__name__,
+    UNETR.__name__ : VolumeAsInputExperiment.__name__,
     TwoDPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,
     OneDConcat.__name__: ParallelHeadsExperiment.__name__,
     MultiScale2DPermuteConcat.__name__ : ParallelHeadsExperiment.__name__,

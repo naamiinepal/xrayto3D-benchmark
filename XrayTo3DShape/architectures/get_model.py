@@ -5,6 +5,7 @@ from .autoencoder_v2 import CustomAutoEncoder,TLPredictor
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.networks.nets.unet import Unet
+from monai.networks.nets.unetr import UNETR
 from monai.networks.nets.autoencoder import AutoEncoder
 from torch import nn
 import math
@@ -19,6 +20,9 @@ def get_model(model_name,image_size,dropout=False)->nn.Module:
 
     elif model_name == SwinUNETR.__name__:
         return SwinUNETR(**get_swinunetr_config(image_size))
+
+    elif model_name == UNETR.__name__:
+        return UNETR(**get_unetr_config(image_size,dropout=dropout))
 
     elif model_name == TwoDPermuteConcat.__name__ or model_name == 'TwoDPermuteConcatModel':
         return TwoDPermuteConcat(get_2dconcatmodel_config(image_size))
@@ -44,6 +48,8 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_attunet_config()
     elif model_name == SwinUNETR.__name__:
         return get_swinunetr_config(image_size)
+    elif model_name == UNETR.__name__:
+        return get_unetr_config(image_size,dropout)
     elif model_name == TwoDPermuteConcat.__name__ or model_name == 'TwoDPermuteConcatModel':
         return get_2dconcatmodel_config(image_size)
     elif model_name == Unet.__name__:
@@ -58,6 +64,16 @@ def get_model_config(model_name,image_size,dropout=False):
         return get_tlpredictor_config(image_size)
     else:
         raise ValueError(f'invalid model name {model_name}')
+
+def get_unetr_config(image_size,dropout):
+    model_config = {
+        'in_channels':2,
+        'out_channels':1,
+        'img_size':image_size,
+        'dropout_rate': 0.1 if dropout else 0.0
+
+    }
+    return model_config
 
 def get_tlpredictor_config(image_size):
     model_config = {
