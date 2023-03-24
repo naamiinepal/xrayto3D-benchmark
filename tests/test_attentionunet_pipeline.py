@@ -1,22 +1,25 @@
+import argparse
+
 import pandas as pd
-from XrayTo3DShape import *
-from torch.utils.data import DataLoader
-from monai.losses.dice import DiceCELoss
 import torch
+from monai.losses.dice import DiceCELoss
 from monai.metrics.meandice import DiceMetric
 from monai.networks.nets.attentionunet import AttentionUnet
-from monai.transforms import *
+from monai.transforms.compose import Compose
+from monai.transforms.post.array import AsDiscrete, Activations
+from torch.utils.data import DataLoader
+
 import wandb
+from XrayTo3DShape import BaseDataset, get_kasten_transforms
 
 lr = 1e-2
 NUM_EPOCHS = 1000
 WANDB_ON = False
 TEST_ZERO_INPUT = False
 
-import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('filepaths')
+parser.add_argument("filepaths", default='configs/test/LIDC-DRR-test.csv')
 
 args = parser.parse_args()
 
@@ -40,12 +43,12 @@ config_attunet = {
     "in_channels": 2,
     "out_channels": 1,
     "channels": (8, 16, 32),
-    "strides": (2,2,2),
+    "strides": (2, 2, 2),
 }
 # model = UNet(spatial_dims=3, **config_kasten)
-model = AttentionUnet(spatial_dims=3,**config_attunet)
+model = AttentionUnet(spatial_dims=3, **config_attunet)
 
-input_volume = torch.cat((ap_tensor,lat_tensor),1)
+input_volume = torch.cat((ap_tensor, lat_tensor), 1)
 pred_tensor = model(input_volume)
 print(pred_tensor.shape)
 
@@ -55,11 +58,11 @@ dice_metric_evaluator = DiceMetric(include_background=False)
 
 for i in range(NUM_EPOCHS):
     optimizer.zero_grad()
-    input_volume = torch.cat((ap_tensor,lat_tensor),1)
+    input_volume = torch.cat((ap_tensor, lat_tensor), 1)
     if TEST_ZERO_INPUT:
         dummy_volume = torch.zeros_like(input_volume)
-        pred_seg_logits = model(dummy_volume)        
-    else:  
+        pred_seg_logits = model(dummy_volume)
+    else:
         pred_seg_logits = model(input_volume)
 
     loss = loss_function(pred_seg_logits, seg_tensor)
@@ -75,4 +78,4 @@ for i in range(NUM_EPOCHS):
 
     if WANDB_ON:
         wandb.log({"loss": loss.item(), "accuracy": acc.item()})
-    print(f'loss {loss.item():.4f} acc {acc.item():.4f}')
+    print(f"loss {loss.item():.4f} acc {acc.item():.4f}")

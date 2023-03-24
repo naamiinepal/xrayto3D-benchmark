@@ -1,16 +1,21 @@
 import pandas as pd
-from XrayTo3DShape import *
-from torch.utils.data import DataLoader
-from monai.losses.dice import DiceCELoss
 import torch
+from monai.losses.dice import DiceCELoss
 from monai.metrics.meandice import DiceMetric
 from monai.networks.nets.unet import UNet
-from monai.transforms import *
+from monai.transforms.compose import Compose
+from monai.transforms.post.array import Activations, AsDiscrete
+from torch.utils.data import DataLoader
+
 import wandb
+from XrayTo3DShape import BaseDataset, get_kasten_transforms
 
 lr = 1e-2
 NUM_EPOCHS = 1000
-wandb.init(project="pipeline-test-01", name="kasten-01-res-units-0")
+WANDB_ON = False
+
+if WANDB_ON:
+    wandb.init(project="pipeline-test-01", name="kasten-01-res-units-0")
 
 paths_location = "configs/test/LIDC-DRR-test.csv"
 paths = pd.read_csv(paths_location, index_col=0).to_numpy()
@@ -56,4 +61,10 @@ for i in range(NUM_EPOCHS):
     acc = dice_metric_evaluator.aggregate()
     dice_metric_evaluator.reset()
 
-    wandb.log({"loss": loss.item(), "accuracy": acc.item()})
+    if WANDB_ON:
+        wandb.log(
+            {"loss": loss.item(), "accuracy": acc.item()}
+        )
+    print(
+        f"loss {loss.item():.4f} accuracy {acc.item():.4f}"
+    )
