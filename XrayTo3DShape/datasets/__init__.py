@@ -1,1 +1,2 @@
-from .base_dataset import BaseDataset,DeformationDataset,AtlasDeformationDataset,get_dataset
+from .base_dataset import (AtlasDeformationDataset, BaseDataset,
+                           DeformationDataset, get_dataset)

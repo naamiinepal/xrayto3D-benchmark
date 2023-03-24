@@ -1,23 +1,29 @@
-from monai.networks.nets.autoencoder import AutoEncoder
-from typing import Sequence, Union, Optional, Tuple, Any
-import numpy as np
-from monai.networks.layers.convutils import calculate_out_shape, same_padding
-from monai.networks.blocks.convolutions import Convolution, ResidualUnit
-import torch
-from torch import nn
-import torch.nn.functional as F
+"""
+adapted from monai.networks.nets.varautoencoder
+The original Autoencoder in the monai.networks.nets.autoencoder does not have a
+1D bottlneck latent vector layer i.e. it is fully convolutional.
+In our application we need a low-dimensional  1D embedding of the Biplanar x-rays,
+hence the need for full connected layer in between the encoder and the decoder
+TODO: remove.
+"""
 import math
 import operator
 from functools import reduce
+from typing import Any, Optional, Sequence, Tuple, Union
 
-# adapted from monai.networks.nets.varautoencoder
-# The original Autoencoder in the monai.networks.nets.autoencoder does not have a
-# 1D bottlneck latent vector layer i.e. it is fully convolutional.
-# In our application we need a low-dimensional  1D embedding of the Biplanar x-rays, hence the need for full connected layer in between the encoder and the decoder
+import numpy as np
+import torch
+from monai.networks.blocks.convolutions import Convolution, ResidualUnit
+from monai.networks.layers.convutils import calculate_out_shape, same_padding
+from monai.networks.nets.autoencoder import AutoEncoder
+from monai.utils.deprecate_utils import deprecated
+from torch import nn
 
 
+@deprecated(msg_suffix="use architectures.autoencoder_v2 instead.")
 class Encoder1DEmbed(nn.Module):
-    """Simple encoder consisting of multiple layers of Convolutions and a fully connected layer in the end to obtain a 1D embedding vector
+    """Simple encoder consisting of multiple layers of Convolutions
+    and a fully connected layer in the end to obtain a 1D embedding vector
 
     Args:
         spatial_dims: number of spatial dimensions
@@ -85,13 +91,14 @@ class Encoder1DEmbed(nn.Module):
         )
 
         padding = same_padding(self.kernel_size)
-        self.final_size = np.asarray(self.in_shape,dtype=int)
+        self.final_size = np.asarray(self.in_shape, dtype=int)
         for s in strides:
-            self.final_size = calculate_out_shape(self.final_size, self.kernel_size, s, padding)
+            self.final_size = calculate_out_shape(
+                self.final_size, self.kernel_size, s, padding
+            )
 
         linear_size = int(np.product(self.final_size)) * self.encoded_channels
-        self.latent_encode_layer = nn.Linear(linear_size,self.latent_size)
-
+        self.latent_encode_layer = nn.Linear(linear_size, self.latent_size)
 
     def _get_encode_module(
         self, in_channels: int, channels: Sequence[int], strides: Sequence[int]
@@ -143,11 +150,11 @@ class Encoder1DEmbed(nn.Module):
 
     def forward(self, x: torch.Tensor) -> Any:
         x = self.encode(x)
-        x = x.view(x.shape[0],-1)
+        x = x.view(x.shape[0], -1)
         x = self.latent_encode_layer(x)
         return x
 
-
+@deprecated(msg_suffix="use architectures.autoencoder_v2 instead.")
 class AutoEncoder1DEmbed(AutoEncoder):
     def __init__(
         self,
@@ -196,15 +203,21 @@ class AutoEncoder1DEmbed(AutoEncoder):
         padding = same_padding(self.kernel_size)
 
         for s in strides:
-            self.final_size = calculate_out_shape(self.final_size, self.kernel_size, s, padding)
+            self.final_size = calculate_out_shape(
+                self.final_size, self.kernel_size, s, padding
+            )
 
         linear_size = int(np.product(self.final_size)) * self.encoded_channels
-        self.latent_encode_layer = nn.Sequential(nn.Linear(linear_size, self.latent_size),
-                                                 nn.InstanceNorm1d(num_features=self.latent_size),
-                                                 nn.Tanh())
-        self.latent_decoder_layer = nn.Sequential(nn.Linear(self.latent_size, linear_size),
-                                                  nn.InstanceNorm1d(num_features=linear_size),
-                                                  nn.ReLU())
+        self.latent_encode_layer = nn.Sequential(
+            nn.Linear(linear_size, self.latent_size),
+            nn.InstanceNorm1d(num_features=self.latent_size),
+            nn.Tanh(),
+        )
+        self.latent_decoder_layer = nn.Sequential(
+            nn.Linear(self.latent_size, linear_size),
+            nn.InstanceNorm1d(num_features=linear_size),
+            nn.ReLU(),
+        )
         self._initialize_weights()
 
     def encode_forward(self, x: torch.Tensor):
@@ -224,9 +237,9 @@ class AutoEncoder1DEmbed(AutoEncoder):
 
     def forward(self, x: torch.Tensor) -> Any:
         latent_vector = self.encode_forward(x)
-        return self.decode_forward(latent_vector),latent_vector
+        return self.decode_forward(latent_vector), latent_vector
 
-    def _initialize_weights(self)-> None:
+    def _initialize_weights(self) -> None:
         """
         Args:
             None, initializes weights for conv/linear/batchnorm layers
@@ -251,6 +264,7 @@ class AutoEncoder1DEmbed(AutoEncoder):
                 init_range = 1.0 / math.sqrt(fan_in + fan_out)
                 m.weight.data.uniform_(-init_range, init_range)
                 m.bias.data.zero_()
+
 
 if __name__ == "__main__":
     model = AutoEncoder1DEmbed(

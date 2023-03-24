@@ -61,3 +61,8 @@ def get_DiceCE(
         lambda_dice=lambda_dice,
         lambda_bce=lambda_bce,
     )
+
+
+def l1_loss(latent_vector: torch.Tensor):
+    """L1-regularization loss"""
+    return torch.mean(torch.abs(latent_vector))

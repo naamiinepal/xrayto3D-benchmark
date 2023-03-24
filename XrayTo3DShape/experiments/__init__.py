@@ -1,2 +1,7 @@
 from .base_experiment import BaseExperiment
-from .experiments import VolumeAsInputExperiment,ParallelHeadsExperiment,AutoencoderExperiment,TLPredictorExperiment
+from .experiments import (
+    AutoencoderExperiment,
+    ParallelHeadsExperiment,
+    TLPredictorExperiment,
+    VolumeAsInputExperiment,
+)
