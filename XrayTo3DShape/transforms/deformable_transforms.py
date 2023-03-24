@@ -1,8 +1,16 @@
-from monai.transforms import *
+"""Work in Progress: Data transformation pipeline for Atlas-deformation based architecture"""
+from monai.transforms.spatial.dictionary import ResizeD, SpacingD, OrientationD
+from monai.transforms.intensity.dictionary import ThresholdIntensityD, ScaleIntensityD
+from monai.transforms.io.dictionary import LoadImageD
+from monai.transforms.utility.dictionary import EnsureChannelFirstD
+from monai.transforms.croppad.dictionary import ResizeWithPadOrCropD
+from monai.transforms.compose import Compose
 from monai.data.image_reader import PILReader
 import numpy as np
 
+
 def get_atlas_deformation_transforms(size=64, resolution=1.5):
+    """transformation pipeline for Atlas-deformation based model architecture"""
     ap_transform = Compose(
         [
             LoadImageD(
@@ -103,6 +111,9 @@ def get_atlas_deformation_transforms(size=64, resolution=1.5):
 
 
 def get_deformation_transforms(size=64, resolution=1.5):
+    """transformation pipeline for image registration.
+    Fixed image and moving image transforms.
+    """
     fixed_transform = Compose(
         [
             LoadImageD(

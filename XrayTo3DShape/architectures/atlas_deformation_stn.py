@@ -92,7 +92,7 @@ class AtlasDeformationSTN(nn.Module):
         out_ap = self.ap_encoder(ap)
         out_lat = self.lat_encoder(lat)
         fused_cube = torch.cat((self.ap_expansion(out_ap.unsqueeze(2)), self.lat_expansion(out_lat.unsqueeze(-1))),dim=1) # add new dimension assuming PIR orientation
-        print('fused cube',fused_cube.shape,'atlas seg',atlas_seg.shape)
+        # print('fused cube',fused_cube.shape,'atlas seg',atlas_seg.shape)
         out = torch.cat([fused_cube,atlas_seg_scaled],dim=1) # concatenate along channels
         out = self.affine_decoder(out)
         # encoder_out = torch.cat([self.ap_encoder(ap), self.lat_encoder(lat)],dim=1)
@@ -137,6 +137,7 @@ if __name__ == '__main__':
 
     atlas_seg_scaled = F.interpolate(atlas_seg_tensor.clone(),scale_factor=1.0 / 4.0,mode='nearest')
 
-    print(f'Atlas scaled {atlas_seg_scaled.shape}')
+    from XrayTo3DShape import printarr
+
     out = model(in_tensor,in_tensor,atlas_seg_tensor)
-    print(out.shape)
+    printarr(out,in_tensor,atlas_seg_tensor,atlas_seg_scaled)
