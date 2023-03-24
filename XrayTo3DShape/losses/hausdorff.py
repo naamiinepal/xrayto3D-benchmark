@@ -1,20 +1,18 @@
-import cv2 as cv
-import numpy as np
-
-import torch
-from torch import nn
-
-from scipy.ndimage.morphology import distance_transform_edt as edt
-from scipy.ndimage import convolve
-
-# from https://github.com/JunMa11/SegLoss/blob/master/losses_pytorch/hausdorff.py
 """
+from https://github.com/JunMa11/SegLoss/blob/master/losses_pytorch/hausdorff.py
+
 Hausdorff loss implementation based on paper:
 https://arxiv.org/pdf/1904.10030.pdf
 
 copy pasted from - all credit goes to original authors:
 https://github.com/SilmarilBearer/HausdorffLoss
 """
+import cv2 as cv
+import numpy as np
+import torch
+from scipy.ndimage import convolve
+from scipy.ndimage.morphology import distance_transform_edt as edt
+from torch import nn
 
 
 class HausdorffDTLoss(nn.Module):
@@ -29,14 +27,14 @@ class HausdorffDTLoss(nn.Module):
     def distance_field(self, img: np.ndarray) -> np.ndarray:
         field = np.zeros_like(img)
 
-        for batch in range(len(img)):
-            fg_mask = img[batch] > 0.5
+        for batch in img:
+            fg_mask = batch > 0.5
 
             if fg_mask.any():
                 bg_mask = ~fg_mask
 
-                fg_dist = edt(fg_mask)
-                bg_dist = edt(bg_mask)
+                fg_dist: np.ndarray = edt(fg_mask)  # type: ignore
+                bg_dist: np.ndarray = edt(bg_mask)  # type: ignore
 
                 field[batch] = fg_dist + bg_dist
 
@@ -57,11 +55,19 @@ class HausdorffDTLoss(nn.Module):
 
         # pred = torch.sigmoid(pred)
 
-        pred_dt = torch.from_numpy(self.distance_field(pred.detach().cpu().numpy())).float().to(device=self.device)
-        target_dt = torch.from_numpy(self.distance_field(target.detach().cpu().numpy())).float().to(device=self.device)
+        pred_dt = (
+            torch.from_numpy(self.distance_field(pred.detach().cpu().numpy()))
+            .float()
+            .to(device=self.device)
+        )
+        target_dt = (
+            torch.from_numpy(self.distance_field(target.detach().cpu().numpy()))
+            .float()
+            .to(device=self.device)
+        )
 
         pred_error = (pred - target) ** 2
-        distance = pred_dt ** self.alpha + target_dt ** self.alpha
+        distance = pred_dt**self.alpha + target_dt**self.alpha
 
         dt_field = pred_error * distance
         loss = dt_field.mean()
@@ -85,7 +91,7 @@ class HausdorffDTLoss(nn.Module):
 class HausdorffERLoss(nn.Module):
     """Binary Hausdorff loss based on morphological erosion"""
 
-    def __init__(self, device,alpha=2.0, erosions=10, **kwargs):
+    def __init__(self, device, alpha=2.0, erosions=10, **kwargs):
         super(HausdorffERLoss, self).__init__()
         self.alpha = alpha
         self.erosions = erosions
@@ -115,13 +121,11 @@ class HausdorffERLoss(nn.Module):
         eroded = np.zeros_like(bound)
         erosions = []
 
-        for batch in range(len(bound)):
-
+        for batch, _ in enumerate(bound):
             # debug
             erosions.append(np.copy(bound[batch][0]))
 
             for k in range(self.erosions):
-
                 # compute convolution with kernel
                 dilation = convolve(bound[batch], kernel, mode="constant", cval=0.0)
 
@@ -167,9 +171,17 @@ class HausdorffERLoss(nn.Module):
             return eroded.mean(), erosions
 
         else:
-            eroded = torch.from_numpy(
-                self.perform_erosion(pred.detach().cpu().numpy(), target.detach().cpu().numpy(), debug)
-            ).float().to(device=self.device)
+            eroded = (
+                torch.from_numpy(
+                    self.perform_erosion(
+                        pred.detach().cpu().numpy(),
+                        target.detach().cpu().numpy(),
+                        debug,
+                    )
+                )
+                .float()
+                .to(device=self.device)
+            )
 
             loss = eroded.mean()
 

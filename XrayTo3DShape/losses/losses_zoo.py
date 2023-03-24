@@ -1,9 +1,11 @@
-import torch
-from torch import nn
-from torch import Tensor
+"""custom losses """
 from typing import Optional
-from torchmetrics.functional import image_gradients
+
+import torch
 from monai.losses.dice import DiceLoss
+from torch import Tensor, nn
+from torchmetrics.functional import image_gradients
+
 
 class NGCCLoss(nn.Module):
     """
@@ -26,13 +28,17 @@ class NGCCLoss(nn.Module):
 
         return ngcc
 
+
 class DiceCELoss(nn.Module):
-    def __init__(self,
-    softmax:bool = False,
-    sigmoid:bool = False,
-    ce_pos_weight:Optional[torch.Tensor]=None,
-    lambda_dice:float=1.0,
-    lambda_bce:float=1.0,) -> None:
+    """TODO: debug: does not train well"""
+    def __init__(
+        self,
+        softmax: bool = False,
+        sigmoid: bool = False,
+        ce_pos_weight: Optional[torch.Tensor] = None,
+        lambda_dice: float = 1.0,
+        lambda_bce: float = 1.0,
+    ) -> None:
         super().__init__()
         self.lambda_dice = lambda_dice
         self.lambda_bce = lambda_bce
@@ -42,7 +48,7 @@ class DiceCELoss(nn.Module):
         )
         self.bce = nn.BCEWithLogitsLoss(pos_weight=ce_pos_weight)
 
-    def forward(self, input: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+    def forward(self, batch_input: torch.Tensor, batch_target: torch.Tensor) -> torch.Tensor:
         """
         Args:
             input: the shape should be BNH[WD].
@@ -53,14 +59,16 @@ class DiceCELoss(nn.Module):
             ValueError: When number of channels for target is neither 1 nor the same as input.
 
         """
-        if len(input.shape) != len(target.shape):
+        if len(batch_input.shape) != len(batch_target.shape):
             raise ValueError(
                 "the number of dimensions for input and target should be the same, "
-                f"got shape {input.shape} and {target.shape}."
+                f"got shape {batch_input.shape} and {batch_target.shape}."
             )
 
-        dice_loss = self.dice(input, target)
-        ce_loss = self.bce(input, target)
-        total_loss: torch.Tensor = self.lambda_dice * dice_loss + self.lambda_bce * ce_loss
+        dice_loss = self.dice(batch_input, batch_target)
+        ce_loss = self.bce(batch_input, batch_target)
+        total_loss: torch.Tensor = (
+            self.lambda_dice * dice_loss + self.lambda_bce * ce_loss
+        )
 
         return total_loss

@@ -1,13 +1,18 @@
-from matplotlib import pyplot as plt
-import numpy as np
+"""utils to visualize numpy volume"""
 import math
-from .np_utils import *
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+from .np_utils import get_projectionslices_from_3d
 
 
 def display_projection_slices_from_3d(image: np.ndarray):
+    """create matplotlib figure showing projection of 3D volume 
+    along the three orthogonal axis"""
     image_list = get_projectionslices_from_3d(image)
     fig, axes = create_figure(*image_list)
-    for ax, npa in zip(axes, image_list):  # type: ignore
+    for ax, npa in zip(axes, image_list):
         ax.imshow(npa, cmap="gray")
         ax.set_axis_off()
     return fig, axes
