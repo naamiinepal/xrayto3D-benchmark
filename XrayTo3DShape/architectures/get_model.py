@@ -275,7 +275,7 @@ def get_attunet_config():
 
 
 def get_1dconcatmodel_config(image_size):
-    """base model for 128^3 volume (2^7)""""
+    """base model for 128^3 volume (2^7)"""
     bottleneck_size = 256
 
     if (image_size == 128) or (image_size == 64):

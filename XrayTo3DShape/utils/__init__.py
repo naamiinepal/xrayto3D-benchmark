@@ -4,3 +4,6 @@ from .np_show import *
 from .misc_utils import *
 from .callbacks import *
 from .wandb_utils import *
+from .print_arr import *
+from .config_utils import *
+from .config_template import config_template

@@ -11,8 +11,10 @@ from monai.metrics.hausdorff_distance import HausdorffDistanceMetric
 from monai.metrics.meandice import DiceMetric
 from monai.metrics.surface_distance import SurfaceDistanceMetric
 from pytorch_lightning.callbacks import BasePredictionWriter
-from surface_distance.metrics import (compute_surface_distances,
-                                      compute_surface_overlap_at_tolerance)
+from surface_distance.metrics import (
+    compute_surface_distances,
+    compute_surface_overlap_at_tolerance,
+)
 from typing_extensions import Literal
 
 from .io_utils import get_nifti_stem, to_numpy
@@ -21,6 +23,7 @@ from .io_utils import get_nifti_stem, to_numpy
 class NiftiPredictionWriter(BasePredictionWriter):
     """Save model prediction as nifti.
     Inherits from pytorch-lightning callbacks for Writing model prediction"""
+
     def __init__(
         self,
         output_dir,
@@ -72,11 +75,12 @@ class NiftiPredictionWriter(BasePredictionWriter):
 class MetricsLogger(BasePredictionWriter):
     """evaluate various metrics from model prediction
     and save to log file"""
+
     def __init__(
         self,
         output_dir,
         voxel_spacing,
-        nsd_tolerance=1,
+        nsd_tolerance=1.5,
         write_interval: Literal["batch", "epoch", "batch_and_epoch"] = "batch",
     ) -> None:
         super().__init__(write_interval)
