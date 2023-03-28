@@ -33,6 +33,7 @@ def parse_evaluation_arguments():
     parser.add_argument("--model_name")
     parser.add_argument("--ckpt_path")
     parser.add_argument("--res", type=float)
+    parser.add_argument("--nsd_tolerance", type=float, default=1.5)
     parser.add_argument("--image_size", type=int)
     parser.add_argument("--output_path", default=None)
     parser.add_argument("--gpu", default=0, type=int)
@@ -78,7 +79,11 @@ test_loader = DataLoader(
 )
 
 nifti_saver = NiftiPredictionWriter(output_dir=args.output_path, write_interval="batch")
-metrics_saver = MetricsLogger(output_dir=args.output_path, voxel_spacing=args.res)
+metrics_saver = MetricsLogger(
+    output_dir=args.output_path,
+    voxel_spacing=args.res,
+    nsd_tolerance=args.nsd_tolerance,
+)
 evaluation_callbacks = [nifti_saver, metrics_saver]
 
 model_architecture = get_model(model_name=args.model_name, image_size=args.image_size)
