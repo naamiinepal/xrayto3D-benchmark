@@ -111,6 +111,7 @@ if __name__ == "__main__":
 
     # print commandline arguments: all print outputs are logged by wandb
     print(sys.argv)
+    print(args)
 
     SEED = 12345
     lr = args.lr
@@ -180,13 +181,15 @@ if __name__ == "__main__":
             modified_key = key.replace("model.", "")
             value = checkpoint["state_dict"].pop(key)
             checkpoint["state_dict"][modified_key] = value
-        checkpoint["state_dict"].pop("loss_function.pos_weight")
+        if "loss_function.pos_weight" in checkpoint["state_dict"]:
+            checkpoint["state_dict"].pop("loss_function.pos_weight")
         ae_model.load_state_dict(checkpoint["state_dict"])
         experiment.set_decoder(ae_model)  # type: ignore
 
     # run a sanity check
     batch = next(iter(train_loader))
-    seg_meta_dict = experiment.get_segmentation_meta_dict(batch)
+    if args.experiment_name != AutoencoderExperiment.__name__:
+        seg_meta_dict = experiment.get_segmentation_meta_dict(batch)
     batch_input, batch_output = experiment.get_input_output_from_batch(batch)
 
     pred_logits = experiment.model(*batch_input)
@@ -197,7 +200,9 @@ if __name__ == "__main__":
     loss = experiment.loss_function(pred_logits, batch_output).item()  # type: ignore
     input_zero = batch_input[0]
     printarr(pred_logits, batch_output, input_zero, loss)
-    print(f"training samples {len(train_loader)} validation samples {len(val_loader)}")
+    print(
+        f"training samples {len(train_loader.dataset)} validation samples {len(val_loader.dataset)}"
+    )
     print(f"Track meta data : {monai_meta_obj.get_track_meta()}")
     if args.debug:
         sys.exit()
@@ -224,13 +229,17 @@ if __name__ == "__main__":
     }
     HYPERPARAMS.update(MODEL_CONFIG)
     wandb_logger.log_hyperparams(HYPERPARAMS)
-
+    CHECKPOINT_FILENAME = (
+        "epoch={epoch}-step={step}-val_loss={val/loss:.2f}"
+        if experiment_name == CustomAutoEncoder.__name__
+        else "epoch={epoch}-step={step}-val_dice={val/dice:.2f}"
+    )
     checkpoint_callback = ModelCheckpoint(
         monitor="val/loss",
         mode="min",
         save_last=True,
         save_top_k=args.top_k_checkpoints,
-        filename="epoch={epoch}-step={step}-val_dice={val/dice:.2f}",
+        filename=CHECKPOINT_FILENAME,
         auto_insert_metric_name=False,
     )
     trainer = pl.Trainer(
