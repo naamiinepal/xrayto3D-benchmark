@@ -35,6 +35,7 @@ anatomy_resolution_dict = {
     "totalseg_hips": (288, 1.0),
     "verse2019": (96, 1.0),
     "verse2020": (96, 1.0),
+    "vertebra": (96, 1.0),
     "femur": (128, 1.0),
     "rib": (320, 1.0),
     "hip": (288, 1.0),

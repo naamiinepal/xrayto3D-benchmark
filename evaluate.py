@@ -21,6 +21,8 @@ from XrayTo3DShape import (
     model_experiment_dict,
     TLPredictorExperiment,
     CustomAutoEncoder,
+    anatomy_resolution_dict,
+    get_anatomy_from_path,
 )
 
 
@@ -63,6 +65,12 @@ def update_args(args):
     args.experiment_name = model_experiment_dict[args.model_name]
     args.output_path = str(Path(args.ckpt_path) / "../evaluation")
     args.ckpt_path = get_latest_checkpoint(args.ckpt_path)
+    # assert resolution and size agree for each anatomy
+    args.anatomy = get_anatomy_from_path(args.testpaths)
+    orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
+    assert int(args.image_size * args.res) == int(
+        orig_size * orig_res
+    ), f"({args.image_size},{args.res}) does not match ({orig_size},{orig_res})"
     return args
 
 
