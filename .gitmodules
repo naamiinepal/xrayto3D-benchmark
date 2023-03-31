@@ -13,3 +13,6 @@
 [submodule "external/SegLoss"]
 	path = external/SegLoss
 	url = https://github.com/JunMa11/SegLoss.git
+[submodule "external/xrayto3D-morphometry"]
+	path = external/xrayto3D-morphometry
+	url = git@github.com:naamiinepal/xrayto3D-morphometry.git

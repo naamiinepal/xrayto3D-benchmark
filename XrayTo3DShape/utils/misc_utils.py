@@ -45,7 +45,7 @@ def filter_wandb_run(
     filtered_runs = [
         run
         for run in runs
-        if "ANATOMY" in run.config and run.config["ANATOMY"] == anatomy
+        if "ANATOMY" in run.config and anatomy in run.config["ANATOMY"]
     ]
 
     if verbose:
