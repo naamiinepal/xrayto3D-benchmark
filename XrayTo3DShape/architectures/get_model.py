@@ -158,7 +158,9 @@ def get_multiscale2dconcatmodel_config(image_size):
         },
         "decoder_2D": {
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [8, 16, 32, 64, 128],
+            "out_channels": [8, 16, 32, 64, 128]
+            if image_size == 128
+            else [4, 8, 16, 32, 64],
             "kernel_size": 3,
             "act": "RELU",
             "norm": "BATCH",

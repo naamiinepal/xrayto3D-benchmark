@@ -1,3 +1,6 @@
+"""Multiscale2DPermuteConcat
+https://www.nature.com/articles/s41598-023-27607-2
+"""
 from typing import Dict
 
 import torch
@@ -6,6 +9,8 @@ from torch import nn
 
 
 class DenseNetBlock(nn.Module):
+    """DenseNet: x+f(x)"""
+
     def __init__(
         self, in_channel=8, out_channel=16, encoder_count=3, kernel_size=3
     ) -> None:
@@ -83,6 +88,8 @@ class MultiScaleEncoder2d(nn.Module):
 
 
 class MultiScale2DPermuteConcat(nn.Module):
+    """MultiScale2DPermuteConcat"""
+
     def __init__(self, config: Dict) -> None:
         super().__init__()
         self.config = config
@@ -359,10 +366,11 @@ class MultiScale2DPermuteConcat(nn.Module):
             )
         )
 
-    def forward(self, ap_image: torch.Tensor, lat_image: torch.Tensor):
+    def forward(self, ap_image: torch.Tensor, lat_image: torch.Tensor, verbose=False):
         encoded_ap = self.ap_encoder(ap_image)
         encoded_lat = self.lat_encoder(lat_image)
-        # [print('After 2D Encoding ',out.shape) for out in encoded_ap]
+        if verbose:
+            [print("After 2D Encoding ", out.shape) for out in encoded_ap]
 
         dec_ap_fusion_out = []
         dec_lat_fusion_out = []
@@ -406,6 +414,10 @@ class MultiScale2DPermuteConcat(nn.Module):
                 dec_ap_fusion_out.append(dec_ap)
                 dec_lat_fusion_out.append(dec_lat)
 
+            # if verbose:
+            #     [print("After 2D Decoding ", out.shape) for out in dec_ap_fusion_out]
+            #     [print("After 2D Decoding ", out.shape) for out in dec_lat_fusion_out]
+
             if self.permute:
                 # permute LAT decoded images (assume PIR orientation)
                 permuted_dec_lat = dec_lat.transpose(1, -1)
@@ -428,27 +440,25 @@ class MultiScale2DPermuteConcat(nn.Module):
                     dim=1,
                 )
                 dec_3d_fusion_out.append(fuser(fused_out))
-
-        # [print('After 2D Decoding ',out.shape) for out in dec_ap_fusion_out]
-        # [print('After 2D Decoding ',out.shape) for out in dec_lat_fusion_out]
-        # [print('After 3D Decoding ',out.shape) for out in dec_3d_fusion_out]
+        if verbose:
+            [print("After 2D Decoding ", out.shape) for out in dec_ap_fusion_out]
+            [print("After 2D Decoding ", out.shape) for out in dec_lat_fusion_out]
+            [print("After 3D Decoding ", out.shape) for out in dec_3d_fusion_out]
 
         return self.segmentation_head(dec_3d_fusion_out[-1])
 
 
 if __name__ == "__main__":
-    import numpy as np
     import torch
 
-    ap_img = torch.zeros((1, 1, 128, 128))
-    lat_img = torch.zeros((1, 1, 128, 128))
-
+    ap_img = torch.zeros((1, 1, 64, 64))
+    lat_img = torch.zeros((1, 1, 64, 64))
     model_config = {
         "permute": True,
         "encoder": {
             "initial_channel": 16,
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [4, 4, 8, 16, 32, 64],
+            "out_channels": [4, 8, 16, 32, 64],
             "encoder_count": 4,
             "kernel_size": 3,
             "act": "RELU",
@@ -456,19 +466,47 @@ if __name__ == "__main__":
         },
         "decoder_2D": {
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [4, 8, 16, 32, 64, 128],
+            # "out_channels": [8, 16, 32, 64, 128],
+            "out_channels": [4, 8, 16, 32, 64],
             "kernel_size": 3,
             "act": "RELU",
             "norm": "BATCH",
         },
         "fusion_3D": {
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [32, 32, 32, 32, 32, 32],
+            "out_channels": [32, 32, 32, 32, 32],
             "kernel_size": 3,
             "act": "RELU",
             "norm": "BATCH",
         },
     }
+    # model_config = {
+    #     "permute": True,
+    #     "encoder": {
+    #         "initial_channel": 16,
+    #         "in_channels": [],  # this will be filled in by autoconfig
+    #         "out_channels": [2, 4, 8, 16, 32, 64],
+    #         "encoder_count": 4,
+    #         "kernel_size": 3,
+    #         "act": "RELU",
+    #         "norm": "BATCH",
+    #     },
+    #     "decoder_2D": {
+    #         "in_channels": [],  # this will be filled in by autoconfig
+    #         # "out_channels": [4, 8, 16, 32, 64, 128],
+    #         "out_channels": [2, 4, 8, 16, 32, 64],
+    #         "kernel_size": 3,
+    #         "act": "RELU",
+    #         "norm": "BATCH",
+    #     },
+    #     "fusion_3D": {
+    #         "in_channels": [],  # this will be filled in by autoconfig
+    #         "out_channels": [32, 32, 32, 32, 32, 32],
+    #         "kernel_size": 3,
+    #         "act": "RELU",
+    #         "norm": "BATCH",
+    #     },
+    # }
     enc_in = []
     for i in range(len(model_config["encoder"]["out_channels"])):
         if i == 0:
@@ -509,7 +547,7 @@ if __name__ == "__main__":
 
     print(model_config)
     model = MultiScale2DPermuteConcat(config=model_config)
-    fused_out = model(ap_img, lat_img)
+    fused_out = model.forward(ap_img, lat_img, verbose=True)
     print(f"out {fused_out.shape}")
     # print(out_ap.shape,out_lat.shape)
     # for ap,lat in zip(out_ap,out_lat):
