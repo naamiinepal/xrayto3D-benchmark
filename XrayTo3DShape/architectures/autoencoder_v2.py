@@ -21,7 +21,8 @@ from torch import nn
 class CustomAutoEncoder(AutoEncoder):
     """Simple encoder consisting of multiple layers of Convolutions
     and a fully connected layer in the end to obtain a 1D embedding vector
-    """    
+    """
+
     def __init__(
         self,
         latent_dim: int,
@@ -72,8 +73,7 @@ class CustomAutoEncoder(AutoEncoder):
 
         self.bottleneck_fcn_encode = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(np.prod((channels[-1], *self.enc_conv_out_shape)),
-                      latent_dim),
+            nn.Linear(np.prod((channels[-1], *self.enc_conv_out_shape)), latent_dim),
         )
 
         self.bottleneck_fcn_decode = nn.Sequential(
@@ -122,6 +122,8 @@ class CustomAutoEncoder(AutoEncoder):
 
 
 class TLPredictor(nn.Module):
+    """Generate 2D Embedding vector"""
+
     def __init__(
         self,
         image_size: int,
@@ -168,8 +170,7 @@ class TLPredictor(nn.Module):
         self.model = nn.Sequential(
             *encode_layers,
             nn.Flatten(),
-            nn.Linear(np.prod((channels[-1], *self.enc_conv_out_shape)),
-                      latent_dim)
+            nn.Linear(np.prod((channels[-1], *self.enc_conv_out_shape)), latent_dim)
         )
 
     def forward(self, x):

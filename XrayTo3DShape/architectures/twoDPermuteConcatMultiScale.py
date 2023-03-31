@@ -114,6 +114,7 @@ class MultiScale2DPermuteConcat(nn.Module):
                 strides=1,
                 act=config_decoder_2d["act"],
                 norm=config_decoder_2d["norm"],
+                dropout=config["dropout"],
             )
             for in_ch, out_ch in zip(
                 config_decoder_2d["in_channels"], config_decoder_2d["out_channels"]
@@ -130,6 +131,7 @@ class MultiScale2DPermuteConcat(nn.Module):
                 strides=1,
                 act=config_decoder_2d["act"],
                 norm=config_decoder_2d["norm"],
+                dropout=config["dropout"],
             )
             for in_ch, out_ch in zip(
                 config_decoder_2d["in_channels"], config_decoder_2d["out_channels"]
@@ -259,6 +261,7 @@ class MultiScale2DPermuteConcat(nn.Module):
                 kernel_size=config_fusion_3d["kernel_size"],
                 act="RELU",
                 norm="BATCH",
+                dropout=config["dropout"],
             )
             for in_ch, out_ch in zip(
                 config_fusion_3d["in_channels"], config_fusion_3d["out_channels"]
