@@ -6,6 +6,7 @@ import argparse
 import os
 from pathlib import Path
 
+import torch
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 
@@ -18,6 +19,8 @@ from XrayTo3DShape import (
     get_model,
     get_transform_from_model_name,
     model_experiment_dict,
+    TLPredictorExperiment,
+    CustomAutoEncoder,
 )
 
 
@@ -33,6 +36,7 @@ def parse_evaluation_arguments():
     parser.add_argument("--model_name")
     parser.add_argument("--ckpt_path")
     parser.add_argument("--res", type=float)
+    parser.add_argument("--load_autoencoder_from", type=str)
     parser.add_argument("--nsd_tolerance", type=float, default=1.5)
     parser.add_argument("--image_size", type=int)
     parser.add_argument("--output_path", default=None)
@@ -90,6 +94,47 @@ model_architecture = get_model(model_name=args.model_name, image_size=args.image
 model_module: pl.LightningModule = getattr(
     XrayTo3DShape.experiments, args.experiment_name
 )(model=model_architecture)
+
+if args.experiment_name == TLPredictorExperiment.__name__:
+    print(f"loading autoencoder from {args.load_autoencoder_from}")
+    ae_model = get_model(
+        model_name=CustomAutoEncoder.__name__, image_size=args.image_size
+    )
+    if Path(args.load_autoencoder_from).exists():
+        checkpoint = torch.load(args.load_autoencoder_from)
+    else:
+        raise ValueError(
+            f"autoencoder checkpoint {args.load_autoencoder_from} does not exist"
+        )
+    for key in list(checkpoint["state_dict"].keys()):
+        # model.layer1.conv1 -> layer1.conv1
+        modified_key = key.replace("model.", "")
+        value = checkpoint["state_dict"].pop(key)
+        checkpoint["state_dict"][modified_key] = value
+    if "loss_function.pos_weight" in checkpoint["state_dict"]:
+        checkpoint["state_dict"].pop("loss_function.pos_weight")
+
+    ae_model.load_state_dict(checkpoint["state_dict"], strict=True)
+    model_module.set_decoder(ae_model)  # type: ignore
+
+    # load model architecture
+    if Path(args.ckpt_path).exists():
+        checkpoint = torch.load(args.ckpt_path)
+    else:
+        raise ValueError(f"model checkpoint {args.ckpt_path} does not exist")
+    for key in list(checkpoint["state_dict"].keys()):
+        # model.layer1.conv1 -> layer1.conv1
+        if str(key).startswith("model."):
+            modified_key = str(key)[len("model.") :]
+            value = checkpoint["state_dict"].pop(key)
+            checkpoint["state_dict"][modified_key] = value
+    if "loss_function.pos_weight" in checkpoint["state_dict"]:
+        checkpoint["state_dict"].pop("loss_function.pos_weight")
+    print(checkpoint["state_dict"].keys())
+
+    model_architecture.load_state_dict(checkpoint["state_dict"], strict=False)
+    model_module.model = model_architecture
+
 trainer = pl.Trainer(
     callbacks=evaluation_callbacks, accelerator=args.accelerator, devices=args.devices
 )
@@ -97,5 +142,7 @@ trainer.predict(
     model=model_module,
     dataloaders=test_loader,
     return_predictions=False,
-    ckpt_path=args.ckpt_path,
+    ckpt_path=None
+    if args.experiment_name == TLPredictorExperiment.__name__
+    else args.ckpt_path,
 )
