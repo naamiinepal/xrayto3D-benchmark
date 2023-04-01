@@ -14,6 +14,7 @@ expt_dict = {
     "TwoDPermuteConcat": "ParallelHeadsExperiment",
     "AttentionUnet": "VolumeAsInputExperiment",
     "UNet": "VolumeAsInputExperiment",
+    "UNETR": "VolumeAsInputExperiment",
 }
 
 
@@ -23,14 +24,17 @@ parser.add_argument("--gpu", default=0, type=int)
 parser.add_argument("--batch_size", default=8)
 parser.add_argument("--img_size")
 parser.add_argument("--res")
+parser.add_argument("--tags", nargs="*")
 
 
 args = parser.parse_args()
 
+
 anatomy = get_anatomy_from_path(args.testpaths)
+
 # extract wandb runs
 wandb.login()
-runs = filter_wandb_run(anatomy=anatomy, verbose=False)
+runs = filter_wandb_run(anatomy=anatomy, tags=args.tags, verbose=False)
 
 if len(runs) == 0:
     print(f"found {len(runs)} wandb runs for anatomy {args.anatomy}. exiting ...")
