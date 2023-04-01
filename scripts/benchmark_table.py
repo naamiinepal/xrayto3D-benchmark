@@ -10,13 +10,14 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--anatomy", required=True)
+    parser.add_argument("--tags", nargs="*")
     args = parser.parse_args()
 
     EVAL_LOG_CSV_PATH_TEMPLATE = "/mnt/SSD0/mahesh-home/xrayto3D-benchmark/runs/2d-3d-benchmark/{run_id}/evaluation/metric-log.csv"
 
     # extract wandb runs
     wandb.login()
-    runs = filter_wandb_run(anatomy=args.anatomy, verbose=False)
+    runs = filter_wandb_run(anatomy=args.anatomy, tags=args.tags, verbose=False)
     for r in runs:
         print(r.id, r.config["MODEL_NAME"])
 
@@ -26,6 +27,7 @@ if __name__ == "__main__":
 
     # print latex table
     MODEL_NAMES = [
+        "UNETR",
         "AttentionUnet",
         "UNet",
         "MultiScale2DPermuteConcat",
