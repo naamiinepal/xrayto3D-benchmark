@@ -7,8 +7,8 @@ dependencies:
   - cudatoolkit=11
   - numpy=1.22
   - scipy=1.7
-  - scikit-learn=1.0  
-  - pytorch=1.12  
+  - scikit-learn=1.0
+  - pytorch=1.12
   - simpleitk=2.0 # get rid of ITK ERROR: ITK only supports orthonormal direction cosines.  No orthonormal definition found!
   - monai
   - torchvision
@@ -23,3 +23,4 @@ dependencies:
   - einops
   - pytorch-lightning
   - torchmetrics
+  - openpyxl
