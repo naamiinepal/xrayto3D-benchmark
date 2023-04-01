@@ -95,6 +95,10 @@ def update_args(args):
     """
     args.anatomy = get_anatomy_from_path(args.trainpaths)
 
+    # add dropout to tag if exists
+    if args.dropout:
+        args.tags.append("dropout")
+
     # assert the resolution and size agree for each anatomy
     orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
     assert int(args.size * args.res) == int(
