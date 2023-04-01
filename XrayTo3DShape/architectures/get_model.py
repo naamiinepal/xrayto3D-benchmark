@@ -15,57 +15,61 @@ from .twoDPermuteConcatMultiScale import MultiScale2DPermuteConcat
 
 
 def get_model(model_name, image_size, dropout=False) -> nn.Module:
+    """return encoder-decoder model"""
     if model_name in (OneDConcat.__name__, "OneDConcatModel"):
-        return OneDConcat(get_1dconcatmodel_config(image_size))
+        return OneDConcat(get_1dconcatmodel_config(image_size, dropout))
 
     elif model_name == AttentionUnet.__name__:
-        return AttentionUnet(spatial_dims=3, **get_attunet_config())
+        return AttentionUnet(spatial_dims=3, **get_attunet_config(dropout))
 
     elif model_name == SwinUNETR.__name__:
-        return SwinUNETR(**get_swinunetr_config(image_size))
+        return SwinUNETR(**get_swinunetr_config(image_size, dropout))
 
     elif model_name == UNETR.__name__:
         return UNETR(**get_unetr_config(image_size, dropout=dropout))
 
     elif model_name in (TwoDPermuteConcat.__name__, "TwoDPermuteConcatModel"):
-        return TwoDPermuteConcat(get_2dconcatmodel_config(image_size))
+        return TwoDPermuteConcat(get_2dconcatmodel_config(image_size, dropout))
 
     elif model_name == Unet.__name__:
         return Unet(spatial_dims=3, **get_unet_config(dropout))
 
     elif model_name == MultiScale2DPermuteConcat.__name__:
-        return MultiScale2DPermuteConcat(get_multiscale2dconcatmodel_config(image_size))
+        return MultiScale2DPermuteConcat(
+            get_multiscale2dconcatmodel_config(image_size, dropout)
+        )
 
     elif model_name == CustomAutoEncoder.__name__:
-        return CustomAutoEncoder(**get_autoencoder_config(image_size))
+        return CustomAutoEncoder(**get_autoencoder_config(image_size, dropout))
 
     elif model_name == TLPredictor.__name__:
-        return TLPredictor(**get_tlpredictor_config(image_size))
+        return TLPredictor(**get_tlpredictor_config(image_size, dropout))
     else:
         raise ValueError(f"invalid model name {model_name}")
 
 
 def get_model_config(model_name, image_size, dropout=False):
+    """model parameters"""
     if model_name in (OneDConcat.__name__, "OneDConcatModel"):
-        return get_1dconcatmodel_config(image_size)
+        return get_1dconcatmodel_config(image_size, dropout)
     elif model_name == AttentionUnet.__name__:
-        return get_attunet_config()
+        return get_attunet_config(dropout)
     elif model_name == SwinUNETR.__name__:
-        return get_swinunetr_config(image_size)
+        return get_swinunetr_config(image_size, dropout)
     elif model_name == UNETR.__name__:
         return get_unetr_config(image_size, dropout)
     elif model_name in (TwoDPermuteConcat.__name__, "TwoDPermuteConcatModel"):
-        return get_2dconcatmodel_config(image_size)
+        return get_2dconcatmodel_config(image_size, dropout)
     elif model_name == Unet.__name__:
         return get_unet_config(dropout)
     elif model_name == MultiScale2DPermuteConcat.__name__:
-        return get_multiscale2dconcatmodel_config(image_size)
+        return get_multiscale2dconcatmodel_config(image_size, dropout)
     elif model_name == AutoEncoder.__name__:
-        return get_autoencoder_config(image_size)
+        return get_autoencoder_config(image_size, dropout)
     elif model_name == CustomAutoEncoder.__name__:
-        return get_autoencoder_config(image_size)
+        return get_autoencoder_config(image_size, dropout)
     elif model_name == TLPredictor.__name__:
-        return get_tlpredictor_config(image_size)
+        return get_tlpredictor_config(image_size, dropout)
     else:
         raise ValueError(f"invalid model name {model_name}")
 
@@ -80,7 +84,7 @@ def get_unetr_config(image_size, dropout):
     return model_config
 
 
-def get_tlpredictor_config(image_size):
+def get_tlpredictor_config(image_size, dropout):
     model_config = {
         "image_size": image_size,
         "spatial_dims": 3,
@@ -89,11 +93,12 @@ def get_tlpredictor_config(image_size):
         "kernel_size": 3,
         "channels": [8, 16, 32, 64],
         "strides": [2, 2, 2, 2],
+        "dropout": 0.1 if dropout else 0.0,
     }
     return model_config
 
 
-def get_autoencoder_config(image_size):
+def get_autoencoder_config(image_size, dropout):
     model_config = {
         "image_size": image_size,
         "latent_dim": 64,
@@ -102,11 +107,12 @@ def get_autoencoder_config(image_size):
         "out_channels": 1,
         "channels": (8, 16, 32, 64),
         "strides": (2, 2, 2, 2),
+        "dropout": 0.1 if dropout else 0.0,
     }
     return model_config
 
 
-def get_swinunetr_config(image_size) -> Dict:
+def get_swinunetr_config(image_size, dropout) -> Dict:
     model_config = {
         "img_size": image_size,
         "in_channels": 2,
@@ -115,7 +121,7 @@ def get_swinunetr_config(image_size) -> Dict:
         "num_heads": (2, 2, 2, 2),
         "feature_size": 12,
         "norm_name": "instance",
-        "drop_rate": 0.0,
+        "drop_rate": 0.1 if dropout else 0.0,
         "attn_drop_rate": 0.0,
         "dropout_path_rate": 0.0,
         "normalize": True,
@@ -143,14 +149,17 @@ def get_unet_config(dropout):
     return model_config
 
 
-def get_multiscale2dconcatmodel_config(image_size):
+def get_multiscale2dconcatmodel_config(image_size, dropout):
     """fully conv: image size does not matter"""
     model_config = {
         "permute": True,
+        "dropout": 0.1 if dropout else 0.0,
         "encoder": {
             "initial_channel": 16,
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [4, 8, 16, 32, 64],
+            "out_channels": [2, 4, 8, 16, 32, 64]
+            if image_size == 128
+            else [4, 8, 16, 32, 64],
             "encoder_count": 4,
             "kernel_size": 3,
             "act": "RELU",
@@ -158,7 +167,7 @@ def get_multiscale2dconcatmodel_config(image_size):
         },
         "decoder_2D": {
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [8, 16, 32, 64, 128]
+            "out_channels": [4, 8, 16, 32, 64, 128]
             if image_size == 128
             else [4, 8, 16, 32, 64],
             "kernel_size": 3,
@@ -167,7 +176,9 @@ def get_multiscale2dconcatmodel_config(image_size):
         },
         "fusion_3D": {
             "in_channels": [],  # this will be filled in by autoconfig
-            "out_channels": [32, 32, 32, 32, 32],
+            "out_channels": [32, 32, 32, 32, 32, 32]
+            if image_size == 128
+            else [32, 32, 32, 32, 32],
             "kernel_size": 3,
             "act": "RELU",
             "norm": "BATCH",
@@ -218,7 +229,7 @@ def get_multiscale2dconcatmodel_config(image_size):
     return model_config
 
 
-def get_2dconcatmodel_config(image_size):
+def get_2dconcatmodel_config(image_size, dropout):
     """Inferring the 3D Standing Spine Posture from 2D Radiographs
     https://arxiv.org/abs/2007.06612
     default baseline for 64^3 volume
@@ -254,7 +265,7 @@ def get_2dconcatmodel_config(image_size):
             },
             "act": "RELU",
             "norm": "BATCH",
-            "dropout": 0.0,
+            "dropout": 0.1 if dropout else 0.0,
             "bias": True,
         }
     else:
@@ -263,7 +274,7 @@ def get_2dconcatmodel_config(image_size):
     return model_config
 
 
-def get_attunet_config():
+def get_attunet_config(dropout):
     """Attention U-Net: Learning Where to Look for the Pancreas
     https://arxiv.org/abs/1804.03999
     """
@@ -272,11 +283,12 @@ def get_attunet_config():
         "out_channels": 1,
         "channels": (8, 16, 32, 64, 128),
         "strides": (2, 2, 2, 2),
+        "dropout": 0.1 if dropout else 0.0,
     }
     return model_config
 
 
-def get_1dconcatmodel_config(image_size):
+def get_1dconcatmodel_config(image_size, dropout):
     """base model for 128^3 volume (2^7)"""
     bottleneck_size = 256
 
@@ -306,7 +318,7 @@ def get_1dconcatmodel_config(image_size):
             "kernel_size": 3,
             "act": "RELU",
             "norm": "BATCH",
-            "dropout": 0.0,
+            "dropout": 0.1 if dropout else 0.0,
             "bias": True,
             "bottleneck_size": bottleneck_size,
         }

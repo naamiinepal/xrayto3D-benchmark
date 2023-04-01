@@ -458,6 +458,7 @@ if __name__ == "__main__":
     lat_img = torch.zeros((1, 1, 64, 64))
     model_config = {
         "permute": True,
+        "dropout": 0.1,
         "encoder": {
             "initial_channel": 16,
             "in_channels": [],  # this will be filled in by autoconfig
@@ -483,33 +484,36 @@ if __name__ == "__main__":
             "norm": "BATCH",
         },
     }
-    # model_config = {
-    #     "permute": True,
-    #     "encoder": {
-    #         "initial_channel": 16,
-    #         "in_channels": [],  # this will be filled in by autoconfig
-    #         "out_channels": [2, 4, 8, 16, 32, 64],
-    #         "encoder_count": 4,
-    #         "kernel_size": 3,
-    #         "act": "RELU",
-    #         "norm": "BATCH",
-    #     },
-    #     "decoder_2D": {
-    #         "in_channels": [],  # this will be filled in by autoconfig
-    #         # "out_channels": [4, 8, 16, 32, 64, 128],
-    #         "out_channels": [2, 4, 8, 16, 32, 64],
-    #         "kernel_size": 3,
-    #         "act": "RELU",
-    #         "norm": "BATCH",
-    #     },
-    #     "fusion_3D": {
-    #         "in_channels": [],  # this will be filled in by autoconfig
-    #         "out_channels": [32, 32, 32, 32, 32, 32],
-    #         "kernel_size": 3,
-    #         "act": "RELU",
-    #         "norm": "BATCH",
-    #     },
-    # }
+    ap_img = torch.zeros((1, 1, 128, 128))
+    lat_img = torch.zeros((1, 1, 128, 128))
+    model_config = {
+        "permute": True,
+        "dropout": 0.1,
+        "encoder": {
+            "initial_channel": 16,
+            "in_channels": [],  # this will be filled in by autoconfig
+            "out_channels": [2, 4, 8, 16, 32, 64],
+            "encoder_count": 4,
+            "kernel_size": 3,
+            "act": "RELU",
+            "norm": "BATCH",
+        },
+        "decoder_2D": {
+            "in_channels": [],  # this will be filled in by autoconfig
+            "out_channels": [4, 8, 16, 32, 64, 128],
+            # "out_channels": [2, 4, 8, 16, 32, 64],
+            "kernel_size": 3,
+            "act": "RELU",
+            "norm": "BATCH",
+        },
+        "fusion_3D": {
+            "in_channels": [],  # this will be filled in by autoconfig
+            "out_channels": [32, 32, 32, 32, 32, 32],
+            "kernel_size": 3,
+            "act": "RELU",
+            "norm": "BATCH",
+        },
+    }
     enc_in = []
     for i in range(len(model_config["encoder"]["out_channels"])):
         if i == 0:
