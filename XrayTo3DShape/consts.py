@@ -41,7 +41,15 @@ anatomy_resolution_dict = {
     "hip": (288, 1.0),
     "verse": (96, 1.0),
 }
-
+MODEL_NAMES = [
+    "UNETR",
+    "AttentionUnet",
+    "UNet",
+    "MultiScale2DPermuteConcat",
+    "TwoDPermuteConcat",
+    "OneDConcat",
+    # "TLPredictor",
+]
 # model architecture : architecture dependent training regime
 model_experiment_dict = {
     CustomAutoEncoder.__name__: AutoencoderExperiment.__name__,

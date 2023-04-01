@@ -105,9 +105,9 @@ class MetricsLogger(BasePredictionWriter):
         )[0]
 
     def get_filename(self, prediction: Any):
+        """this will be column name identifier for each row"""
         return [
-            get_nifti_stem(p).split("_")[0]
-            for p in prediction["seg_meta_dict"]["filename_or_obj"]
+            get_nifti_stem(p) for p in prediction["seg_meta_dict"]["filename_or_obj"]
         ]
 
     def write_on_batch_end(

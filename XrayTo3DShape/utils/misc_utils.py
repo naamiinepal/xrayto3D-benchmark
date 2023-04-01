@@ -1,6 +1,31 @@
 """utils that do not belong anywhere else or do not require separate module yet"""
+import re
 from pathlib import Path
+from typing import Tuple
 import wandb
+
+
+def split_subject_vertebra_id(filepath) -> Tuple[str, str]:
+    """
+    accomodate these filenames too:
+     sub-verse061_22_seg-vert_msk.nii.gz (normal filenames)
+     sub-verse401_10_split-verse253_ct.tiff (ignore the first part)
+    """
+    original_filepath = filepath
+    if isinstance(filepath, str):
+        filepath = Path(filepath)
+
+    match = re.findall(r"\d+", filepath.name)  # find numbers from string
+    ids = list(map(int, match))
+    if len(ids) == 2:
+        subject_id, vertebra_id = ids
+    elif len(ids) == 3:
+        _, subject_id, vertebra_id = ids
+    else:
+        raise ValueError(
+            f"could not split {Path(original_filepath).name} into subject and vertebra. got {ids}"
+        )
+    return subject_id, vertebra_id
 
 
 def get_anatomy_from_path(path: str):
