@@ -27,19 +27,19 @@ if WANDB_ON:
 paths_location = "configs/test/Verse2020-DRR-test.csv"
 paths = pd.read_csv(paths_location, index_col=0).to_numpy()
 paths = [{"ap": ap, "lat": lat, "seg": seg} for ap, lat, seg in paths]
+size = 128
 
 ds = BaseDataset(
-    data=paths, transforms=get_nonkasten_transforms(size=64, resolution=1.5)
+    data=paths, transforms=get_nonkasten_transforms(size=size, resolution=1.5)
 )
 data_loader = DataLoader(ds, batch_size=BATCH_SIZE)
 ap, lat, seg = next(iter(data_loader))
 ap_tensor, lat_tensor, seg_tensor = ap["ap"], lat["lat"], seg["seg"]
 
+config = get_model_config(MultiScale2DPermuteConcat.__name__, size, False)
 
-config = get_model_config(MultiScale2DPermuteConcat.__name__, 128, False)
-
-
-x_ray_img = torch.zeros((1, 1, 128, 128))
+print(config)
+x_ray_img = torch.zeros((1, 1, size, size))
 
 model = MultiScale2DPermuteConcat(config)
 out = model(x_ray_img, x_ray_img)
@@ -59,7 +59,7 @@ for i in range(NUM_EPOCHS):
     optimizer.step()
     with torch.no_grad():
         eval_transform = Compose([Activations(sigmoid=True), AsDiscrete(threshold=0.5)])
-        ap_pred, _, lat_pred = get_projectionslices_from_3d(pred_seg_logits)
+        # ap_pred, _, lat_pred = get_projectionslices_from_3d(pred_seg_logits)
         # ngcc_loss = ngcc_loss_function(ap_pred,ap_tensor)
         pred_seg = eval_transform(pred_seg_logits)
         dice_metric_evaluator(y_pred=pred_seg, y=seg_tensor)
