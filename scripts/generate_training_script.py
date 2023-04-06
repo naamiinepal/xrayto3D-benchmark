@@ -1,3 +1,4 @@
+"""generate training script"""
 import argparse
 
 parser = argparse.ArgumentParser()
