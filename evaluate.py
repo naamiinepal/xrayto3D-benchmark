@@ -63,7 +63,8 @@ def update_args(args):
     args.precision = 16 if args.gpu == 0 else 32  # use bfloat16 on RTX 3090
     args.devices = os.cpu_count() if args.accelerator == "cpu" else [args.gpu]
     args.experiment_name = model_experiment_dict[args.model_name]
-    args.output_path = str(Path(args.ckpt_path) / "../evaluation")
+    if args.output_path is None:
+        args.output_path = str(Path(args.ckpt_path) / "../evaluation")
     args.ckpt_path = get_latest_checkpoint(args.ckpt_path)
     # assert resolution and size agree for each anatomy
     args.anatomy = get_anatomy_from_path(args.testpaths)
