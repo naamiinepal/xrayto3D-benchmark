@@ -1,6 +1,7 @@
+"""generate data sample filepaths split into train, val, test sets"""
 from pathlib import Path
 from typing import Sequence
-
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from xrayto3d_preprocess import read_config_and_load_components, read_subject_list
@@ -13,6 +14,7 @@ def get_individual_fullpaths(
     lat_pattern="*lat.png",
     seg_pattern="*msk.nii.gz",
 ):
+    """return ap, lat, seg filepaths"""
     derivatives_path = (
         Path(config.subjects.subject_basepath).resolve()
         / f"{subject_dir}"
@@ -28,6 +30,7 @@ def get_individual_fullpaths(
 
 
 def get_fullpaths(subject_list: Sequence, config, ap_pattern, lat_pattern, seg_pattern):
+    """return ap, lat, seg paths as dict"""
     print(ap_pattern, lat_pattern, seg_pattern)
     ap, lat, seg = [], [], []
     if config["dataset"] == "verse":
@@ -58,9 +61,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("config_file")
-    parser.add_argument("--ap", type=str, default="*hip-ap.png")
-    parser.add_argument("--lat", type=str, default="*hip-lat.png")
-    parser.add_argument("--seg", type=str, default="*hip_msk.nii.gz")
+    # parser.add_argument("--ap", type=str, default="*hip-ap.png")
+    # parser.add_argument("--lat", type=str, default="*hip-lat.png")
+    # parser.add_argument("--seg", type=str, default="*hip_msk.nii.gz")
+    parser.add_argument("--ap", type=str, default="*vert*_ap.png")
+    parser.add_argument("--lat", type=str, default="*vert*_lat.png")
+    parser.add_argument("--seg", type=str, default="*vert_msk.nii.gz")
     args = parser.parse_args()
     print(args)
     dataset = (
