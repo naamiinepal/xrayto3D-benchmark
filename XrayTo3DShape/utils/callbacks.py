@@ -62,14 +62,13 @@ class NiftiPredictionWriter(BasePredictionWriter):
         batch_idx: int,
         dataloader_idx: int,
     ) -> None:
+        metadict = {}
+        # metadict["filename_or_obj"] = prediction["seg_meta_dict"]["filename_or_obj"]
+        metadict = prediction["seg_meta_dict"]
         if self.save_pred:
-            self.pred_nifti_saver.save_batch(
-                prediction["pred"], prediction["seg_meta_dict"]
-            )
+            self.pred_nifti_saver.save_batch(prediction["pred"], metadict)
         if self.save_gt:
-            self.gt_nifti_saver.save_batch(
-                prediction["gt"], prediction["seg_meta_dict"]
-            )
+            self.gt_nifti_saver.save_batch(prediction["gt"], metadict)
 
 
 class MetricsLogger(BasePredictionWriter):
