@@ -1,7 +1,8 @@
+import json
 import sys
 
 import pandas as pd
-import json
+
 import wandb
 from XrayTo3DShape import filter_wandb_run, get_run_from_model_name
 
