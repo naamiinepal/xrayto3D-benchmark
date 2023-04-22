@@ -1,0 +1,8 @@
+Task, 	TestCase, 	Algorithm, 	MetricValue
+T1,case1,A1,0.266
+T1,case1,A2,0.202
+T1,case2,A1,0.573
+T1,case2,A2,0.945
+T2,case1,A1,0.372
+T2,case1,A2,0.898
+T2,case2,A1,0.908
