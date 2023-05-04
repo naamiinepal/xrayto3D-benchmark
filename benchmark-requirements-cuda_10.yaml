@@ -20,3 +20,4 @@ dependencies:
   - tqdm
   - einops
   - pytorch-lightning
+  - wandb-utils
