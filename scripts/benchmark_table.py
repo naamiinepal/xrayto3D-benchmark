@@ -50,7 +50,7 @@ if __name__ == "__main__":
         "TwoDPermuteConcat": "1.2M",
         "OneDConcat": "40.6M",
         "TLPredictor": "6.6M",
-        "UNETR": "",
+        "UNETR": "96.2M",
     }
     latex_table_row_template = r" & {model_name} & {model_size} & {DSC:.2f}  & {HD95:.2f} & {ASD:.2f}  & {NSD:.2f} \\"  # make this a raw string so that two backslashes \\ are not escaped and printed as is
 
@@ -83,10 +83,11 @@ if __name__ == "__main__":
             )
 
     print(latex_table)
-    json_outpath = (
-        f"metadata/{args.anatomy}_outdomain_{args.domain_shift_dataset}.json"
-        if args.domain_shift
-        else f"metadata/{args.anatomy}_indomain.json"
-    )
-    with open(json_outpath, "w") as fp:
-        json.dump(model_dsc_dict, fp)
+    if args.save_json:
+        json_outpath = (
+            f"metadata/{args.anatomy}_outdomain_{args.domain_shift_dataset}.json"
+            if args.domain_shift
+            else f"metadata/{args.anatomy}_indomain.json"
+        )
+        with open(json_outpath, "w") as fp:
+            json.dump(model_dsc_dict, fp)
