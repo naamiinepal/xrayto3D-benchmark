@@ -35,7 +35,7 @@ def get_anatomy_from_path(path: str):
     return "none" if unknown path is provided
     """
     anatomies = ["rib", "femur", "hip"]
-    vertebra_dataset = ["verse", "lidc", "rsna"]
+    vertebra_dataset = ["verse", "lidc", "rsna", "vertebra"]
     # check if the anatomy is mentioned in the path
     for anat in anatomies:
         if anat in path.lower():
