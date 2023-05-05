@@ -1,4 +1,6 @@
 """Multiscale2DPermuteConcat
+3D reconstruction of proximal femoral fracture from biplanar radiographs with fractural representative learning
+Authors: Danupong Buttongkum et al.
 https://www.nature.com/articles/s41598-023-27607-2
 """
 from typing import Dict
