@@ -20,6 +20,7 @@ expt_dict = {
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--testpaths")
+parser.add_argument('-ckpt_type', choices=['best', 'latest'], default='latest')
 parser.add_argument("--gpu", default=0, type=int)
 parser.add_argument("--batch_size", default=8)
 parser.add_argument("--img_size")
@@ -51,5 +52,5 @@ for model_name in expt_dict:
         else f"{ckpt_path}/../evaluation"
     )
 
-    command = f"python evaluate.py  --testpaths {args.testpaths} --gpu {args.gpu} --image_size {args.img_size} --batch_size {args.batch_size} --accelerator gpu --res {args.res} --model_name {model_name} --ckpt_path {ckpt_path} --gpu {args.gpu} --output_path {metric_log_output_path}\n"
+    command = f"python evaluate.py  --testpaths {args.testpaths} --gpu {args.gpu} --image_size {args.img_size} --batch_size {args.batch_size} --accelerator gpu --res {args.res} --model_name {model_name} --ckpt_path {ckpt_path} --ckpt_type {args.ckpt_type} --gpu {args.gpu} --output_path {metric_log_output_path}\n"
     print(command)
