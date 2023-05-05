@@ -43,7 +43,7 @@ var_definition += f"img_size={args.img_size}\n"
 var_definition += f"res={args.res}\n"
 var_definition += f"loss={args.loss}\n"
 
-with open("scripts/embed_decode_template.sh", "r") as f:
+with open("scripts/train_embed_decode_template.sh", "r") as f:
     template_script = f.readlines()
     full_script = str(var_definition) + "\n".join(template_script)
     print(full_script)
