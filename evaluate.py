@@ -37,6 +37,7 @@ def parse_evaluation_arguments():
     parser.add_argument("--testpaths")
     parser.add_argument("--model_name")
     parser.add_argument("--ckpt_path")
+    parser.add_argument('--ckpt_type', choices=['latest', 'best'], default='latest')
     parser.add_argument("--res", type=float)
     parser.add_argument("--load_autoencoder_from", type=str)
     parser.add_argument("--nsd_tolerance", type=float, default=1.5)
@@ -65,7 +66,12 @@ def update_args(args):
     args.experiment_name = model_experiment_dict[args.model_name]
     if args.output_path is None:
         args.output_path = str(Path(args.ckpt_path) / "../evaluation")
-    args.ckpt_path = get_latest_checkpoint(args.ckpt_path)
+    if args.ckpt_type == 'best':
+        args.ckpt_path = get_latest_checkpoint(args.ckpt_path, checkpoint_regex='epoch=*.ckpt')
+    elif args.ckpt_type == 'latest':
+        args.ckpt_path = get_latest_checkpoint(args.ckpt_path, checkpoint_regex='last*.ckpt')
+    else:
+        raise ValueError(f'ckpt_type can be either `best` or `latest` but got {args.ckpt_type}')
     # assert resolution and size agree for each anatomy
     args.anatomy = get_anatomy_from_path(args.testpaths)
     orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
