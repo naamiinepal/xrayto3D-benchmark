@@ -2,7 +2,7 @@
 entity_name=msrepo
 project_name=2d-3d-benchmark
 trainpaths=configs/paths/totalsegmentator_ribs/TotalSegmentor-ribs-DRR-full_train+val.csv
-testpaths=onfigs/paths/totalsegmentator_ribs/TotalSegmentor-ribs-DRR-full_test.csv
+testpaths=configs/paths/totalsegmentator_ribs/TotalSegmentor-ribs-DRR-full_test.csv
 gpu=0
 batch_size=8
 lr=0.0002
