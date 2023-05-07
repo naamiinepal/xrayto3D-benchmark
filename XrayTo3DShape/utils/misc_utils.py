@@ -50,7 +50,7 @@ def get_anatomy_from_path(path: str):
 def get_run_from_model_name(model_name, wandb_runs):
     """return the first wandb run with given model name"""
     for run in wandb_runs:
-        if model_name in run.config["MODEL_NAME"]:  # allow partial match
+        if model_name == run.config["MODEL_NAME"]:
             return run
     raise ValueError(f"{model_name} not found")
 
@@ -63,7 +63,13 @@ def filter_wandb_run(
 ):
     """find wandb runs that fulfil given criteria"""
     api = wandb.Api()
-    runs = api.runs(project_name, filters={"tags": {"$in": tags}})
+    filters_mongodb_query_operation ={}
+    if len(tags) <= 1:
+        filters_mongodb_query_operation["tags"] = {"$in": tags}
+    else:
+        filters_mongodb_query_operation["$and"] = [{"tags":{"$in":[k]}} for k in tags]
+    print(filters_mongodb_query_operation)
+    runs = api.runs(project_name, filters=filters_mongodb_query_operation)
     if verbose:
         print(f"found {len(runs)} unfiltered runs")
 
