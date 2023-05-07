@@ -113,19 +113,20 @@ def get_autoencoder_config(image_size, dropout):
 
 
 def get_swinunetr_config(image_size, dropout) -> Dict:
+    """these parameters were found by searching through possible model sizes"""
     model_config = {
         "img_size": image_size,
         "in_channels": 2,
         "out_channels": 1,
         "depths": (2, 2, 2, 2),
-        "num_heads": (2, 2, 2, 2),
-        "feature_size": 12,
+        "num_heads": (3, 6, 12, 24),
+        "feature_size": 48,
         "norm_name": "instance",
         "drop_rate": 0.1 if dropout else 0.0,
         "attn_drop_rate": 0.0,
         "dropout_path_rate": 0.0,
         "normalize": True,
-        "use_checkpoint": True,
+        "use_checkpoint": False,
         "spatial_dims": 3,
         "downsample": "merging",
     }

@@ -17,6 +17,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_json", default=False, action="store_true")
     args = parser.parse_args()
 
+    print(args)
     if args.domain_shift:
         subdir = f"domain_shift_{args.domain_shift_dataset}"
     else:
@@ -25,16 +26,20 @@ if __name__ == "__main__":
 
     # extract wandb runs
     wandb.login()
-    runs = filter_wandb_run(anatomy=args.anatomy, tags=args.tags, verbose=False)
+    runs = filter_wandb_run(anatomy=args.anatomy, tags=args.tags, verbose=True)
     for r in runs:
         print(r.id, r.config["MODEL_NAME"])
 
     if len(runs) == 0:
         print(f"found {len(runs)} wandb runs for anatomy {args.anatomy}. exiting ...")
         sys.exit()
+    else:
+        print(f"found {len(runs)} wandb runs for anatomy {args.anatomy}.")
+        
 
     # print latex table
     MODEL_NAMES = [
+        "SwinUNETR",
         "UNETR",
         "AttentionUnet",
         "UNet",
@@ -44,6 +49,7 @@ if __name__ == "__main__":
         "TLPredictor",
     ]
     model_sizes = {
+        "SwinUNETR": "62.2M",
         "AttentionUnet": "1.5M",
         "UNet": "1.2M",
         "MultiScale2DPermuteConcat": "3.5M",
@@ -60,8 +66,10 @@ if __name__ == "__main__":
         try:
             run = get_run_from_model_name(model, runs)
             # read metric log csv
+            csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(run_id=run.id, subdir=subdir)
+            print(f'reading {csv_filename}')
             df = pd.read_csv(
-                EVAL_LOG_CSV_PATH_TEMPLATE.format(run_id=run.id, subdir=subdir)
+                csv_filename
             )
             latex_table += latex_table_row_template.format(
                 model_name=run.config["MODEL_NAME"],

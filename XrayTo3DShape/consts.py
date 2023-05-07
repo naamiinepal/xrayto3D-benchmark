@@ -7,6 +7,7 @@ from typing import Dict
 from monai.networks.nets.attentionunet import AttentionUnet
 from monai.networks.nets.unet import UNet
 from monai.networks.nets.unetr import UNETR
+from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.transforms.compose import Compose
 
 from .architectures import (
@@ -57,6 +58,7 @@ model_experiment_dict = {
     UNet.__name__: VolumeAsInputExperiment.__name__,
     AttentionUnet.__name__: VolumeAsInputExperiment.__name__,
     UNETR.__name__: VolumeAsInputExperiment.__name__,
+    SwinUNETR.__name__: VolumeAsInputExperiment.__name__,
     TwoDPermuteConcat.__name__: ParallelHeadsExperiment.__name__,
     OneDConcat.__name__: ParallelHeadsExperiment.__name__,
     MultiScale2DPermuteConcat.__name__: ParallelHeadsExperiment.__name__,
