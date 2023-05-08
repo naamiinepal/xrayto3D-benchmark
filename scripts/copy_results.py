@@ -27,6 +27,7 @@ OUT_LOG_CSV_PATH_TEMPLATE = (
     "results/benchmarking/{anatomy}/{tag}/{model_name}/metric-log.csv"
 )
 MODEL_NAMES = [
+    "SwinUNETR",
     "UNETR",
     "AttentionUnet",
     "UNet",
