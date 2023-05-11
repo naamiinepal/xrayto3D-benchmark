@@ -68,7 +68,6 @@ def filter_wandb_run(
         filters_mongodb_query_operation["tags"] = {"$in": tags}
     else:
         filters_mongodb_query_operation["$and"] = [{"tags":{"$in":[k]}} for k in tags]
-    print(filters_mongodb_query_operation)
     runs = api.runs(project_name, filters=filters_mongodb_query_operation)
     if verbose:
         print(f"found {len(runs)} unfiltered runs")

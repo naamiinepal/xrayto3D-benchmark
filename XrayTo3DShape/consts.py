@@ -43,13 +43,14 @@ anatomy_resolution_dict = {
     "verse": (96, 1.0),
 }
 MODEL_NAMES = [
+    "SwinUNETR",
     "UNETR",
     "AttentionUnet",
     "UNet",
     "MultiScale2DPermuteConcat",
     "TwoDPermuteConcat",
     "OneDConcat",
-    # "TLPredictor",
+    "TLPredictor",
 ]
 # model architecture : architecture dependent training regime
 model_experiment_dict = {

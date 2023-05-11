@@ -5,24 +5,19 @@ import os
 import sys
 
 import pytorch_lightning as pl
+from monai.networks.nets.swin_unetr import SwinUNETR
 from monai.utils.misc import set_determinism
 from pytorch_lightning import seed_everything
 from pytorch_lightning.loggers.wandb import WandbLogger
 from torch.optim import Adam
 from torch.utils.data.dataloader import DataLoader
-from monai.networks.nets.swin_unetr import SwinUNETR
+
 import wandb
 import XrayTo3DShape
-from XrayTo3DShape import (
-    BaseExperiment,
-    anatomy_resolution_dict,
-    get_anatomy_from_path,
-    get_dataset,
-    get_loss,
-    get_transform_from_model_name,
-    model_experiment_dict,
-    printarr,
-)
+from XrayTo3DShape import (BaseExperiment, anatomy_resolution_dict,
+                           get_anatomy_from_path, get_dataset, get_loss,
+                           get_transform_from_model_name,
+                           model_experiment_dict, printarr)
 
 
 def parse_training_arguments():
@@ -80,7 +75,7 @@ def update_args(args):
         args.feature_size_val = 24
     if args.feature_size == 'large':
         args.feature_size_val = 48
-        
+
 if __name__ == "__main__":
     args = parse_training_arguments()
     args.model_name = SwinUNETR.__name__
