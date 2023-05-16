@@ -23,8 +23,8 @@ model_sizes = {
     "UNETR": "96.2M",
 }
 
-ANATOMY = 'hip'
-tags = ['dropout', 'model-compare']
+ANATOMY = "hip"
+tags = ["dropout", "model-compare"]
 wandb.login()
 runs = filter_wandb_run(anatomy=ANATOMY, tags=tags, verbose=False)
 latex_table_row_template = r" & {model_name} & {model_size} & {ASIS_L:.2f}  & {ASIS_R:.2f}  & {PT_L:.2f} & {PT_R:.2f}  & {IS_L:.2f}  & {IS_R:.2f}  & {PSIS_L:.2f}  & {PSIS_R:.2f}\\"  # make this a raw string so that two backslashes \\ are not escaped and printed as is
@@ -35,18 +35,19 @@ latex_table = ""
 
 for model_name in MODEL_NAMES:
     run = get_run_from_model_name(model_name, runs)
-    csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(run_id=run.id,subdir=subdir)
+    csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(run_id=run.id, subdir=subdir)
     df = pd.read_csv(csv_filename)
     print(df)
     latex_table += latex_table_row_template.format(
         model_name=run.config["MODEL_NAME"],
-        ASIS_L=df.mean(numeric_only=True).ASIS_L,
-        ASIS_R=df.mean(numeric_only=True).ASIS_R,
-        PT_L=df.mean(numeric_only=True).PT_L,
-        PT_R=df.mean(numeric_only=True).PT_R,
-        IS_L=df.mean(numeric_only=True).IS_L,
-        IS_R=df.mean(numeric_only=True).IS_R,
-        PSIS_L=df.mean(numeric_only=True).PSIS_L,
-        PSIS_R=df.mean(numeric_only=True).PSIS_R,        model_size=model_sizes[model_name],
+        ASIS_L=df.median(numeric_only=True).ASIS_L,
+        ASIS_R=df.median(numeric_only=True).ASIS_R,
+        PT_L=df.median(numeric_only=True).PT_L,
+        PT_R=df.median(numeric_only=True).PT_R,
+        IS_L=df.median(numeric_only=True).IS_L,
+        IS_R=df.median(numeric_only=True).IS_R,
+        PSIS_L=df.median(numeric_only=True).PSIS_L,
+        PSIS_R=df.median(numeric_only=True).PSIS_R,
+        model_size=model_sizes[model_name],
     )
-print(latex_table)    
+print(latex_table)
