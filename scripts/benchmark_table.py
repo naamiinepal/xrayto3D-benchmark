@@ -35,18 +35,17 @@ if __name__ == "__main__":
         sys.exit()
     else:
         print(f"found {len(runs)} wandb runs for anatomy {args.anatomy}.")
-        
 
     # print latex table
     MODEL_NAMES = [
         "SwinUNETR",
-        "UNETR",
         "AttentionUnet",
+        "TwoDPermuteConcat",
         "UNet",
         "MultiScale2DPermuteConcat",
-        "TwoDPermuteConcat",
-        "OneDConcat",
+        "UNETR",
         "TLPredictor",
+        "OneDConcat",
     ]
     model_sizes = {
         "SwinUNETR": "62.2M",
@@ -66,14 +65,14 @@ if __name__ == "__main__":
         try:
             run = get_run_from_model_name(model, runs)
             # read metric log csv
-            csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(run_id=run.id, subdir=subdir)
-            print(f'reading {csv_filename}')
-            df = pd.read_csv(
-                csv_filename
+            csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(
+                run_id=run.id, subdir=subdir
             )
+            print(f"reading {csv_filename}")
+            df = pd.read_csv(csv_filename)
             latex_table += latex_table_row_template.format(
                 model_name=run.config["MODEL_NAME"],
-                DSC=df.mean(numeric_only=True).DSC,
+                DSC=df.mean(numeric_only=True).DSC * 100,
                 HD95=df.mean(numeric_only=True).HD95,
                 ASD=df.mean(numeric_only=True).ASD,
                 NSD=df.mean(numeric_only=True).NSD,

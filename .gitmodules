@@ -16,3 +16,6 @@
 [submodule "external/xrayto3D-morphometry"]
 	path = external/xrayto3D-morphometry
 	url = git@github.com:naamiinepal/xrayto3D-morphometry.git
+[submodule "external/Projective-Spatial-Transformers"]
+	path = external/Projective-Spatial-Transformers
+	url = https://github.com/gaocong13/Projective-Spatial-Transformers.git
