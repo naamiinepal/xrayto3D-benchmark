@@ -1,7 +1,7 @@
 subject-id,DSC,ASD,HD95,NSD,model,anatomy
 sub-verse138_vert-16-seg-vert_msk,0.88,0.5,1.73,0.91,SwinUNETR,vertebra
 s0624_hip_msk,0.9,0.66,1.73,0.63,SwinUNETR,hip
-s0859_femur_left_msk,0.85,2.35,6.78,0.47,SwinUNETR,femur
+s0859_femur_left_msk,0.87,2.16,6.08,0.54,SwinUNETR,femur
 s1110_rib_msk,0.48,1.1,7.87,0.38,SwinUNETR,rib
 sub-verse138_vert-16-seg-vert_msk,0.89,0.5,1.41,0.94,AttentionUnet,vertebra
 s0624_hip_msk,0.83,0.95,3.32,0.4,OneDConcat,hip
@@ -50,7 +50,7 @@ s0334_rib_msk,0.51,1.0,7.35,0.42,UNETR,rib
 sub-verse138_vert-17-seg-vert_msk,0.86,0.58,2.24,0.85,OneDConcat,vertebra
 s0334_rib_msk,0.61,0.79,3.0,0.52,UNet,rib
 s0139_hip_msk,0.82,0.95,3.74,0.38,TLPredictor,hip
-s0859_femur_right_msk,0.86,1.92,11.05,0.56,SwinUNETR,femur
+s0859_femur_right_msk,0.84,2.28,11.75,0.54,SwinUNETR,femur
 s0334_rib_msk,0.63,0.65,2.83,0.55,AttentionUnet,rib
 s0859_femur_right_msk,0.87,1.95,6.0,0.52,UNETR,femur
 s0139_hip_msk,0.89,0.6,2.24,0.6,TwoDPermuteConcat,hip
@@ -64,7 +64,7 @@ sub-verse138_vert-17-seg-vert_msk,0.87,0.62,2.0,0.89,SwinUNETR,vertebra
 s0139_hip_msk,0.88,0.69,2.83,0.55,UNet,hip
 s0334_rib_msk,0.39,1.48,5.48,0.34,TLPredictor,rib
 s1372_rib_msk,0.47,1.07,4.12,0.45,TwoDPermuteConcat,rib
-s0592_femur_left_msk,0.95,0.71,2.24,0.9,SwinUNETR,femur
+s0592_femur_left_msk,0.95,0.67,2.24,0.9,SwinUNETR,femur
 s0232_hip_msk,0.76,1.45,3.74,0.33,OneDConcat,hip
 sub-verse138_vert-18-seg-vert_msk,0.89,0.58,1.73,0.92,SwinUNETR,vertebra
 s1372_rib_msk,0.58,0.66,6.67,0.53,SwinUNETR,rib
@@ -116,7 +116,7 @@ sub-verse138_vert-19-seg-vert_msk,0.9,0.53,1.73,0.92,SwinUNETR,vertebra
 s0040_hip_msk,0.84,0.8,2.83,0.49,OneDConcat,hip
 s0447_rib_msk,0.44,1.09,4.9,0.48,MultiScale2DPermuteConcat,rib
 sub-verse138_vert-19-seg-vert_msk,0.88,0.63,2.0,0.89,AttentionUnet,vertebra
-s0592_femur_right_msk,0.94,0.82,2.45,0.87,SwinUNETR,femur
+s0592_femur_right_msk,0.94,0.72,2.45,0.87,SwinUNETR,femur
 s0447_rib_msk,0.54,0.72,3.61,0.56,SwinUNETR,rib
 s0040_hip_msk,0.9,0.57,1.73,0.66,SwinUNETR,hip
 s0040_hip_msk,0.83,0.94,3.0,0.43,TLPredictor,hip
@@ -134,7 +134,7 @@ s0375_femur_left_msk,0.93,1.13,2.83,0.79,OneDConcat,femur
 s0473_hip_msk,0.85,0.82,2.83,0.5,MultiScale2DPermuteConcat,hip
 sub-verse138_vert-20-seg-vert_msk,0.86,0.68,2.24,0.84,TLPredictor,vertebra
 s0582_rib_msk,0.37,1.25,7.35,0.37,UNETR,rib
-s0375_femur_left_msk,0.94,0.9,3.0,0.86,SwinUNETR,femur
+s0375_femur_left_msk,0.95,0.76,2.24,0.9,SwinUNETR,femur
 s0375_femur_left_msk,0.95,0.76,2.24,0.91,TwoDPermuteConcat,femur
 sub-verse138_vert-20-seg-vert_msk,0.87,0.65,1.73,0.9,UNETR,vertebra
 s0473_hip_msk,0.82,1.13,3.0,0.49,SwinUNETR,hip
@@ -173,7 +173,7 @@ sub-verse138_vert-21-seg-vert_msk,0.89,0.59,2.0,0.9,UNet,vertebra
 s0607_hip_msk,0.83,0.94,3.16,0.42,TLPredictor,hip
 s0392_rib_msk,0.4,1.38,5.74,0.37,UNETR,rib
 s0607_hip_msk,0.89,0.69,2.45,0.56,UNet,hip
-s0375_femur_right_msk,0.94,0.92,3.0,0.85,SwinUNETR,femur
+s0375_femur_right_msk,0.95,0.74,2.24,0.89,SwinUNETR,femur
 sub-verse138_vert-21-seg-vert_msk,0.85,0.73,2.45,0.8,OneDConcat,vertebra
 s0607_hip_msk,0.9,0.65,2.0,0.62,SwinUNETR,hip
 s0392_rib_msk,0.37,1.38,17.35,0.31,OneDConcat,rib
@@ -196,7 +196,7 @@ s1120_hip_msk,0.71,1.57,5.0,0.36,SwinUNETR,hip
 s0918_femur_left_msk,0.83,2.22,8.12,0.44,AttentionUnet,femur
 s1018_rib_msk,0.51,0.88,10.77,0.49,MultiScale2DPermuteConcat,rib
 sub-verse138_vert-22-seg-vert_msk,0.9,0.58,1.73,0.91,UNETR,vertebra
-s0918_femur_left_msk,0.81,2.46,7.81,0.42,SwinUNETR,femur
+s0918_femur_left_msk,0.81,2.33,9.06,0.46,SwinUNETR,femur
 s1120_hip_msk,0.61,2.08,7.07,0.2,OneDConcat,hip
 s1018_rib_msk,0.34,1.45,7.35,0.37,UNETR,rib
 s1018_rib_msk,0.21,1.82,17.12,0.28,OneDConcat,rib
@@ -247,7 +247,7 @@ s0918_femur_right_msk,0.94,0.93,2.83,0.84,TwoDPermuteConcat,femur
 s0798_rib_msk,0.24,1.79,22.36,0.3,OneDConcat,rib
 sub-verse138_vert-23-seg-vert_msk,0.84,0.83,2.45,0.79,MultiScale2DPermuteConcat,vertebra
 s0763_hip_msk,0.87,0.71,2.24,0.52,TwoDPermuteConcat,hip
-s0918_femur_right_msk,0.93,1.08,3.16,0.8,SwinUNETR,femur
+s0918_femur_right_msk,0.94,0.89,3.0,0.83,SwinUNETR,femur
 sub-verse138_vert-23-seg-vert_msk,0.89,0.6,2.0,0.9,AttentionUnet,vertebra
 s0763_hip_msk,0.81,1.0,3.0,0.37,OneDConcat,hip
 s0798_rib_msk,0.54,0.95,5.0,0.59,AttentionUnet,rib
@@ -274,7 +274,7 @@ sub-verse138_vert-24-seg-vert_msk,0.81,1.05,3.61,0.69,OneDConcat,vertebra
 s1349_hip_msk,0.78,1.63,4.24,0.33,UNETR,hip
 s1058_rib_msk,0.31,1.48,7.87,0.33,UNETR,rib
 sub-verse138_vert-24-seg-vert_msk,0.84,0.86,3.61,0.71,TwoDPermuteConcat,vertebra
-s0776_femur_left_msk,0.92,1.11,3.61,0.74,SwinUNETR,femur
+s0776_femur_left_msk,0.94,0.84,2.83,0.84,SwinUNETR,femur
 s0776_femur_left_msk,0.95,0.73,2.24,0.9,UNet,femur
 s1058_rib_msk,0.17,2.21,18.38,0.2,OneDConcat,rib
 s1349_hip_msk,0.84,0.88,3.61,0.42,UNet,hip
@@ -298,7 +298,7 @@ s0776_femur_right_msk,0.95,0.72,2.24,0.92,AttentionUnet,femur
 s0182_hip_msk,0.83,0.94,2.83,0.43,UNETR,hip
 sub-verse058_vert-19-seg-vert_msk,0.87,0.64,2.0,0.9,MultiScale2DPermuteConcat,vertebra
 s0111_rib_msk,0.51,1.06,8.94,0.45,MultiScale2DPermuteConcat,rib
-s0776_femur_right_msk,0.94,0.86,3.0,0.84,SwinUNETR,femur
+s0776_femur_right_msk,0.95,0.73,2.24,0.89,SwinUNETR,femur
 sub-verse058_vert-19-seg-vert_msk,0.85,0.83,2.24,0.87,TLPredictor,vertebra
 s0182_hip_msk,0.87,0.66,2.24,0.58,AttentionUnet,hip
 s0776_femur_right_msk,0.93,1.08,3.16,0.77,TLPredictor,femur
@@ -319,7 +319,7 @@ s0776_femur_right_msk,0.95,0.75,2.24,0.91,TwoDPermuteConcat,femur
 sub-verse058_vert-19-seg-vert_msk,0.87,0.66,1.73,0.9,UNet,vertebra
 s0182_hip_msk,0.88,0.66,2.24,0.59,SwinUNETR,hip
 s0111_rib_msk,0.35,1.79,7.55,0.34,UNETR,rib
-s0074_femur_left_msk,0.91,1.67,3.61,0.73,SwinUNETR,femur
+s0074_femur_left_msk,0.94,0.89,2.45,0.83,SwinUNETR,femur
 s1069_hip_msk,0.87,0.7,3.0,0.54,MultiScale2DPermuteConcat,hip
 s0065_rib_msk,0.57,0.83,4.0,0.53,SwinUNETR,rib
 sub-verse058_vert-20-seg-vert_msk,0.89,0.57,1.41,0.93,UNet,vertebra
@@ -358,7 +358,7 @@ s0074_femur_right_msk,0.94,0.97,2.83,0.88,AttentionUnet,femur
 s0370_hip_msk,0.89,0.64,2.24,0.59,AttentionUnet,hip
 s0641_rib_msk,0.31,1.7,14.63,0.31,OneDConcat,rib
 sub-verse058_vert-21-seg-vert_msk,0.9,0.45,1.41,0.93,UNETR,vertebra
-s0074_femur_right_msk,0.91,2.72,14.87,0.78,SwinUNETR,femur
+s0074_femur_right_msk,0.94,1.62,3.0,0.89,SwinUNETR,femur
 sub-verse058_vert-21-seg-vert_msk,0.89,0.5,1.41,0.94,SwinUNETR,vertebra
 s0074_femur_right_msk,0.92,1.16,3.32,0.77,TLPredictor,femur
 s0370_hip_msk,0.86,0.86,3.0,0.46,OneDConcat,hip
@@ -406,7 +406,7 @@ s1247_femur_left_msk,0.93,0.94,2.83,0.83,TLPredictor,femur
 s0668_hip_msk,0.77,1.09,3.46,0.36,OneDConcat,hip
 sub-verse058_vert-22-seg-vert_msk,0.87,0.63,1.73,0.91,UNETR,vertebra
 s0499_rib_msk,0.61,0.65,2.45,0.62,AttentionUnet,rib
-s1247_femur_left_msk,0.93,0.96,3.0,0.82,SwinUNETR,femur
+s1247_femur_left_msk,0.94,0.76,2.24,0.89,SwinUNETR,femur
 s1247_femur_left_msk,0.95,0.7,2.24,0.94,AttentionUnet,femur
 s0668_hip_msk,0.85,0.79,2.45,0.53,SwinUNETR,hip
 sub-verse058_vert-22-seg-vert_msk,0.88,0.54,2.24,0.89,MultiScale2DPermuteConcat,vertebra
@@ -434,7 +434,7 @@ s0425_rib_msk,0.65,0.65,2.24,0.61,AttentionUnet,rib
 s0468_hip_msk,0.81,1.07,4.0,0.36,OneDConcat,hip
 s0425_rib_msk,0.58,0.91,2.83,0.52,UNet,rib
 sub-verse058_vert-23-seg-vert_msk,0.86,0.72,2.0,0.87,OneDConcat,vertebra
-s1247_femur_right_msk,0.94,0.77,2.83,0.87,SwinUNETR,femur
+s1247_femur_right_msk,0.94,0.77,3.0,0.87,SwinUNETR,femur
 s1247_femur_right_msk,0.94,0.72,2.24,0.9,TwoDPermuteConcat,femur
 s0468_hip_msk,0.84,0.89,3.0,0.44,AttentionUnet,hip
 sub-verse058_vert-23-seg-vert_msk,0.88,0.59,2.0,0.91,MultiScale2DPermuteConcat,vertebra
@@ -449,7 +449,7 @@ s1247_femur_right_msk,0.94,0.79,2.24,0.88,MultiScale2DPermuteConcat,femur
 s0425_rib_msk,0.62,0.74,3.16,0.54,SwinUNETR,rib
 s0737_rib_msk,0.54,0.8,5.0,0.55,SwinUNETR,rib
 sub-verse058_vert-24-seg-vert_msk,0.87,0.69,2.0,0.89,SwinUNETR,vertebra
-s0648_femur_left_msk,0.93,1.03,3.0,0.85,SwinUNETR,femur
+s0648_femur_left_msk,0.96,0.61,2.0,0.95,SwinUNETR,femur
 s0250_hip_msk,0.76,1.28,4.12,0.31,OneDConcat,hip
 s0250_hip_msk,0.85,0.9,2.83,0.48,SwinUNETR,hip
 sub-verse058_vert-24-seg-vert_msk,0.85,0.76,2.24,0.84,TwoDPermuteConcat,vertebra
@@ -491,7 +491,7 @@ s0918_rib_msk,0.41,1.35,4.12,0.37,TLPredictor,rib
 sub-verse152_vert-19-seg-vert_msk,0.9,0.54,1.41,0.97,TwoDPermuteConcat,vertebra
 s0726_hip_msk,0.82,0.94,3.0,0.42,UNETR,hip
 s0648_femur_right_msk,0.95,0.8,2.24,0.93,UNet,femur
-s0648_femur_right_msk,0.92,1.19,3.16,0.77,SwinUNETR,femur
+s0648_femur_right_msk,0.94,0.9,2.83,0.85,SwinUNETR,femur
 s0726_hip_msk,0.82,0.94,2.83,0.46,AttentionUnet,hip
 sub-verse152_vert-19-seg-vert_msk,0.9,0.54,1.41,0.97,UNETR,vertebra
 s0918_rib_msk,0.34,1.68,12.73,0.32,OneDConcat,rib
@@ -542,7 +542,7 @@ s0743_rib_msk,0.51,1.12,3.0,0.52,UNet,rib
 s1347_hip_msk,0.84,0.93,3.32,0.44,TLPredictor,hip
 sub-verse152_vert-20-seg-vert_msk,0.88,0.55,1.73,0.93,AttentionUnet,vertebra
 s0743_rib_msk,0.3,1.77,7.28,0.31,TLPredictor,rib
-s1069_femur_left_msk,0.94,0.92,2.83,0.84,SwinUNETR,femur
+s1069_femur_left_msk,0.95,0.73,2.24,0.92,SwinUNETR,femur
 s1044_hip_msk,0.89,0.64,3.0,0.57,UNETR,hip
 sub-verse152_vert-21-seg-vert_msk,0.89,0.54,1.73,0.92,UNETR,vertebra
 s0919_rib_msk,0.49,0.93,4.58,0.51,AttentionUnet,rib
@@ -562,7 +562,7 @@ s1069_femur_right_msk,0.95,0.77,2.24,0.89,MultiScale2DPermuteConcat,femur
 s1044_hip_msk,0.9,0.62,2.24,0.61,SwinUNETR,hip
 s0919_rib_msk,0.27,1.74,9.44,0.31,TLPredictor,rib
 sub-verse152_vert-21-seg-vert_msk,0.9,0.54,1.73,0.95,AttentionUnet,vertebra
-s1069_femur_right_msk,0.94,0.84,2.45,0.88,SwinUNETR,femur
+s1069_femur_right_msk,0.95,0.68,2.24,0.92,SwinUNETR,femur
 s0919_rib_msk,0.38,1.37,13.42,0.37,UNETR,rib
 sub-verse152_vert-21-seg-vert_msk,0.9,0.55,1.41,0.95,TwoDPermuteConcat,vertebra
 s1069_femur_right_msk,0.95,0.73,2.24,0.92,UNet,femur
@@ -594,7 +594,7 @@ s0210_femur_left_msk,0.94,0.85,2.45,0.86,TwoDPermuteConcat,femur
 s1016_hip_msk,0.85,0.84,3.0,0.44,TwoDPermuteConcat,hip
 sub-verse152_vert-22-seg-vert_msk,0.89,0.59,1.73,0.92,SwinUNETR,vertebra
 s0095_rib_msk,0.42,1.56,7.62,0.35,SwinUNETR,rib
-s0210_femur_left_msk,0.93,1.0,3.0,0.78,SwinUNETR,femur
+s0210_femur_left_msk,0.94,0.82,2.83,0.85,SwinUNETR,femur
 s0095_rib_msk,0.18,2.46,11.36,0.19,TLPredictor,rib
 sub-verse152_vert-22-seg-vert_msk,0.9,0.5,1.41,0.94,MultiScale2DPermuteConcat,vertebra
 s0210_femur_left_msk,0.94,0.9,2.83,0.84,MultiScale2DPermuteConcat,femur
@@ -608,7 +608,7 @@ s0210_femur_left_msk,0.94,0.84,2.45,0.88,AttentionUnet,femur
 s1016_hip_msk,0.73,1.41,4.9,0.25,TLPredictor,hip
 sub-verse152_vert-22-seg-vert_msk,0.86,0.76,2.0,0.88,TLPredictor,vertebra
 s0592_hip_msk,0.77,1.3,4.12,0.37,TLPredictor,hip
-s0210_femur_right_msk,0.88,2.51,5.83,0.62,SwinUNETR,femur
+s0210_femur_right_msk,0.9,1.36,5.0,0.64,SwinUNETR,femur
 s1380_rib_msk,0.6,0.68,4.24,0.59,SwinUNETR,rib
 sub-verse152_vert-23-seg-vert_msk,0.86,0.82,2.0,0.87,UNet,vertebra
 s0592_hip_msk,0.84,0.89,3.0,0.5,MultiScale2DPermuteConcat,hip
@@ -642,7 +642,7 @@ s0592_hip_msk,0.83,1.02,3.0,0.49,UNet,hip
 sub-verse152_vert-24-seg-vert_msk,0.85,0.82,2.24,0.82,TwoDPermuteConcat,vertebra
 s1330_rib_msk,0.61,0.84,8.12,0.52,MultiScale2DPermuteConcat,rib
 s0091_hip_msk,0.88,0.74,3.0,0.52,MultiScale2DPermuteConcat,hip
-s0885_femur_left_msk,0.93,1.04,3.74,0.77,SwinUNETR,femur
+s0885_femur_left_msk,0.93,0.93,4.24,0.8,SwinUNETR,femur
 sub-verse152_vert-24-seg-vert_msk,0.83,0.95,2.83,0.8,UNETR,vertebra
 s0091_hip_msk,0.84,0.89,3.0,0.44,UNETR,hip
 s1330_rib_msk,0.61,0.82,2.45,0.51,TwoDPermuteConcat,rib
@@ -678,7 +678,7 @@ sub-verse068_vert-16-seg-vert_msk,0.85,0.59,2.24,0.87,AttentionUnet,vertebra
 sub-verse068_vert-16-seg-vert_msk,0.82,0.81,2.24,0.83,TLPredictor,vertebra
 s0386_rib_msk,0.19,11.32,32.76,0.36,UNet,rib
 s1336_hip_msk,0.88,0.63,2.45,0.57,UNETR,hip
-s0885_femur_right_msk,0.93,0.96,3.32,0.79,SwinUNETR,femur
+s0885_femur_right_msk,0.94,0.85,3.74,0.83,SwinUNETR,femur
 s0885_femur_right_msk,0.93,0.95,3.74,0.81,AttentionUnet,femur
 s1336_hip_msk,0.88,0.67,2.83,0.57,UNet,hip
 sub-verse068_vert-16-seg-vert_msk,0.85,0.67,2.0,0.87,SwinUNETR,vertebra
@@ -709,7 +709,7 @@ s0945_rib_msk,0.41,1.25,4.69,0.44,UNETR,rib
 s0212_femur_left_msk,0.95,0.74,2.24,0.93,UNet,femur
 s0505_hip_msk,0.84,0.92,3.74,0.44,TLPredictor,hip
 s0945_rib_msk,0.55,0.92,2.24,0.59,TwoDPermuteConcat,rib
-s0212_femur_left_msk,0.93,1.04,2.83,0.82,SwinUNETR,femur
+s0212_femur_left_msk,0.93,1.04,3.0,0.79,SwinUNETR,femur
 sub-verse068_vert-17-seg-vert_msk,0.85,0.63,2.24,0.87,UNETR,vertebra
 sub-verse068_vert-17-seg-vert_msk,0.87,0.58,1.73,0.9,TwoDPermuteConcat,vertebra
 s0212_femur_left_msk,0.93,1.13,3.61,0.79,TLPredictor,femur
@@ -764,7 +764,7 @@ s0483_hip_msk,0.81,0.94,3.32,0.43,AttentionUnet,hip
 s1089_rib_msk,0.44,1.26,4.36,0.4,UNETR,rib
 s0212_femur_right_msk,0.95,0.82,2.24,0.9,TLPredictor,femur
 s1089_rib_msk,0.58,0.87,3.16,0.53,UNet,rib
-s0212_femur_right_msk,0.95,0.8,2.24,0.88,SwinUNETR,femur
+s0212_femur_right_msk,0.95,0.69,2.24,0.9,SwinUNETR,femur
 s0483_hip_msk,0.81,1.05,3.16,0.41,SwinUNETR,hip
 sub-verse068_vert-18-seg-vert_msk,0.86,0.68,2.24,0.84,UNet,vertebra
 s1130_femur_left_msk,0.94,0.89,2.83,0.87,TwoDPermuteConcat,femur
@@ -795,7 +795,7 @@ sub-verse068_vert-19-seg-vert_msk,0.85,0.78,2.24,0.85,SwinUNETR,vertebra
 s0982_rib_msk,0.18,2.76,15.17,0.15,TwoDPermuteConcat,rib
 s0314_hip_msk,0.85,0.76,2.45,0.49,AttentionUnet,hip
 s1130_femur_left_msk,0.93,0.99,3.0,0.81,TLPredictor,femur
-s1130_femur_left_msk,0.94,1.0,3.32,0.82,SwinUNETR,femur
+s1130_femur_left_msk,0.95,0.72,2.24,0.91,SwinUNETR,femur
 sub-verse068_vert-19-seg-vert_msk,0.86,0.65,2.24,0.83,UNet,vertebra
 s0314_hip_msk,0.79,1.03,4.58,0.34,TLPredictor,hip
 s0982_rib_msk,0.21,2.77,14.21,0.19,UNet,rib
@@ -813,7 +813,7 @@ s0940_hip_msk,0.86,0.77,2.45,0.5,TwoDPermuteConcat,hip
 sub-verse068_vert-20-seg-vert_msk,0.77,0.82,3.74,0.67,OneDConcat,vertebra
 sub-verse068_vert-20-seg-vert_msk,0.73,0.95,4.69,0.62,MultiScale2DPermuteConcat,vertebra
 s0940_hip_msk,0.82,0.97,3.32,0.37,OneDConcat,hip
-s1130_femur_right_msk,0.93,1.04,3.32,0.82,SwinUNETR,femur
+s1130_femur_right_msk,0.96,0.64,2.24,0.92,SwinUNETR,femur
 s1029_rib_msk,0.58,0.76,3.61,0.54,AttentionUnet,rib
 sub-verse068_vert-20-seg-vert_msk,0.75,0.95,3.0,0.7,UNETR,vertebra
 s1029_rib_msk,0.56,0.87,5.92,0.48,SwinUNETR,rib
@@ -858,7 +858,7 @@ s0928_hip_msk,0.71,1.57,5.2,0.25,TLPredictor,hip
 s1042_rib_msk,0.39,1.39,8.25,0.37,UNet,rib
 sub-verse068_vert-21-seg-vert_msk,0.83,0.78,2.24,0.79,TLPredictor,vertebra
 s0928_hip_msk,0.83,1.05,3.0,0.46,SwinUNETR,hip
-s0988_femur_left_msk,0.92,1.31,4.12,0.7,SwinUNETR,femur
+s0988_femur_left_msk,0.94,0.89,2.83,0.84,SwinUNETR,femur
 s1042_rib_msk,0.12,2.39,9.7,0.19,TLPredictor,rib
 s0928_hip_msk,0.73,1.39,5.2,0.29,OneDConcat,hip
 sub-verse068_vert-21-seg-vert_msk,0.83,0.71,2.24,0.84,UNETR,vertebra
@@ -882,7 +882,7 @@ s1305_rib_msk,0.19,2.09,6.4,0.29,TLPredictor,rib
 sub-verse068_vert-22-seg-vert_msk,0.86,0.61,2.45,0.81,OneDConcat,vertebra
 s1305_rib_msk,0.35,1.25,10.05,0.37,SwinUNETR,rib
 s0049_hip_msk,0.82,0.97,3.0,0.44,AttentionUnet,hip
-s0988_femur_right_msk,0.83,2.51,8.06,0.43,SwinUNETR,femur
+s0988_femur_right_msk,0.88,1.74,5.39,0.57,SwinUNETR,femur
 sub-verse068_vert-22-seg-vert_msk,0.87,0.61,2.24,0.87,MultiScale2DPermuteConcat,vertebra
 s1305_rib_msk,0.29,1.77,9.27,0.34,UNETR,rib
 s0049_hip_msk,0.83,0.99,3.0,0.46,SwinUNETR,hip
@@ -926,11 +926,11 @@ s1143_femur_left_msk,0.95,0.86,2.45,0.88,TwoDPermuteConcat,femur
 s0344_rib_msk,0.32,1.7,13.42,0.31,OneDConcat,rib
 s0636_hip_msk,0.81,0.93,3.0,0.43,UNETR,hip
 sub-verse068_vert-23-seg-vert_msk,0.87,0.65,2.24,0.85,SwinUNETR,vertebra
-s1143_femur_left_msk,0.92,1.44,4.47,0.76,SwinUNETR,femur
+s1143_femur_left_msk,0.94,0.96,3.0,0.85,SwinUNETR,femur
 s0728_hip_msk,0.8,0.91,3.74,0.43,UNETR,hip
 s0556_rib_msk,0.56,0.97,2.83,0.53,UNet,rib
 sub-verse068_vert-24-seg-vert_msk,0.82,0.74,4.0,0.73,OneDConcat,vertebra
-s1143_femur_right_msk,0.91,1.86,9.22,0.76,SwinUNETR,femur
+s1143_femur_right_msk,0.94,1.08,3.61,0.85,SwinUNETR,femur
 s0728_hip_msk,0.85,0.72,3.46,0.56,MultiScale2DPermuteConcat,hip
 sub-verse068_vert-24-seg-vert_msk,0.81,0.72,4.12,0.7,MultiScale2DPermuteConcat,vertebra
 s1143_femur_right_msk,0.89,1.6,5.1,0.63,TLPredictor,femur
@@ -963,7 +963,7 @@ s0502_femur_left_msk,0.93,1.1,3.16,0.78,UNETR,femur
 sub-verse409_split-verse266_vert-10-seg-vert_msk,0.74,1.01,3.46,0.7,UNet,vertebra
 s0975_rib_msk,0.41,1.23,12.35,0.35,MultiScale2DPermuteConcat,rib
 s1348_hip_msk,0.85,0.82,3.0,0.48,MultiScale2DPermuteConcat,hip
-s0502_femur_left_msk,0.93,0.97,3.0,0.8,SwinUNETR,femur
+s0502_femur_left_msk,0.95,0.8,2.45,0.86,SwinUNETR,femur
 s0975_rib_msk,0.35,1.64,5.92,0.32,UNETR,rib
 sub-verse409_split-verse266_vert-10-seg-vert_msk,0.79,0.76,4.58,0.79,AttentionUnet,vertebra
 s1348_hip_msk,0.88,0.64,2.45,0.55,TwoDPermuteConcat,hip
@@ -998,7 +998,7 @@ s0046_rib_msk,0.5,1.05,3.61,0.47,TwoDPermuteConcat,rib
 s0046_rib_msk,0.32,1.71,13.75,0.31,OneDConcat,rib
 s0600_hip_msk,0.86,0.85,3.0,0.47,MultiScale2DPermuteConcat,hip
 sub-verse409_split-verse266_vert-11-seg-vert_msk,0.69,1.16,3.74,0.62,MultiScale2DPermuteConcat,vertebra
-s0502_femur_right_msk,0.95,0.78,2.24,0.9,SwinUNETR,femur
+s0502_femur_right_msk,0.96,0.62,2.0,0.94,SwinUNETR,femur
 sub-verse409_split-verse266_vert-11-seg-vert_msk,0.67,1.5,4.24,0.62,AttentionUnet,vertebra
 s0046_rib_msk,0.54,0.77,4.0,0.5,AttentionUnet,rib
 s0600_hip_msk,0.87,0.84,3.0,0.48,UNet,hip
@@ -1027,7 +1027,7 @@ sub-verse409_split-verse266_vert-12-seg-vert_msk,0.73,1.12,4.24,0.71,TwoDPermute
 s0141_femur_left_msk,0.93,0.96,3.0,0.82,UNETR,femur
 s0163_hip_msk,0.76,1.39,4.12,0.34,UNETR,hip
 s1337_rib_msk,0.59,0.88,2.45,0.54,TwoDPermuteConcat,rib
-s0141_femur_left_msk,0.93,0.93,2.83,0.86,SwinUNETR,femur
+s0141_femur_left_msk,0.95,0.7,2.0,0.92,SwinUNETR,femur
 s0163_hip_msk,0.75,1.28,5.39,0.28,TLPredictor,hip
 s1337_rib_msk,0.47,1.21,5.0,0.43,UNETR,rib
 sub-verse409_split-verse266_vert-12-seg-vert_msk,0.7,1.93,7.0,0.71,SwinUNETR,vertebra
@@ -1074,7 +1074,7 @@ sub-verse409_split-verse266_vert-13-seg-vert_msk,0.69,1.5,4.42,0.61,MultiScale2D
 s1161_rib_msk,0.25,1.81,11.36,0.25,TLPredictor,rib
 s0772_hip_msk,0.82,0.94,3.61,0.39,UNETR,hip
 sub-verse409_split-verse266_vert-13-seg-vert_msk,0.66,2.11,7.29,0.61,AttentionUnet,vertebra
-s0141_femur_right_msk,0.93,1.02,3.32,0.82,SwinUNETR,femur
+s0141_femur_right_msk,0.95,0.69,2.24,0.92,SwinUNETR,femur
 s0772_hip_msk,0.85,0.8,3.0,0.49,AttentionUnet,hip
 sub-verse409_split-verse266_vert-13-seg-vert_msk,0.65,1.6,5.43,0.53,OneDConcat,vertebra
 s1161_rib_msk,0.58,0.89,3.61,0.51,AttentionUnet,rib
@@ -1102,7 +1102,7 @@ s0550_rib_msk,0.34,1.67,13.45,0.3,OneDConcat,rib
 s0680_hip_msk,0.9,0.56,2.24,0.64,SwinUNETR,hip
 sub-verse409_split-verse266_vert-14-seg-vert_msk,0.67,1.8,5.39,0.62,UNETR,vertebra
 s0550_rib_msk,0.56,0.97,3.0,0.51,UNet,rib
-s1238_femur_left_msk,0.91,1.36,5.0,0.71,SwinUNETR,femur
+s1238_femur_left_msk,0.92,1.19,3.74,0.75,SwinUNETR,femur
 s0550_rib_msk,0.58,0.85,4.58,0.49,SwinUNETR,rib
 s0680_hip_msk,0.89,0.65,3.0,0.57,UNet,hip
 sub-verse409_split-verse266_vert-14-seg-vert_msk,0.64,2.38,7.81,0.58,AttentionUnet,vertebra
@@ -1150,7 +1150,7 @@ s1238_femur_right_msk,0.95,0.75,2.24,0.92,UNet,femur
 s1008_hip_msk,0.89,0.65,2.0,0.63,SwinUNETR,hip
 s0502_rib_msk,0.62,0.77,3.0,0.56,MultiScale2DPermuteConcat,rib
 sub-verse409_split-verse266_vert-15-seg-vert_msk,0.72,1.4,5.74,0.64,TwoDPermuteConcat,vertebra
-s1238_femur_right_msk,0.94,1.02,3.46,0.82,SwinUNETR,femur
+s1238_femur_right_msk,0.96,0.7,2.24,0.92,SwinUNETR,femur
 s1322_hip_msk,0.88,0.64,2.24,0.58,TwoDPermuteConcat,hip
 s0845_rib_msk,0.57,0.84,3.0,0.59,TwoDPermuteConcat,rib
 sub-verse409_split-verse266_vert-16-seg-vert_msk,0.75,1.35,4.47,0.7,AttentionUnet,vertebra
@@ -1170,7 +1170,7 @@ s1322_hip_msk,0.89,0.59,1.73,0.64,SwinUNETR,hip
 s1322_hip_msk,0.88,0.65,2.24,0.57,MultiScale2DPermuteConcat,hip
 sub-verse409_split-verse266_vert-16-seg-vert_msk,0.79,1.01,4.12,0.71,UNet,vertebra
 s0845_rib_msk,0.45,1.08,4.12,0.48,UNETR,rib
-s0509_femur_left_msk,0.73,4.68,14.76,0.32,SwinUNETR,femur
+s0509_femur_left_msk,0.75,5.52,22.16,0.4,SwinUNETR,femur
 s0845_rib_msk,0.63,0.59,4.9,0.64,SwinUNETR,rib
 sub-verse409_split-verse266_vert-16-seg-vert_msk,0.69,2.15,7.36,0.63,SwinUNETR,vertebra
 s1322_hip_msk,0.88,0.69,2.45,0.56,UNet,hip
@@ -1195,7 +1195,7 @@ s0931_hip_msk,0.85,0.78,2.24,0.56,SwinUNETR,hip
 s0115_rib_msk,0.41,1.61,5.1,0.35,UNETR,rib
 sub-verse409_split-verse266_vert-17-seg-vert_msk,0.68,1.9,6.4,0.57,SwinUNETR,vertebra
 s0509_femur_right_msk,0.8,3.22,8.37,0.34,TLPredictor,femur
-s0509_femur_right_msk,0.82,2.73,8.06,0.44,SwinUNETR,femur
+s0509_femur_right_msk,0.86,1.97,6.71,0.56,SwinUNETR,femur
 sub-verse409_split-verse266_vert-17-seg-vert_msk,0.68,1.69,5.1,0.51,TLPredictor,vertebra
 s0931_hip_msk,0.87,0.68,2.24,0.56,TwoDPermuteConcat,hip
 s0115_rib_msk,0.51,1.11,4.12,0.44,TwoDPermuteConcat,rib
@@ -1227,7 +1227,7 @@ s1348_femur_left_msk,0.9,1.28,5.83,0.67,TLPredictor,femur
 s0939_rib_msk,0.57,0.78,11.36,0.48,SwinUNETR,rib
 s0774_hip_msk,0.8,1.1,3.61,0.39,TLPredictor,hip
 sub-verse409_split-verse266_vert-18-seg-vert_msk,0.71,1.9,6.56,0.6,SwinUNETR,vertebra
-s1348_femur_left_msk,0.92,1.12,4.9,0.73,SwinUNETR,femur
+s1348_femur_left_msk,0.93,0.93,5.0,0.78,SwinUNETR,femur
 s0774_hip_msk,0.86,0.71,2.0,0.56,SwinUNETR,hip
 s0939_rib_msk,0.52,0.96,9.17,0.46,MultiScale2DPermuteConcat,rib
 sub-verse409_split-verse266_vert-18-seg-vert_msk,0.72,1.85,6.71,0.59,AttentionUnet,vertebra
@@ -1247,7 +1247,7 @@ sub-verse409_split-verse266_vert-18-seg-vert_msk,0.72,1.5,4.9,0.54,TLPredictor,v
 s0939_rib_msk,0.64,0.75,5.83,0.57,TwoDPermuteConcat,rib
 s0774_hip_msk,0.86,0.7,2.24,0.57,AttentionUnet,hip
 s1348_femur_left_msk,0.92,1.16,5.1,0.7,MultiScale2DPermuteConcat,femur
-s1348_femur_right_msk,0.91,1.23,4.9,0.69,SwinUNETR,femur
+s1348_femur_right_msk,0.93,0.89,5.1,0.78,SwinUNETR,femur
 s0979_hip_msk,0.9,0.69,2.45,0.57,MultiScale2DPermuteConcat,hip
 s0531_rib_msk,0.56,0.71,3.16,0.6,AttentionUnet,rib
 sub-verse409_split-verse266_vert-19-seg-vert_msk,0.74,1.29,5.0,0.57,TLPredictor,vertebra
@@ -1300,7 +1300,7 @@ s1120_rib_msk,0.32,1.55,15.62,0.34,OneDConcat,rib
 s0581_hip_msk,0.88,0.62,2.24,0.59,OneDConcat,hip
 s0174_femur_left_msk,0.9,1.29,3.32,0.73,TwoDPermuteConcat,femur
 s0581_hip_msk,0.88,0.66,2.24,0.58,UNETR,hip
-s0174_femur_left_msk,0.92,1.0,2.83,0.85,SwinUNETR,femur
+s0174_femur_left_msk,0.93,0.87,2.83,0.86,SwinUNETR,femur
 s1120_rib_msk,0.6,0.63,7.87,0.57,SwinUNETR,rib
 sub-verse409_split-verse266_vert-20-seg-vert_msk,0.7,1.51,5.39,0.48,OneDConcat,vertebra
 s0581_hip_msk,0.9,0.57,1.73,0.68,SwinUNETR,hip
@@ -1326,7 +1326,7 @@ s1373_hip_msk,0.87,0.69,2.24,0.57,AttentionUnet,hip
 s1373_hip_msk,0.87,0.74,2.83,0.53,MultiScale2DPermuteConcat,hip
 sub-verse409_split-verse266_vert-21-seg-vert_msk,0.68,1.26,7.21,0.45,UNet,vertebra
 s0869_rib_msk,0.57,0.86,7.55,0.53,MultiScale2DPermuteConcat,rib
-s0174_femur_right_msk,0.91,1.09,3.16,0.8,SwinUNETR,femur
+s0174_femur_right_msk,0.91,1.1,3.61,0.77,SwinUNETR,femur
 s0174_femur_right_msk,0.92,0.98,2.83,0.82,AttentionUnet,femur
 s0869_rib_msk,0.39,1.34,5.39,0.35,TLPredictor,rib
 s1373_hip_msk,0.85,0.81,2.83,0.48,OneDConcat,hip
@@ -1361,7 +1361,7 @@ sub-verse409_split-verse266_vert-22-seg-vert_msk,0.78,0.92,4.15,0.62,TwoDPermute
 s1149_femur_left_msk,0.92,1.27,3.74,0.75,MultiScale2DPermuteConcat,femur
 sub-verse409_split-verse266_vert-22-seg-vert_msk,0.69,1.2,7.07,0.44,OneDConcat,vertebra
 s0394_rib_msk,0.46,1.11,6.0,0.4,TwoDPermuteConcat,rib
-s1149_femur_left_msk,0.91,1.34,4.47,0.73,SwinUNETR,femur
+s1149_femur_left_msk,0.91,1.25,5.0,0.75,SwinUNETR,femur
 s1005_hip_msk,0.77,1.42,4.69,0.3,TLPredictor,hip
 s1149_femur_left_msk,0.92,1.1,4.0,0.77,UNet,femur
 sub-verse409_split-verse266_vert-22-seg-vert_msk,0.67,1.1,6.4,0.54,SwinUNETR,vertebra
@@ -1401,7 +1401,7 @@ s0461_rib_msk,0.47,1.07,4.12,0.49,MultiScale2DPermuteConcat,rib
 s1149_femur_right_msk,0.85,2.26,6.16,0.45,OneDConcat,femur
 s0082_hip_msk,0.88,0.65,1.73,0.58,AttentionUnet,hip
 sub-verse409_split-verse266_vert-23-seg-vert_msk,0.63,1.46,6.4,0.38,UNet,vertebra
-s1149_femur_right_msk,0.89,1.76,5.39,0.65,SwinUNETR,femur
+s1149_femur_right_msk,0.9,1.44,4.12,0.67,SwinUNETR,femur
 s0461_rib_msk,0.54,0.8,2.45,0.53,AttentionUnet,rib
 s0461_rib_msk,0.28,1.78,5.0,0.32,TLPredictor,rib
 s0082_hip_msk,0.83,0.9,3.0,0.41,TLPredictor,hip
@@ -1417,7 +1417,7 @@ sub-verse409_split-verse266_vert-24-seg-vert_msk,0.77,1.01,5.1,0.56,UNet,vertebr
 s0669_rib_msk,0.47,1.13,3.16,0.5,TwoDPermuteConcat,rib
 sub-verse409_split-verse266_vert-24-seg-vert_msk,0.69,1.13,7.07,0.42,MultiScale2DPermuteConcat,vertebra
 s0669_rib_msk,0.43,1.31,5.1,0.45,UNETR,rib
-s0768_femur_left_msk,0.92,1.46,4.47,0.79,SwinUNETR,femur
+s0768_femur_left_msk,0.93,0.87,2.45,0.86,SwinUNETR,femur
 s0963_hip_msk,0.75,1.41,4.12,0.32,UNet,hip
 s0768_femur_left_msk,0.9,1.38,3.61,0.68,TLPredictor,femur
 sub-verse409_split-verse266_vert-24-seg-vert_msk,0.74,1.13,4.47,0.51,AttentionUnet,vertebra
@@ -1447,7 +1447,7 @@ s0768_femur_right_msk,0.94,0.75,2.83,0.88,TwoDPermuteConcat,femur
 sub-verse409_split-verse266_vert-8-seg-vert_msk,0.79,0.69,2.83,0.8,MultiScale2DPermuteConcat,vertebra
 s0775_rib_msk,0.6,0.91,2.45,0.57,UNet,rib
 s0399_hip_msk,0.73,1.24,5.2,0.32,OneDConcat,hip
-s0768_femur_right_msk,0.92,2.1,10.73,0.81,SwinUNETR,femur
+s0768_femur_right_msk,0.95,0.72,2.24,0.9,SwinUNETR,femur
 s0775_rib_msk,0.55,0.96,3.0,0.54,MultiScale2DPermuteConcat,rib
 s0399_hip_msk,0.72,1.35,4.69,0.3,TLPredictor,hip
 sub-verse409_split-verse266_vert-8-seg-vert_msk,0.84,0.58,1.73,0.91,AttentionUnet,vertebra
@@ -1487,7 +1487,7 @@ s0698_rib_msk,0.34,1.6,5.1,0.34,UNet,rib
 sub-verse409_split-verse266_vert-9-seg-vert_msk,0.86,0.55,1.95,0.92,UNETR,vertebra
 s1276_femur_left_msk,0.95,0.67,2.24,0.93,TwoDPermuteConcat,femur
 s0385_hip_msk,0.72,1.45,4.69,0.28,UNETR,hip
-s1276_femur_left_msk,0.94,0.78,2.45,0.89,SwinUNETR,femur
+s1276_femur_left_msk,0.94,0.76,2.83,0.87,SwinUNETR,femur
 s0698_rib_msk,0.27,1.81,19.95,0.24,OneDConcat,rib
 sub-verse409_split-verse266_vert-9-seg-vert_msk,0.84,0.69,2.45,0.89,SwinUNETR,vertebra
 s0385_hip_msk,0.79,1.19,3.74,0.34,UNet,hip
@@ -1513,7 +1513,7 @@ sub-verse073_vert-20-seg-vert_msk,0.88,0.62,1.73,0.91,UNETR,vertebra
 s1276_femur_right_msk,0.93,0.88,2.45,0.86,OneDConcat,femur
 s0191_rib_msk,0.39,0.82,8.19,0.33,SwinUNETR,rib
 s0626_hip_msk,0.85,0.86,2.24,0.55,SwinUNETR,hip
-s1276_femur_right_msk,0.94,0.77,2.45,0.87,SwinUNETR,femur
+s1276_femur_right_msk,0.94,0.73,2.24,0.89,SwinUNETR,femur
 sub-verse073_vert-20-seg-vert_msk,0.83,0.85,2.45,0.8,TLPredictor,vertebra
 s0191_rib_msk,0.33,2.86,15.34,0.34,UNETR,rib
 s0626_hip_msk,0.81,0.91,3.16,0.43,UNETR,hip
@@ -1553,7 +1553,7 @@ s1339_hip_msk,0.89,0.69,2.0,0.64,SwinUNETR,hip
 s0072_femur_left_msk,0.91,1.0,5.1,0.76,AttentionUnet,femur
 sub-verse073_vert-21-seg-vert_msk,0.88,0.6,1.73,0.92,TwoDPermuteConcat,vertebra
 s1339_hip_msk,0.87,0.62,2.0,0.6,AttentionUnet,hip
-s0072_femur_left_msk,0.9,1.09,8.77,0.7,SwinUNETR,femur
+s0072_femur_left_msk,0.91,0.97,7.0,0.74,SwinUNETR,femur
 s0880_rib_msk,0.51,0.95,3.32,0.53,AttentionUnet,rib
 s0880_rib_msk,0.27,1.75,16.79,0.29,OneDConcat,rib
 s0072_femur_left_msk,0.91,1.02,5.0,0.75,TwoDPermuteConcat,femur
@@ -1581,7 +1581,7 @@ s1228_rib_msk,0.48,0.96,3.16,0.52,AttentionUnet,rib
 s0383_hip_msk,0.87,0.71,2.24,0.56,SwinUNETR,hip
 s1228_rib_msk,0.32,1.61,5.1,0.37,UNETR,rib
 sub-verse073_vert-22-seg-vert_msk,0.84,0.83,2.24,0.82,OneDConcat,vertebra
-s0072_femur_right_msk,0.89,1.25,7.21,0.66,SwinUNETR,femur
+s0072_femur_right_msk,0.91,0.99,7.07,0.75,SwinUNETR,femur
 s0383_hip_msk,0.87,0.66,2.24,0.56,TwoDPermuteConcat,hip
 sub-verse073_vert-22-seg-vert_msk,0.81,0.96,3.0,0.73,UNet,vertebra
 s0383_hip_msk,0.84,0.78,3.0,0.51,MultiScale2DPermuteConcat,hip
@@ -1610,7 +1610,7 @@ sub-verse073_vert-23-seg-vert_msk,0.87,0.67,2.0,0.87,SwinUNETR,vertebra
 s0598_rib_msk,0.59,0.8,5.0,0.52,SwinUNETR,rib
 s0924_hip_msk,0.85,0.82,2.24,0.52,SwinUNETR,hip
 sub-verse073_vert-23-seg-vert_msk,0.84,0.8,2.24,0.81,UNet,vertebra
-s0880_femur_left_msk,0.86,2.17,7.07,0.58,SwinUNETR,femur
+s0880_femur_left_msk,0.87,1.96,6.48,0.57,SwinUNETR,femur
 s0880_femur_left_msk,0.75,4.54,13.56,0.34,OneDConcat,femur
 sub-verse073_vert-23-seg-vert_msk,0.8,1.12,3.0,0.72,TLPredictor,vertebra
 s0598_rib_msk,0.57,1.0,3.74,0.52,TwoDPermuteConcat,rib
@@ -1632,7 +1632,7 @@ sub-verse073_vert-23-seg-vert_msk,0.88,0.6,2.0,0.9,TwoDPermuteConcat,vertebra
 s0598_rib_msk,0.33,1.66,12.57,0.28,TLPredictor,rib
 s0924_hip_msk,0.79,1.07,3.74,0.36,TLPredictor,hip
 sub-verse073_vert-24-seg-vert_msk,0.85,0.75,2.24,0.82,OneDConcat,vertebra
-s0880_femur_right_msk,0.94,0.93,3.16,0.83,SwinUNETR,femur
+s0880_femur_right_msk,0.95,0.78,2.83,0.87,SwinUNETR,femur
 s0746_hip_msk,0.84,0.86,2.83,0.46,OneDConcat,hip
 s1090_rib_msk,0.57,0.87,3.61,0.5,TwoDPermuteConcat,rib
 s1090_rib_msk,0.55,0.86,5.92,0.48,SwinUNETR,rib
@@ -1665,7 +1665,7 @@ s0880_femur_right_msk,0.9,1.5,4.12,0.64,TLPredictor,femur
 s0746_hip_msk,0.84,0.87,3.16,0.46,TLPredictor,hip
 s0593_hip_msk,0.81,0.93,3.0,0.41,OneDConcat,hip
 sub-verse095_vert-10-seg-vert_msk,0.85,0.61,1.41,0.94,UNet,vertebra
-s0428_femur_left_msk,0.92,1.21,3.61,0.74,SwinUNETR,femur
+s0428_femur_left_msk,0.95,0.74,2.24,0.9,SwinUNETR,femur
 s1387_rib_msk,0.35,1.68,14.87,0.29,OneDConcat,rib
 s0593_hip_msk,0.83,1.17,2.83,0.45,UNETR,hip
 sub-verse095_vert-10-seg-vert_msk,0.85,0.55,1.41,0.93,MultiScale2DPermuteConcat,vertebra
@@ -1714,7 +1714,7 @@ s0428_femur_right_msk,0.91,1.25,3.46,0.76,TLPredictor,femur
 s0687_hip_msk,0.87,0.68,2.24,0.57,TwoDPermuteConcat,hip
 s0752_rib_msk,0.38,1.55,6.4,0.35,UNet,rib
 sub-verse095_vert-11-seg-vert_msk,0.78,0.8,2.24,0.86,AttentionUnet,vertebra
-s0428_femur_right_msk,0.91,1.21,3.74,0.76,SwinUNETR,femur
+s0428_femur_right_msk,0.94,0.84,2.83,0.87,SwinUNETR,femur
 s0752_rib_msk,0.41,1.3,9.11,0.38,MultiScale2DPermuteConcat,rib
 sub-verse095_vert-11-seg-vert_msk,0.77,0.81,2.24,0.85,UNETR,vertebra
 s0428_femur_right_msk,0.94,0.85,2.45,0.88,UNet,femur
@@ -1736,7 +1736,7 @@ s0869_hip_msk,0.87,0.77,2.24,0.52,SwinUNETR,hip
 sub-verse095_vert-12-seg-vert_msk,0.87,0.48,1.41,0.96,SwinUNETR,vertebra
 s0833_rib_msk,0.34,1.45,13.89,0.36,OneDConcat,rib
 s0869_hip_msk,0.84,0.93,3.0,0.43,UNETR,hip
-s0614_femur_left_msk,0.94,0.85,2.45,0.87,SwinUNETR,femur
+s0614_femur_left_msk,0.95,0.74,2.45,0.9,SwinUNETR,femur
 s0833_rib_msk,0.49,1.12,4.12,0.49,UNet,rib
 sub-verse095_vert-12-seg-vert_msk,0.83,0.69,1.73,0.9,UNet,vertebra
 s0869_hip_msk,0.86,0.8,2.45,0.5,MultiScale2DPermuteConcat,hip
@@ -1785,7 +1785,7 @@ sub-verse095_vert-13-seg-vert_msk,0.83,0.69,2.0,0.92,TwoDPermuteConcat,vertebra
 s0614_femur_right_msk,0.94,0.89,2.24,0.89,UNETR,femur
 s0613_rib_msk,0.58,0.89,3.0,0.53,UNet,rib
 s0029_hip_msk,0.82,0.95,3.0,0.4,UNet,hip
-s0614_femur_right_msk,0.95,0.8,2.24,0.92,SwinUNETR,femur
+s0614_femur_right_msk,0.95,0.72,2.0,0.94,SwinUNETR,femur
 sub-verse095_vert-13-seg-vert_msk,0.82,0.74,2.0,0.9,OneDConcat,vertebra
 s0613_rib_msk,0.54,0.76,4.47,0.46,SwinUNETR,rib
 sub-verse095_vert-13-seg-vert_msk,0.87,0.56,1.41,0.95,SwinUNETR,vertebra
@@ -1798,7 +1798,7 @@ s1174_rib_msk,0.55,0.92,3.74,0.51,AttentionUnet,rib
 s1174_rib_msk,0.51,1.09,6.78,0.48,MultiScale2DPermuteConcat,rib
 s0842_hip_msk,0.84,0.78,2.83,0.51,SwinUNETR,hip
 sub-verse095_vert-14-seg-vert_msk,0.87,0.53,1.41,0.94,UNETR,vertebra
-s0171_femur_left_msk,0.93,0.91,3.61,0.8,SwinUNETR,femur
+s0171_femur_left_msk,0.94,0.75,3.0,0.84,SwinUNETR,femur
 sub-verse095_vert-14-seg-vert_msk,0.86,0.56,1.41,0.94,AttentionUnet,vertebra
 s0171_femur_left_msk,0.9,1.45,4.24,0.64,OneDConcat,femur
 s0842_hip_msk,0.78,1.09,4.24,0.35,UNETR,hip
@@ -1844,7 +1844,7 @@ sub-verse095_vert-15-seg-vert_msk,0.85,0.67,1.73,0.93,TwoDPermuteConcat,vertebra
 s0171_femur_right_msk,0.93,1.02,3.16,0.82,MultiScale2DPermuteConcat,femur
 s0123_rib_msk,0.69,0.51,2.0,0.67,AttentionUnet,rib
 s0123_rib_msk,0.55,0.99,3.61,0.51,UNETR,rib
-s0171_femur_right_msk,0.93,0.93,3.16,0.8,SwinUNETR,femur
+s0171_femur_right_msk,0.95,0.67,2.24,0.91,SwinUNETR,femur
 s0341_hip_msk,0.83,0.86,3.61,0.48,AttentionUnet,hip
 sub-verse095_vert-15-seg-vert_msk,0.87,0.58,1.41,0.96,AttentionUnet,vertebra
 s0341_hip_msk,0.81,1.05,3.46,0.42,UNETR,hip
@@ -1865,7 +1865,7 @@ s0999_rib_msk,0.46,0.86,3.74,0.48,AttentionUnet,rib
 s0663_hip_msk,0.87,0.65,2.83,0.56,TwoDPermuteConcat,hip
 s0999_rib_msk,0.24,1.95,5.74,0.31,TLPredictor,rib
 s0663_hip_msk,0.87,0.61,2.24,0.6,AttentionUnet,hip
-s0519_femur_left_msk,0.94,0.93,3.0,0.83,SwinUNETR,femur
+s0519_femur_left_msk,0.95,0.66,2.0,0.93,SwinUNETR,femur
 sub-verse095_vert-16-seg-vert_msk,0.85,0.75,2.0,0.9,TLPredictor,vertebra
 s0519_femur_left_msk,0.92,1.16,3.32,0.74,OneDConcat,femur
 sub-verse095_vert-16-seg-vert_msk,0.88,0.53,1.41,0.93,TwoDPermuteConcat,vertebra
@@ -1901,7 +1901,7 @@ sub-verse095_vert-17-seg-vert_msk,0.88,0.58,1.41,0.93,TwoDPermuteConcat,vertebra
 s0625_rib_msk,0.18,2.1,6.08,0.28,TLPredictor,rib
 s0625_rib_msk,0.55,1.01,4.12,0.52,SwinUNETR,rib
 s0986_hip_msk,0.82,0.92,3.32,0.46,MultiScale2DPermuteConcat,hip
-s0519_femur_right_msk,0.95,0.77,2.24,0.88,SwinUNETR,femur
+s0519_femur_right_msk,0.96,0.65,2.24,0.92,SwinUNETR,femur
 sub-verse095_vert-17-seg-vert_msk,0.9,0.5,1.41,0.95,SwinUNETR,vertebra
 sub-verse095_vert-17-seg-vert_msk,0.86,0.66,2.0,0.89,MultiScale2DPermuteConcat,vertebra
 s0519_femur_right_msk,0.95,0.71,2.24,0.93,UNet,femur
@@ -1934,7 +1934,7 @@ s0992_femur_left_msk,0.93,0.85,2.45,0.84,OneDConcat,femur
 s0089_hip_msk,0.79,1.25,4.0,0.4,UNETR,hip
 sub-verse095_vert-18-seg-vert_msk,0.89,0.58,1.73,0.93,MultiScale2DPermuteConcat,vertebra
 s1070_rib_msk,0.28,1.69,4.12,0.35,TLPredictor,rib
-s0992_femur_left_msk,0.94,0.84,2.45,0.87,SwinUNETR,femur
+s0992_femur_left_msk,0.95,0.63,2.24,0.91,SwinUNETR,femur
 s0089_hip_msk,0.83,0.83,2.83,0.48,TwoDPermuteConcat,hip
 sub-verse095_vert-18-seg-vert_msk,0.87,0.73,2.0,0.9,TLPredictor,vertebra
 s1070_rib_msk,0.42,1.19,4.47,0.46,UNETR,rib
@@ -1968,7 +1968,7 @@ sub-verse095_vert-19-seg-vert_msk,0.86,0.79,2.0,0.9,TLPredictor,vertebra
 s0952_rib_msk,0.0,16.9,31.59,0.0,OneDConcat,rib
 s0992_femur_right_msk,0.93,0.99,3.0,0.86,TLPredictor,femur
 s0952_rib_msk,0.2,3.48,13.19,0.19,TwoDPermuteConcat,rib
-s0992_femur_right_msk,0.94,0.78,2.45,0.88,SwinUNETR,femur
+s0992_femur_right_msk,0.95,0.61,2.24,0.92,SwinUNETR,femur
 s0804_hip_msk,0.77,1.16,3.32,0.34,OneDConcat,hip
 sub-verse095_vert-19-seg-vert_msk,0.88,0.59,1.73,0.91,TwoDPermuteConcat,vertebra
 s0804_hip_msk,0.83,0.78,3.74,0.47,AttentionUnet,hip
@@ -2008,7 +2008,7 @@ s0440_hip_msk,0.86,0.7,2.24,0.55,TwoDPermuteConcat,hip
 s0896_rib_msk,0.41,1.2,4.12,0.5,UNETR,rib
 s1099_femur_left_msk,0.93,0.88,2.83,0.86,UNETR,femur
 s0440_hip_msk,0.79,1.03,3.61,0.4,TLPredictor,hip
-s1099_femur_left_msk,0.91,1.14,3.61,0.78,SwinUNETR,femur
+s1099_femur_left_msk,0.94,0.73,2.24,0.9,SwinUNETR,femur
 sub-verse095_vert-20-seg-vert_msk,0.88,0.58,2.0,0.9,OneDConcat,vertebra
 s0896_rib_msk,0.55,0.75,3.74,0.6,SwinUNETR,rib
 sub-verse095_vert-20-seg-vert_msk,0.9,0.48,1.49,0.92,UNETR,vertebra
@@ -2029,7 +2029,7 @@ sub-verse095_vert-21-seg-vert_msk,0.87,0.61,2.0,0.88,OneDConcat,vertebra
 s0446_rib_msk,0.46,1.22,3.74,0.45,UNETR,rib
 s1377_hip_msk,0.79,1.12,4.12,0.37,UNETR,hip
 sub-verse095_vert-21-seg-vert_msk,0.89,0.54,1.41,0.95,MultiScale2DPermuteConcat,vertebra
-s1099_femur_right_msk,0.92,1.06,3.16,0.8,SwinUNETR,femur
+s1099_femur_right_msk,0.95,0.59,2.0,0.94,SwinUNETR,femur
 s0446_rib_msk,0.64,0.67,3.32,0.6,SwinUNETR,rib
 sub-verse095_vert-21-seg-vert_msk,0.91,0.48,1.41,0.97,SwinUNETR,vertebra
 s0446_rib_msk,0.43,1.29,6.0,0.4,TLPredictor,rib
@@ -2064,7 +2064,7 @@ s0667_femur_left_msk,0.96,0.68,2.24,0.91,AttentionUnet,femur
 s0673_hip_msk,0.85,0.83,3.16,0.47,MultiScale2DPermuteConcat,hip
 sub-verse095_vert-22-seg-vert_msk,0.91,0.48,1.41,0.96,AttentionUnet,vertebra
 s0673_hip_msk,0.76,1.27,4.0,0.28,TLPredictor,hip
-s0667_femur_left_msk,0.93,1.02,4.9,0.76,SwinUNETR,femur
+s0667_femur_left_msk,0.94,0.85,3.46,0.83,SwinUNETR,femur
 sub-verse095_vert-22-seg-vert_msk,0.9,0.51,1.41,0.93,MultiScale2DPermuteConcat,vertebra
 s1012_rib_msk,0.46,1.29,6.32,0.42,UNETR,rib
 s1012_rib_msk,0.19,2.29,18.35,0.23,OneDConcat,rib
@@ -2090,7 +2090,7 @@ s0667_femur_right_msk,0.94,0.99,3.0,0.79,OneDConcat,femur
 sub-verse095_vert-23-seg-vert_msk,0.86,0.65,2.0,0.86,OneDConcat,vertebra
 s0737_hip_msk,0.82,0.88,2.83,0.43,TwoDPermuteConcat,hip
 s1111_rib_msk,0.62,0.72,2.24,0.6,AttentionUnet,rib
-s0667_femur_right_msk,0.94,1.12,4.0,0.83,SwinUNETR,femur
+s0667_femur_right_msk,0.94,0.93,3.0,0.85,SwinUNETR,femur
 s0737_hip_msk,0.83,0.86,2.45,0.5,SwinUNETR,hip
 s0667_femur_right_msk,0.95,0.81,2.83,0.87,UNet,femur
 sub-verse095_vert-23-seg-vert_msk,0.87,0.7,2.0,0.9,UNETR,vertebra
@@ -2124,7 +2124,7 @@ s1046_hip_msk,0.86,0.81,3.0,0.47,MultiScale2DPermuteConcat,hip
 s1178_rib_msk,0.17,2.02,22.13,0.18,OneDConcat,rib
 sub-verse095_vert-24-seg-vert_msk,0.89,0.56,1.73,0.92,AttentionUnet,vertebra
 s1178_rib_msk,0.32,2.16,7.81,0.34,UNet,rib
-s1228_femur_left_msk,0.91,1.16,3.61,0.78,SwinUNETR,femur
+s1228_femur_left_msk,0.93,0.89,3.0,0.85,SwinUNETR,femur
 sub-verse095_vert-24-seg-vert_msk,0.87,0.67,2.0,0.87,MultiScale2DPermuteConcat,vertebra
 s1046_hip_msk,0.87,0.76,2.24,0.51,AttentionUnet,hip
 s1046_hip_msk,0.85,0.92,3.0,0.43,UNETR,hip
@@ -2160,14 +2160,14 @@ s1228_femur_right_msk,0.94,0.78,2.45,0.9,UNet,femur
 s1233_rib_msk,0.58,0.73,3.32,0.58,AttentionUnet,rib
 sub-verse095_vert-8-seg-vert_msk,0.81,0.68,2.83,0.83,SwinUNETR,vertebra
 s1233_rib_msk,0.5,1.36,4.12,0.5,UNet,rib
-s1228_femur_right_msk,0.94,0.84,2.45,0.89,SwinUNETR,femur
+s1228_femur_right_msk,0.94,0.75,2.24,0.91,SwinUNETR,femur
 s1228_femur_right_msk,0.92,1.04,3.0,0.81,AttentionUnet,femur
 s1233_rib_msk,0.28,1.76,14.14,0.31,OneDConcat,rib
 sub-verse095_vert-8-seg-vert_msk,0.77,0.95,2.24,0.8,TLPredictor,vertebra
 sub-verse095_vert-8-seg-vert_msk,0.81,0.63,2.45,0.84,AttentionUnet,vertebra
 s1228_femur_right_msk,0.92,0.98,2.83,0.83,UNETR,femur
 s1233_rib_msk,0.37,1.42,5.2,0.39,UNETR,rib
-s0702_femur_left_msk,0.94,0.95,3.0,0.82,SwinUNETR,femur
+s0702_femur_left_msk,0.94,0.84,3.0,0.83,SwinUNETR,femur
 s0444_rib_msk,0.34,1.47,4.24,0.42,UNETR,rib
 sub-verse095_vert-9-seg-vert_msk,0.83,0.73,2.0,0.92,UNet,vertebra
 s0702_femur_left_msk,0.95,0.79,2.83,0.89,AttentionUnet,femur
@@ -2213,7 +2213,7 @@ s0720_rib_msk,0.52,1.06,4.69,0.44,UNETR,rib
 sub-verse410_split-verse227_vert-1-seg-vert_msk,0.64,0.95,4.12,0.67,MultiScale2DPermuteConcat,vertebra
 s0702_femur_right_msk,0.94,0.94,2.83,0.83,MultiScale2DPermuteConcat,femur
 sub-verse410_split-verse227_vert-1-seg-vert_msk,0.45,5.22,17.2,0.7,SwinUNETR,vertebra
-s0702_femur_right_msk,0.93,1.08,4.12,0.76,SwinUNETR,femur
+s0702_femur_right_msk,0.96,0.65,2.24,0.92,SwinUNETR,femur
 s0720_rib_msk,0.55,0.92,5.39,0.48,MultiScale2DPermuteConcat,rib
 sub-verse410_split-verse227_vert-2-seg-vert_msk,0.68,1.22,2.83,0.7,OneDConcat,vertebra
 s0339_femur_left_msk,0.94,0.7,2.24,0.92,TwoDPermuteConcat,femur
@@ -2232,7 +2232,7 @@ sub-verse410_split-verse227_vert-2-seg-vert_msk,0.59,2.45,8.06,0.52,TLPredictor,
 s0437_rib_msk,0.33,1.67,11.18,0.34,OneDConcat,rib
 s0437_rib_msk,0.62,0.78,2.24,0.57,UNet,rib
 sub-verse410_split-verse227_vert-2-seg-vert_msk,0.82,0.67,2.0,0.9,AttentionUnet,vertebra
-s0339_femur_left_msk,0.93,0.91,3.0,0.83,SwinUNETR,femur
+s0339_femur_left_msk,0.94,0.73,2.24,0.88,SwinUNETR,femur
 s0437_rib_msk,0.65,0.64,2.24,0.61,AttentionUnet,rib
 sub-verse410_split-verse227_vert-2-seg-vert_msk,0.81,1.1,2.22,0.91,SwinUNETR,vertebra
 s0339_femur_left_msk,0.92,0.96,3.0,0.8,OneDConcat,femur
@@ -2254,7 +2254,7 @@ s0332_rib_msk,0.53,1.03,5.74,0.48,UNETR,rib
 sub-verse410_split-verse227_vert-3-seg-vert_msk,0.63,1.67,4.24,0.65,TLPredictor,vertebra
 s0332_rib_msk,0.35,1.51,5.74,0.35,TLPredictor,rib
 s0339_femur_right_msk,0.93,0.83,2.45,0.87,UNETR,femur
-s0339_femur_right_msk,0.93,0.97,3.0,0.84,SwinUNETR,femur
+s0339_femur_right_msk,0.95,0.68,2.24,0.91,SwinUNETR,femur
 sub-verse410_split-verse227_vert-3-seg-vert_msk,0.81,0.6,1.73,0.91,AttentionUnet,vertebra
 s0332_rib_msk,0.6,0.82,2.45,0.55,UNet,rib
 s0339_femur_right_msk,0.9,1.37,4.12,0.73,OneDConcat,femur
@@ -2266,7 +2266,7 @@ sub-verse410_split-verse227_vert-3-seg-vert_msk,0.68,1.25,3.0,0.75,UNet,vertebra
 s1085_femur_left_msk,0.95,0.82,2.83,0.86,AttentionUnet,femur
 s0913_rib_msk,0.63,0.79,2.24,0.61,UNet,rib
 sub-verse410_split-verse227_vert-4-seg-vert_msk,0.64,1.38,3.0,0.69,UNet,vertebra
-s1085_femur_left_msk,0.92,1.15,5.0,0.71,SwinUNETR,femur
+s1085_femur_left_msk,0.95,0.77,2.83,0.85,SwinUNETR,femur
 s0913_rib_msk,0.59,0.87,2.24,0.57,TwoDPermuteConcat,rib
 sub-verse410_split-verse227_vert-4-seg-vert_msk,0.72,0.84,2.0,0.89,MultiScale2DPermuteConcat,vertebra
 sub-verse410_split-verse227_vert-4-seg-vert_msk,0.67,1.25,2.45,0.72,TLPredictor,vertebra
@@ -2290,7 +2290,7 @@ s1085_femur_left_msk,0.92,1.3,3.74,0.69,OneDConcat,femur
 s1085_femur_right_msk,0.94,0.94,2.83,0.86,TLPredictor,femur
 sub-verse410_split-verse227_vert-5-seg-vert_msk,0.68,1.22,3.0,0.78,UNet,vertebra
 sub-verse410_split-verse227_vert-5-seg-vert_msk,0.78,0.65,1.41,0.94,TwoDPermuteConcat,vertebra
-s1085_femur_right_msk,0.94,0.94,3.0,0.84,SwinUNETR,femur
+s1085_femur_right_msk,0.95,0.7,2.24,0.9,SwinUNETR,femur
 s1085_femur_right_msk,0.95,0.86,2.83,0.87,AttentionUnet,femur
 sub-verse410_split-verse227_vert-5-seg-vert_msk,0.74,0.86,2.0,0.92,UNETR,vertebra
 sub-verse410_split-verse227_vert-5-seg-vert_msk,0.65,1.23,3.0,0.7,TLPredictor,vertebra
@@ -2308,7 +2308,7 @@ s1057_femur_left_msk,0.89,1.39,5.1,0.63,UNet,femur
 s1057_femur_left_msk,0.9,1.86,4.24,0.67,MultiScale2DPermuteConcat,femur
 sub-verse410_split-verse227_vert-6-seg-vert_msk,0.7,1.1,2.45,0.74,TLPredictor,vertebra
 sub-verse410_split-verse227_vert-6-seg-vert_msk,0.82,0.53,1.41,0.96,SwinUNETR,vertebra
-s1057_femur_left_msk,0.91,1.26,5.74,0.72,SwinUNETR,femur
+s1057_femur_left_msk,0.91,1.25,5.48,0.71,SwinUNETR,femur
 sub-verse410_split-verse227_vert-6-seg-vert_msk,0.81,0.54,1.41,0.94,OneDConcat,vertebra
 s1057_femur_left_msk,0.89,2.18,5.48,0.65,AttentionUnet,femur
 sub-verse410_split-verse227_vert-6-seg-vert_msk,0.76,0.82,2.24,0.91,UNETR,vertebra
@@ -2322,7 +2322,7 @@ s1057_femur_left_msk,0.9,1.37,5.39,0.65,TwoDPermuteConcat,femur
 sub-verse410_split-verse227_vert-7-seg-vert_msk,0.82,0.65,2.0,0.94,UNETR,vertebra
 s1057_femur_right_msk,0.92,1.05,3.16,0.76,TwoDPermuteConcat,femur
 sub-verse410_split-verse227_vert-7-seg-vert_msk,0.82,0.62,1.41,0.94,OneDConcat,vertebra
-s1057_femur_right_msk,0.92,1.08,3.32,0.76,SwinUNETR,femur
+s1057_femur_right_msk,0.93,0.91,3.0,0.81,SwinUNETR,femur
 s1057_femur_right_msk,0.9,1.51,4.0,0.64,TLPredictor,femur
 sub-verse410_split-verse227_vert-7-seg-vert_msk,0.82,0.7,2.24,0.94,MultiScale2DPermuteConcat,vertebra
 sub-verse410_split-verse227_vert-7-seg-vert_msk,0.85,0.53,1.41,0.96,AttentionUnet,vertebra
@@ -2348,7 +2348,7 @@ sub-verse410_split-verse227_vert-8-seg-vert_msk,0.87,0.5,1.41,0.95,OneDConcat,ve
 s0635_femur_left_msk,0.94,0.86,2.45,0.86,TwoDPermuteConcat,femur
 sub-verse410_split-verse227_vert-8-seg-vert_msk,0.81,0.82,2.0,0.89,TLPredictor,vertebra
 sub-verse410_split-verse227_vert-8-seg-vert_msk,0.88,0.47,1.41,0.97,AttentionUnet,vertebra
-s0635_femur_left_msk,0.93,1.01,3.0,0.8,SwinUNETR,femur
+s0635_femur_left_msk,0.94,0.76,2.45,0.88,SwinUNETR,femur
 sub-verse410_split-verse227_vert-8-seg-vert_msk,0.86,0.56,1.41,0.95,TwoDPermuteConcat,vertebra
 s0635_femur_left_msk,0.96,0.6,1.73,0.96,UNet,femur
 s0635_femur_right_msk,0.95,0.64,2.0,0.93,TwoDPermuteConcat,femur
@@ -2361,7 +2361,7 @@ sub-verse053_vert-20-seg-vert_msk,0.89,0.5,2.0,0.91,UNet,vertebra
 s0635_femur_right_msk,0.94,0.88,2.24,0.88,TLPredictor,femur
 sub-verse053_vert-20-seg-vert_msk,0.9,0.46,1.41,0.92,AttentionUnet,vertebra
 s0635_femur_right_msk,0.96,0.59,2.0,0.95,MultiScale2DPermuteConcat,femur
-s0635_femur_right_msk,0.95,0.72,2.0,0.92,SwinUNETR,femur
+s0635_femur_right_msk,0.95,0.63,2.0,0.93,SwinUNETR,femur
 sub-verse053_vert-20-seg-vert_msk,0.9,0.47,1.73,0.92,TwoDPermuteConcat,vertebra
 sub-verse053_vert-20-seg-vert_msk,0.86,0.66,2.24,0.85,TLPredictor,vertebra
 s0635_femur_right_msk,0.95,0.62,2.0,0.94,UNet,femur
@@ -2381,9 +2381,9 @@ sub-verse053_vert-21-seg-vert_msk,0.83,0.63,3.0,0.81,SwinUNETR,vertebra
 s0950_femur_left_msk,0.94,0.8,3.61,0.82,MultiScale2DPermuteConcat,femur
 s0950_femur_left_msk,0.93,0.84,3.16,0.82,UNETR,femur
 sub-verse053_vert-21-seg-vert_msk,0.78,0.82,4.24,0.69,UNETR,vertebra
-s0950_femur_left_msk,0.93,0.84,3.46,0.79,SwinUNETR,femur
+s0950_femur_left_msk,0.94,0.75,3.61,0.83,SwinUNETR,femur
 sub-verse053_vert-21-seg-vert_msk,0.75,0.84,5.0,0.6,OneDConcat,vertebra
-s0950_femur_right_msk,0.94,0.73,3.0,0.84,SwinUNETR,femur
+s0950_femur_right_msk,0.94,0.69,3.0,0.85,SwinUNETR,femur
 sub-verse053_vert-22-seg-vert_msk,0.77,0.96,5.74,0.58,MultiScale2DPermuteConcat,vertebra
 s0950_femur_right_msk,0.94,0.68,3.0,0.87,AttentionUnet,femur
 sub-verse053_vert-22-seg-vert_msk,0.79,0.81,5.1,0.61,UNet,vertebra
@@ -2409,7 +2409,7 @@ s0682_femur_left_msk,0.9,1.57,4.47,0.64,OneDConcat,femur
 sub-verse053_vert-23-seg-vert_msk,0.71,1.25,7.0,0.49,UNet,vertebra
 s0682_femur_left_msk,0.94,0.92,2.83,0.85,UNETR,femur
 sub-verse053_vert-23-seg-vert_msk,0.72,1.18,6.32,0.52,OneDConcat,vertebra
-s0682_femur_left_msk,0.93,1.04,3.0,0.78,SwinUNETR,femur
+s0682_femur_left_msk,0.94,0.9,2.83,0.83,SwinUNETR,femur
 sub-verse053_vert-23-seg-vert_msk,0.73,1.03,7.62,0.52,MultiScale2DPermuteConcat,vertebra
 sub-verse053_vert-23-seg-vert_msk,0.76,1.15,5.0,0.64,TwoDPermuteConcat,vertebra
 s0682_femur_left_msk,0.94,0.96,2.83,0.84,TwoDPermuteConcat,femur
@@ -2419,7 +2419,7 @@ sub-verse053_vert-24-seg-vert_msk,0.65,1.3,9.48,0.39,MultiScale2DPermuteConcat,v
 s0682_femur_right_msk,0.93,1.0,3.16,0.8,TLPredictor,femur
 sub-verse053_vert-24-seg-vert_msk,0.63,1.64,5.83,0.5,SwinUNETR,vertebra
 s0682_femur_right_msk,0.95,0.74,2.45,0.9,UNet,femur
-s0682_femur_right_msk,0.94,0.95,3.0,0.82,SwinUNETR,femur
+s0682_femur_right_msk,0.94,0.89,3.0,0.85,SwinUNETR,femur
 sub-verse053_vert-24-seg-vert_msk,0.66,1.57,6.48,0.43,OneDConcat,vertebra
 s0682_femur_right_msk,0.94,1.01,3.0,0.8,OneDConcat,femur
 sub-verse053_vert-24-seg-vert_msk,0.69,1.14,6.16,0.49,AttentionUnet,vertebra
@@ -2442,7 +2442,7 @@ sub-verse404_split-verse256_vert-10-seg-vert_msk,0.9,0.39,1.41,0.97,SwinUNETR,ve
 sub-verse404_split-verse256_vert-10-seg-vert_msk,0.89,0.47,1.41,0.97,UNet,vertebra
 s0680_femur_left_msk,0.96,0.71,2.24,0.93,UNet,femur
 sub-verse404_split-verse256_vert-10-seg-vert_msk,0.87,0.53,1.41,0.94,TwoDPermuteConcat,vertebra
-s0680_femur_left_msk,0.94,0.89,3.0,0.83,SwinUNETR,femur
+s0680_femur_left_msk,0.96,0.68,2.24,0.92,SwinUNETR,femur
 sub-verse404_split-verse256_vert-10-seg-vert_msk,0.86,0.51,2.0,0.9,OneDConcat,vertebra
 s0680_femur_left_msk,0.95,0.82,2.45,0.88,TwoDPermuteConcat,femur
 s0680_femur_left_msk,0.94,0.89,3.0,0.86,UNETR,femur
@@ -2458,7 +2458,7 @@ sub-verse404_split-verse256_vert-11-seg-vert_msk,0.85,0.55,2.0,0.9,UNETR,vertebr
 sub-verse404_split-verse256_vert-11-seg-vert_msk,0.87,0.53,1.41,0.94,TwoDPermuteConcat,vertebra
 s0680_femur_right_msk,0.95,0.76,2.24,0.9,UNETR,femur
 sub-verse404_split-verse256_vert-11-seg-vert_msk,0.87,0.48,1.41,0.94,AttentionUnet,vertebra
-s0680_femur_right_msk,0.95,0.72,2.24,0.91,SwinUNETR,femur
+s0680_femur_right_msk,0.96,0.64,2.24,0.93,SwinUNETR,femur
 s0680_femur_right_msk,0.96,0.65,2.24,0.93,AttentionUnet,femur
 sub-verse404_split-verse256_vert-11-seg-vert_msk,0.8,0.77,2.24,0.83,OneDConcat,vertebra
 sub-verse404_split-verse256_vert-11-seg-vert_msk,0.86,0.57,1.41,0.93,UNet,vertebra
@@ -2468,7 +2468,7 @@ s0104_femur_left_msk,0.9,1.3,4.0,0.72,TLPredictor,femur
 sub-verse404_split-verse256_vert-12-seg-vert_msk,0.86,0.49,1.73,0.91,MultiScale2DPermuteConcat,vertebra
 s0104_femur_left_msk,0.89,1.54,5.1,0.68,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-12-seg-vert_msk,0.88,0.45,1.41,0.93,SwinUNETR,vertebra
-s0104_femur_left_msk,0.92,1.08,3.16,0.77,SwinUNETR,femur
+s0104_femur_left_msk,0.94,0.77,3.0,0.86,SwinUNETR,femur
 sub-verse404_split-verse256_vert-12-seg-vert_msk,0.86,0.58,2.0,0.9,TLPredictor,vertebra
 s0104_femur_left_msk,0.93,0.85,2.83,0.86,TwoDPermuteConcat,femur
 sub-verse404_split-verse256_vert-12-seg-vert_msk,0.88,0.42,1.41,0.94,AttentionUnet,vertebra
@@ -2493,7 +2493,7 @@ s0104_femur_right_msk,0.91,1.21,3.74,0.77,UNETR,femur
 sub-verse404_split-verse256_vert-13-seg-vert_msk,0.89,0.44,1.41,0.94,SwinUNETR,vertebra
 s0104_femur_right_msk,0.93,0.86,2.83,0.85,TwoDPermuteConcat,femur
 sub-verse404_split-verse256_vert-13-seg-vert_msk,0.86,0.58,2.0,0.89,TLPredictor,vertebra
-s0104_femur_right_msk,0.92,1.13,3.74,0.76,SwinUNETR,femur
+s0104_femur_right_msk,0.93,0.87,3.16,0.83,SwinUNETR,femur
 sub-verse404_split-verse256_vert-13-seg-vert_msk,0.86,0.58,1.73,0.91,UNet,vertebra
 sub-verse404_split-verse256_vert-14-seg-vert_msk,0.89,0.42,1.41,0.95,SwinUNETR,vertebra
 s0015_femur_left_msk,0.95,0.77,2.24,0.91,UNETR,femur
@@ -2510,7 +2510,7 @@ sub-verse404_split-verse256_vert-14-seg-vert_msk,0.87,0.51,2.24,0.9,MultiScale2D
 s0015_femur_left_msk,0.96,0.69,2.24,0.93,UNet,femur
 sub-verse404_split-verse256_vert-14-seg-vert_msk,0.89,0.43,1.41,0.94,TwoDPermuteConcat,vertebra
 sub-verse404_split-verse256_vert-14-seg-vert_msk,0.88,0.46,2.0,0.9,OneDConcat,vertebra
-s0015_femur_left_msk,0.95,0.82,2.24,0.91,SwinUNETR,femur
+s0015_femur_left_msk,0.96,0.56,2.0,0.96,SwinUNETR,femur
 sub-verse404_split-verse256_vert-15-seg-vert_msk,0.87,0.51,1.73,0.91,UNETR,vertebra
 s0015_femur_right_msk,0.95,0.73,2.24,0.91,AttentionUnet,femur
 s0015_femur_right_msk,0.94,0.9,2.45,0.86,MultiScale2DPermuteConcat,femur
@@ -2522,7 +2522,7 @@ sub-verse404_split-verse256_vert-15-seg-vert_msk,0.87,0.59,2.0,0.89,MultiScale2D
 s0015_femur_right_msk,0.93,0.97,3.0,0.8,OneDConcat,femur
 sub-verse404_split-verse256_vert-15-seg-vert_msk,0.86,0.69,1.97,0.9,TLPredictor,vertebra
 sub-verse404_split-verse256_vert-15-seg-vert_msk,0.86,0.6,2.0,0.87,OneDConcat,vertebra
-s0015_femur_right_msk,0.94,0.93,2.24,0.88,SwinUNETR,femur
+s0015_femur_right_msk,0.96,0.54,1.73,0.97,SwinUNETR,femur
 sub-verse404_split-verse256_vert-15-seg-vert_msk,0.9,0.43,1.41,0.96,TwoDPermuteConcat,vertebra
 s0015_femur_right_msk,0.96,0.58,2.0,0.95,TwoDPermuteConcat,femur
 sub-verse404_split-verse256_vert-15-seg-vert_msk,0.89,0.5,1.41,0.92,UNet,vertebra
@@ -2530,7 +2530,7 @@ s0015_femur_right_msk,0.95,0.77,2.24,0.9,UNETR,femur
 sub-verse404_split-verse256_vert-16-seg-vert_msk,0.88,0.53,1.73,0.92,TwoDPermuteConcat,vertebra
 s0937_femur_left_msk,0.85,2.62,13.0,0.61,UNETR,femur
 sub-verse404_split-verse256_vert-16-seg-vert_msk,0.87,0.54,2.0,0.9,UNETR,vertebra
-s0937_femur_left_msk,0.78,2.84,12.37,0.52,SwinUNETR,femur
+s0937_femur_left_msk,0.81,3.92,19.21,0.59,SwinUNETR,femur
 sub-verse404_split-verse256_vert-16-seg-vert_msk,0.89,0.53,1.41,0.93,SwinUNETR,vertebra
 s0937_femur_left_msk,0.74,3.74,15.1,0.33,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-16-seg-vert_msk,0.87,0.57,2.0,0.9,AttentionUnet,vertebra
@@ -2549,7 +2549,7 @@ sub-verse404_split-verse256_vert-17-seg-vert_msk,0.87,0.66,2.24,0.85,TLPredictor
 s0937_femur_right_msk,0.86,2.09,7.28,0.52,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-17-seg-vert_msk,0.86,0.67,2.0,0.85,OneDConcat,vertebra
 s0937_femur_right_msk,0.92,1.01,5.46,0.72,UNet,femur
-s0937_femur_right_msk,0.84,2.12,12.73,0.56,SwinUNETR,femur
+s0937_femur_right_msk,0.88,2.0,9.43,0.67,SwinUNETR,femur
 sub-verse404_split-verse256_vert-17-seg-vert_msk,0.87,0.62,1.73,0.91,MultiScale2DPermuteConcat,vertebra
 s0937_femur_right_msk,0.87,1.95,8.12,0.65,UNETR,femur
 sub-verse404_split-verse256_vert-17-seg-vert_msk,0.89,0.53,1.73,0.92,AttentionUnet,vertebra
@@ -2566,7 +2566,7 @@ s0053_femur_left_msk,0.95,0.82,2.24,0.88,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-18-seg-vert_msk,0.89,0.55,1.41,0.93,UNet,vertebra
 s0053_femur_left_msk,0.94,1.13,3.0,0.82,UNETR,femur
 sub-verse404_split-verse256_vert-18-seg-vert_msk,0.88,0.59,2.24,0.87,OneDConcat,vertebra
-s0053_femur_left_msk,0.94,1.01,3.16,0.81,SwinUNETR,femur
+s0053_femur_left_msk,0.95,0.77,2.45,0.88,SwinUNETR,femur
 s0053_femur_left_msk,0.93,1.1,3.0,0.8,TLPredictor,femur
 sub-verse404_split-verse256_vert-18-seg-vert_msk,0.9,0.49,1.41,0.93,UNETR,vertebra
 s0053_femur_left_msk,0.9,1.7,4.58,0.62,OneDConcat,femur
@@ -2587,7 +2587,7 @@ sub-verse404_split-verse256_vert-19-seg-vert_msk,0.91,0.47,1.41,0.95,AttentionUn
 s0053_femur_right_msk,0.93,1.01,3.0,0.81,UNet,femur
 s0053_femur_right_msk,0.92,1.2,3.74,0.76,UNETR,femur
 sub-verse404_split-verse256_vert-19-seg-vert_msk,0.89,0.57,1.73,0.91,TwoDPermuteConcat,vertebra
-s0053_femur_right_msk,0.93,1.14,3.61,0.79,SwinUNETR,femur
+s0053_femur_right_msk,0.94,0.91,2.83,0.84,SwinUNETR,femur
 sub-verse404_split-verse256_vert-19-seg-vert_msk,0.91,0.49,1.41,0.94,SwinUNETR,vertebra
 s0053_femur_right_msk,0.94,0.94,3.46,0.8,TwoDPermuteConcat,femur
 sub-verse404_split-verse256_vert-19-seg-vert_msk,0.89,0.54,1.73,0.92,UNETR,vertebra
@@ -2597,7 +2597,7 @@ s1383_femur_left_msk,0.92,1.22,3.61,0.71,OneDConcat,femur
 sub-verse404_split-verse256_vert-20-seg-vert_msk,0.91,0.45,1.41,0.95,AttentionUnet,vertebra
 sub-verse404_split-verse256_vert-20-seg-vert_msk,0.9,0.52,1.41,0.95,MultiScale2DPermuteConcat,vertebra
 s1383_femur_left_msk,0.96,0.66,2.24,0.92,UNet,femur
-s1383_femur_left_msk,0.95,0.71,2.24,0.91,SwinUNETR,femur
+s1383_femur_left_msk,0.96,0.6,2.0,0.93,SwinUNETR,femur
 sub-verse404_split-verse256_vert-20-seg-vert_msk,0.91,0.49,1.41,0.96,UNETR,vertebra
 sub-verse404_split-verse256_vert-20-seg-vert_msk,0.92,0.43,1.41,0.96,SwinUNETR,vertebra
 s1383_femur_left_msk,0.96,0.61,2.0,0.93,MultiScale2DPermuteConcat,femur
@@ -2611,7 +2611,7 @@ s1383_femur_right_msk,0.95,0.78,2.45,0.87,UNETR,femur
 sub-verse404_split-verse256_vert-21-seg-vert_msk,0.91,0.5,1.41,0.96,UNETR,vertebra
 s1383_femur_right_msk,0.96,0.68,2.24,0.92,UNet,femur
 sub-verse404_split-verse256_vert-21-seg-vert_msk,0.91,0.47,1.41,0.96,TwoDPermuteConcat,vertebra
-s1383_femur_right_msk,0.94,0.86,2.83,0.84,SwinUNETR,femur
+s1383_femur_right_msk,0.96,0.61,2.0,0.94,SwinUNETR,femur
 sub-verse404_split-verse256_vert-21-seg-vert_msk,0.9,0.57,1.41,0.93,TLPredictor,vertebra
 sub-verse404_split-verse256_vert-21-seg-vert_msk,0.91,0.5,1.41,0.95,MultiScale2DPermuteConcat,vertebra
 s1383_femur_right_msk,0.95,0.82,2.83,0.86,TLPredictor,femur
@@ -2637,7 +2637,7 @@ sub-verse404_split-verse256_vert-22-seg-vert_msk,0.9,0.54,1.73,0.93,MultiScale2D
 s1111_femur_left_msk,0.95,0.78,2.45,0.88,UNet,femur
 sub-verse404_split-verse256_vert-22-seg-vert_msk,0.9,0.57,1.73,0.92,TwoDPermuteConcat,vertebra
 s1111_femur_left_msk,0.95,0.68,2.24,0.92,AttentionUnet,femur
-s1111_femur_left_msk,0.95,0.82,2.83,0.86,SwinUNETR,femur
+s1111_femur_left_msk,0.95,0.75,2.83,0.86,SwinUNETR,femur
 sub-verse404_split-verse256_vert-22-seg-vert_msk,0.88,0.72,2.0,0.9,TLPredictor,vertebra
 sub-verse404_split-verse256_vert-23-seg-vert_msk,0.87,0.75,2.45,0.83,OneDConcat,vertebra
 s1111_femur_right_msk,0.91,1.4,4.12,0.67,UNETR,femur
@@ -2654,7 +2654,7 @@ sub-verse404_split-verse256_vert-23-seg-vert_msk,0.86,0.85,2.24,0.85,TLPredictor
 sub-verse404_split-verse256_vert-23-seg-vert_msk,0.89,0.61,2.24,0.86,MultiScale2DPermuteConcat,vertebra
 s1111_femur_right_msk,0.92,1.22,3.61,0.75,TLPredictor,femur
 sub-verse404_split-verse256_vert-23-seg-vert_msk,0.89,0.59,2.0,0.9,TwoDPermuteConcat,vertebra
-s1111_femur_right_msk,0.93,1.02,3.0,0.8,SwinUNETR,femur
+s1111_femur_right_msk,0.95,0.85,2.83,0.85,SwinUNETR,femur
 s0192_femur_left_msk,0.95,0.68,2.24,0.93,AttentionUnet,femur
 sub-verse404_split-verse256_vert-24-seg-vert_msk,0.87,0.75,2.0,0.85,OneDConcat,vertebra
 sub-verse404_split-verse256_vert-24-seg-vert_msk,0.86,0.76,2.0,0.86,UNETR,vertebra
@@ -2668,7 +2668,7 @@ s0192_femur_left_msk,0.92,1.05,3.0,0.76,OneDConcat,femur
 sub-verse404_split-verse256_vert-24-seg-vert_msk,0.85,0.87,2.24,0.8,TLPredictor,vertebra
 s0192_femur_left_msk,0.94,0.79,2.83,0.87,TwoDPermuteConcat,femur
 sub-verse404_split-verse256_vert-24-seg-vert_msk,0.89,0.65,2.0,0.89,SwinUNETR,vertebra
-s0192_femur_left_msk,0.94,0.85,2.83,0.85,SwinUNETR,femur
+s0192_femur_left_msk,0.94,0.72,2.45,0.86,SwinUNETR,femur
 sub-verse404_split-verse256_vert-24-seg-vert_msk,0.88,0.68,2.0,0.87,TwoDPermuteConcat,vertebra
 s0192_femur_left_msk,0.95,0.68,2.0,0.92,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-7-seg-vert_msk,0.84,0.58,1.41,0.94,AttentionUnet,vertebra
@@ -2683,7 +2683,7 @@ s0192_femur_right_msk,0.95,0.62,2.0,0.95,UNet,femur
 sub-verse404_split-verse256_vert-7-seg-vert_msk,0.86,0.52,1.41,0.97,SwinUNETR,vertebra
 sub-verse404_split-verse256_vert-7-seg-vert_msk,0.86,0.51,1.41,0.96,UNETR,vertebra
 s0192_femur_right_msk,0.94,0.78,2.24,0.89,MultiScale2DPermuteConcat,femur
-s0192_femur_right_msk,0.92,1.06,3.16,0.78,SwinUNETR,femur
+s0192_femur_right_msk,0.95,0.65,2.24,0.92,SwinUNETR,femur
 sub-verse404_split-verse256_vert-7-seg-vert_msk,0.76,0.95,2.24,0.79,TLPredictor,vertebra
 sub-verse404_split-verse256_vert-7-seg-vert_msk,0.83,0.58,1.73,0.93,MultiScale2DPermuteConcat,vertebra
 s0192_femur_right_msk,0.95,0.66,2.0,0.93,AttentionUnet,femur
@@ -2696,7 +2696,7 @@ s0016_femur_left_msk,0.95,0.75,2.24,0.89,MultiScale2DPermuteConcat,femur
 sub-verse404_split-verse256_vert-8-seg-vert_msk,0.86,0.56,1.73,0.93,TwoDPermuteConcat,vertebra
 s0016_femur_left_msk,0.95,0.7,2.24,0.91,UNet,femur
 sub-verse404_split-verse256_vert-8-seg-vert_msk,0.88,0.46,1.73,0.92,SwinUNETR,vertebra
-s0016_femur_left_msk,0.95,0.76,2.24,0.87,SwinUNETR,femur
+s0016_femur_left_msk,0.95,0.73,2.24,0.88,SwinUNETR,femur
 sub-verse404_split-verse256_vert-8-seg-vert_msk,0.85,0.56,2.0,0.89,MultiScale2DPermuteConcat,vertebra
 s0016_femur_left_msk,0.95,0.76,2.24,0.88,UNETR,femur
 s0016_femur_left_msk,0.96,0.65,2.0,0.94,AttentionUnet,femur
@@ -2715,7 +2715,7 @@ s0016_femur_right_msk,0.95,0.75,2.24,0.89,UNETR,femur
 sub-verse404_split-verse256_vert-9-seg-vert_msk,0.89,0.47,1.41,0.95,AttentionUnet,vertebra
 s0016_femur_right_msk,0.95,0.71,2.24,0.93,TLPredictor,femur
 sub-verse404_split-verse256_vert-9-seg-vert_msk,0.87,0.48,1.73,0.91,MultiScale2DPermuteConcat,vertebra
-s0016_femur_right_msk,0.95,0.8,2.45,0.87,SwinUNETR,femur
+s0016_femur_right_msk,0.96,0.55,2.0,0.94,SwinUNETR,femur
 sub-verse404_split-verse256_vert-9-seg-vert_msk,0.86,0.6,1.41,0.93,UNet,vertebra
 s0016_femur_right_msk,0.96,0.57,2.0,0.95,AttentionUnet,femur
 sub-verse404_split-verse256_vert-9-seg-vert_msk,0.88,0.49,1.41,0.95,TwoDPermuteConcat,vertebra
@@ -2723,7 +2723,7 @@ s0664_femur_left_msk,0.92,1.11,3.16,0.81,UNETR,femur
 sub-verse406_split-verse214_vert-1-seg-vert_msk,0.61,1.31,6.32,0.6,AttentionUnet,vertebra
 sub-verse406_split-verse214_vert-1-seg-vert_msk,0.55,1.88,6.21,0.52,UNet,vertebra
 s0664_femur_left_msk,0.86,2.04,5.39,0.55,TLPredictor,femur
-s0664_femur_left_msk,0.91,1.32,3.74,0.73,SwinUNETR,femur
+s0664_femur_left_msk,0.94,0.84,2.83,0.88,SwinUNETR,femur
 sub-verse406_split-verse214_vert-1-seg-vert_msk,0.61,1.63,5.1,0.68,TLPredictor,vertebra
 s0664_femur_left_msk,0.93,0.97,2.83,0.84,AttentionUnet,femur
 sub-verse406_split-verse214_vert-1-seg-vert_msk,0.62,1.52,4.47,0.68,UNETR,vertebra
@@ -2748,7 +2748,7 @@ sub-verse406_split-verse214_vert-2-seg-vert_msk,0.74,0.98,3.16,0.7,TLPredictor,v
 sub-verse406_split-verse214_vert-2-seg-vert_msk,0.73,0.82,2.83,0.75,UNETR,vertebra
 s0664_femur_right_msk,0.95,0.77,2.45,0.9,UNet,femur
 sub-verse406_split-verse214_vert-2-seg-vert_msk,0.68,0.84,4.0,0.65,OneDConcat,vertebra
-s0664_femur_right_msk,0.96,0.62,2.0,0.95,SwinUNETR,femur
+s0664_femur_right_msk,0.96,0.58,2.0,0.93,SwinUNETR,femur
 s0664_femur_right_msk,0.95,0.79,2.24,0.89,OneDConcat,femur
 sub-verse406_split-verse214_vert-2-seg-vert_msk,0.77,0.76,2.24,0.79,TwoDPermuteConcat,vertebra
 s1347_femur_left_msk,0.94,0.9,2.83,0.84,OneDConcat,femur
@@ -2763,13 +2763,13 @@ s1347_femur_left_msk,0.95,0.78,2.24,0.9,MultiScale2DPermuteConcat,femur
 sub-verse406_split-verse214_vert-3-seg-vert_msk,0.71,1.17,2.45,0.71,TLPredictor,vertebra
 s1347_femur_left_msk,0.96,0.63,2.0,0.94,AttentionUnet,femur
 sub-verse406_split-verse214_vert-3-seg-vert_msk,0.72,0.81,2.83,0.81,UNETR,vertebra
-s1347_femur_left_msk,0.94,0.87,2.83,0.86,SwinUNETR,femur
+s1347_femur_left_msk,0.96,0.65,2.0,0.93,SwinUNETR,femur
 sub-verse406_split-verse214_vert-3-seg-vert_msk,0.76,0.71,2.24,0.84,TwoDPermuteConcat,vertebra
 sub-verse406_split-verse214_vert-3-seg-vert_msk,0.75,0.68,2.83,0.82,OneDConcat,vertebra
 s1347_femur_left_msk,0.95,0.78,2.24,0.91,TLPredictor,femur
 s1347_femur_right_msk,0.94,0.86,2.45,0.88,UNETR,femur
 sub-verse406_split-verse214_vert-4-seg-vert_msk,0.76,0.69,2.24,0.85,AttentionUnet,vertebra
-s1347_femur_right_msk,0.95,0.79,2.45,0.89,SwinUNETR,femur
+s1347_femur_right_msk,0.96,0.53,1.73,0.96,SwinUNETR,femur
 sub-verse406_split-verse214_vert-4-seg-vert_msk,0.77,0.7,2.0,0.89,SwinUNETR,vertebra
 s1347_femur_right_msk,0.94,0.96,2.83,0.84,OneDConcat,femur
 sub-verse406_split-verse214_vert-4-seg-vert_msk,0.75,0.78,2.24,0.86,UNETR,vertebra
@@ -2792,7 +2792,7 @@ sub-verse406_split-verse214_vert-5-seg-vert_msk,0.73,0.84,2.0,0.86,OneDConcat,ve
 sub-verse406_split-verse214_vert-5-seg-vert_msk,0.75,0.81,2.0,0.87,TwoDPermuteConcat,vertebra
 s1045_femur_left_msk,0.96,0.68,2.0,0.94,UNet,femur
 sub-verse406_split-verse214_vert-5-seg-vert_msk,0.73,1.03,2.45,0.81,UNet,vertebra
-s1045_femur_left_msk,0.95,0.78,2.24,0.91,SwinUNETR,femur
+s1045_femur_left_msk,0.95,0.71,2.24,0.91,SwinUNETR,femur
 sub-verse406_split-verse214_vert-5-seg-vert_msk,0.79,0.79,2.24,0.93,UNETR,vertebra
 s1045_femur_left_msk,0.95,0.75,2.24,0.91,MultiScale2DPermuteConcat,femur
 s1045_femur_left_msk,0.93,1.2,3.0,0.77,OneDConcat,femur
@@ -2801,7 +2801,7 @@ s1045_femur_left_msk,0.96,0.64,1.73,0.96,AttentionUnet,femur
 sub-verse406_split-verse214_vert-5-seg-vert_msk,0.74,0.88,2.24,0.84,MultiScale2DPermuteConcat,vertebra
 s1045_femur_right_msk,0.94,0.96,2.45,0.88,TLPredictor,femur
 sub-verse406_split-verse214_vert-6-seg-vert_msk,0.74,0.84,2.24,0.85,TwoDPermuteConcat,vertebra
-s1045_femur_right_msk,0.95,0.73,2.0,0.93,SwinUNETR,femur
+s1045_femur_right_msk,0.96,0.67,2.0,0.93,SwinUNETR,femur
 sub-verse406_split-verse214_vert-6-seg-vert_msk,0.72,0.8,3.0,0.77,MultiScale2DPermuteConcat,vertebra
 sub-verse406_split-verse214_vert-6-seg-vert_msk,0.76,0.74,2.0,0.9,SwinUNETR,vertebra
 s1045_femur_right_msk,0.95,0.73,2.0,0.94,TwoDPermuteConcat,femur
@@ -2819,7 +2819,7 @@ s0120_femur_left_msk,0.94,0.85,3.0,0.86,UNet,femur
 sub-verse406_split-verse214_vert-7-seg-vert_msk,0.82,0.61,1.73,0.92,SwinUNETR,vertebra
 sub-verse406_split-verse214_vert-7-seg-vert_msk,0.75,0.87,2.24,0.83,OneDConcat,vertebra
 s0120_femur_left_msk,0.87,2.03,6.0,0.52,TLPredictor,femur
-s0120_femur_left_msk,0.93,1.03,3.0,0.8,SwinUNETR,femur
+s0120_femur_left_msk,0.95,0.81,2.83,0.88,SwinUNETR,femur
 sub-verse406_split-verse214_vert-7-seg-vert_msk,0.78,0.78,2.24,0.83,MultiScale2DPermuteConcat,vertebra
 sub-verse406_split-verse214_vert-7-seg-vert_msk,0.75,0.99,2.24,0.77,TLPredictor,vertebra
 s0120_femur_left_msk,0.94,0.91,3.16,0.85,TwoDPermuteConcat,femur
@@ -2836,7 +2836,7 @@ s0120_femur_right_msk,0.95,0.82,2.24,0.9,MultiScale2DPermuteConcat,femur
 sub-verse406_split-verse214_vert-8-seg-vert_msk,0.8,0.72,3.0,0.81,UNETR,vertebra
 s0120_femur_right_msk,0.94,1.03,2.83,0.84,TLPredictor,femur
 sub-verse406_split-verse214_vert-8-seg-vert_msk,0.8,0.8,2.24,0.8,UNet,vertebra
-s0120_femur_right_msk,0.95,0.89,2.45,0.88,SwinUNETR,femur
+s0120_femur_right_msk,0.96,0.73,2.0,0.92,SwinUNETR,femur
 sub-verse406_split-verse214_vert-8-seg-vert_msk,0.74,0.96,2.83,0.71,OneDConcat,vertebra
 s0120_femur_right_msk,0.95,0.84,2.24,0.9,UNETR,femur
 s0120_femur_right_msk,0.94,1.0,2.83,0.83,OneDConcat,femur
@@ -2854,7 +2854,7 @@ s0143_femur_left_msk,0.93,1.2,3.0,0.77,TLPredictor,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.65,1.43,4.0,0.6,OneDConcat,vertebra
 s0143_femur_left_msk,0.93,1.1,3.0,0.79,OneDConcat,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.79,0.83,2.45,0.79,MultiScale2DPermuteConcat,vertebra
-s0143_femur_left_msk,0.94,0.96,3.0,0.8,SwinUNETR,femur
+s0143_femur_left_msk,0.96,0.66,2.24,0.92,SwinUNETR,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.8,0.8,2.24,0.81,AttentionUnet,vertebra
 s0143_femur_left_msk,0.95,0.77,2.45,0.88,TwoDPermuteConcat,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.8,0.82,2.24,0.83,TwoDPermuteConcat,vertebra
@@ -2863,7 +2863,7 @@ s0143_femur_left_msk,0.95,0.71,2.24,0.9,UNet,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.79,0.88,2.45,0.79,UNet,vertebra
 s0143_femur_left_msk,0.94,0.85,2.83,0.87,UNETR,femur
 sub-verse406_split-verse214_vert-9-seg-vert_msk,0.82,0.79,2.24,0.86,SwinUNETR,vertebra
-s0143_femur_right_msk,0.94,0.87,2.83,0.86,SwinUNETR,femur
+s0143_femur_right_msk,0.96,0.61,2.0,0.93,SwinUNETR,femur
 sub-verse402_split-verse251_vert-10-seg-vert_msk,0.85,0.61,2.0,0.89,SwinUNETR,vertebra
 s0143_femur_right_msk,0.95,0.73,2.24,0.91,AttentionUnet,femur
 sub-verse402_split-verse251_vert-10-seg-vert_msk,0.85,0.61,2.0,0.9,AttentionUnet,vertebra
@@ -2887,7 +2887,7 @@ sub-verse402_split-verse251_vert-11-seg-vert_msk,0.88,0.5,1.41,0.94,SwinUNETR,ve
 s0109_femur_left_msk,0.93,1.21,3.16,0.84,UNETR,femur
 s0109_femur_left_msk,0.93,1.1,3.0,0.84,UNet,femur
 sub-verse402_split-verse251_vert-11-seg-vert_msk,0.85,0.63,2.0,0.89,UNet,vertebra
-s0109_femur_left_msk,0.92,1.31,4.12,0.79,SwinUNETR,femur
+s0109_femur_left_msk,0.93,1.12,3.61,0.83,SwinUNETR,femur
 sub-verse402_split-verse251_vert-11-seg-vert_msk,0.86,0.61,1.41,0.93,TwoDPermuteConcat,vertebra
 s0109_femur_left_msk,0.93,1.04,3.0,0.84,OneDConcat,femur
 sub-verse402_split-verse251_vert-11-seg-vert_msk,0.82,0.73,2.0,0.87,MultiScale2DPermuteConcat,vertebra
@@ -2901,7 +2901,7 @@ sub-verse402_split-verse251_vert-12-seg-vert_msk,0.83,0.75,2.0,0.87,TwoDPermuteC
 s0109_femur_right_msk,0.94,0.9,2.83,0.89,MultiScale2DPermuteConcat,femur
 s0109_femur_right_msk,0.91,1.28,3.61,0.73,OneDConcat,femur
 sub-verse402_split-verse251_vert-12-seg-vert_msk,0.84,0.79,2.24,0.88,UNETR,vertebra
-s0109_femur_right_msk,0.93,1.05,3.0,0.82,SwinUNETR,femur
+s0109_femur_right_msk,0.95,0.78,2.24,0.91,SwinUNETR,femur
 sub-verse402_split-verse251_vert-12-seg-vert_msk,0.82,0.81,2.24,0.85,UNet,vertebra
 s0109_femur_right_msk,0.91,1.36,3.32,0.72,TLPredictor,femur
 sub-verse402_split-verse251_vert-12-seg-vert_msk,0.81,0.81,2.83,0.82,MultiScale2DPermuteConcat,vertebra
@@ -2917,7 +2917,7 @@ sub-verse402_split-verse251_vert-13-seg-vert_msk,0.8,0.92,3.56,0.77,TLPredictor,
 s0807_femur_left_msk,0.94,0.93,2.83,0.82,OneDConcat,femur
 s0807_femur_left_msk,0.94,0.83,3.0,0.85,UNETR,femur
 sub-verse402_split-verse251_vert-13-seg-vert_msk,0.84,0.72,2.45,0.88,SwinUNETR,vertebra
-s0807_femur_left_msk,0.93,0.99,3.46,0.8,SwinUNETR,femur
+s0807_femur_left_msk,0.95,0.74,2.24,0.88,SwinUNETR,femur
 sub-verse402_split-verse251_vert-13-seg-vert_msk,0.81,0.81,2.83,0.81,TwoDPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-13-seg-vert_msk,0.83,0.78,3.0,0.83,UNet,vertebra
 s0807_femur_left_msk,0.94,0.83,2.45,0.87,TwoDPermuteConcat,femur
@@ -2937,7 +2937,7 @@ s0807_femur_right_msk,0.93,1.07,3.46,0.79,TLPredictor,femur
 sub-verse402_split-verse251_vert-14-seg-vert_msk,0.88,0.52,2.45,0.89,AttentionUnet,vertebra
 s0807_femur_right_msk,0.94,0.91,2.83,0.85,AttentionUnet,femur
 sub-verse402_split-verse251_vert-14-seg-vert_msk,0.88,0.55,2.0,0.9,SwinUNETR,vertebra
-s0807_femur_right_msk,0.94,0.97,3.16,0.82,SwinUNETR,femur
+s0807_femur_right_msk,0.95,0.8,2.83,0.86,SwinUNETR,femur
 sub-verse402_split-verse251_vert-14-seg-vert_msk,0.83,0.83,3.0,0.82,TLPredictor,vertebra
 sub-verse402_split-verse251_vert-14-seg-vert_msk,0.87,0.57,2.45,0.89,UNet,vertebra
 s0807_femur_right_msk,0.94,0.93,3.0,0.84,TwoDPermuteConcat,femur
@@ -2946,7 +2946,7 @@ sub-verse402_split-verse251_vert-14-seg-vert_msk,0.85,0.71,2.24,0.88,MultiScale2
 sub-verse402_split-verse251_vert-15-seg-vert_msk,0.89,0.51,1.41,0.94,AttentionUnet,vertebra
 s0723_femur_left_msk,0.93,1.02,3.0,0.84,MultiScale2DPermuteConcat,femur
 sub-verse402_split-verse251_vert-15-seg-vert_msk,0.86,0.65,2.24,0.87,TLPredictor,vertebra
-s0723_femur_left_msk,0.93,0.94,2.45,0.9,SwinUNETR,femur
+s0723_femur_left_msk,0.94,0.76,2.24,0.92,SwinUNETR,femur
 sub-verse402_split-verse251_vert-15-seg-vert_msk,0.88,0.58,1.73,0.93,MultiScale2DPermuteConcat,vertebra
 s0723_femur_left_msk,0.93,0.9,2.83,0.88,TwoDPermuteConcat,femur
 s0723_femur_left_msk,0.93,0.94,2.45,0.88,UNETR,femur
@@ -2972,7 +2972,7 @@ s0723_femur_right_msk,0.91,1.17,3.61,0.78,TLPredictor,femur
 s0723_femur_right_msk,0.95,0.8,2.0,0.94,AttentionUnet,femur
 sub-verse402_split-verse251_vert-16-seg-vert_msk,0.89,0.5,1.73,0.92,MultiScale2DPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-16-seg-vert_msk,0.88,0.58,2.0,0.89,OneDConcat,vertebra
-s0723_femur_right_msk,0.94,0.82,2.24,0.92,SwinUNETR,femur
+s0723_femur_right_msk,0.95,0.7,2.0,0.93,SwinUNETR,femur
 sub-verse402_split-verse251_vert-16-seg-vert_msk,0.89,0.51,2.0,0.9,TwoDPermuteConcat,vertebra
 s0723_femur_right_msk,0.94,0.83,2.24,0.91,UNETR,femur
 s1291_femur_left_msk,0.95,0.69,2.24,0.91,UNet,femur
@@ -2981,7 +2981,7 @@ sub-verse402_split-verse251_vert-17-seg-vert_msk,0.87,0.67,2.0,0.88,AttentionUne
 s1291_femur_left_msk,0.95,0.7,2.24,0.91,TwoDPermuteConcat,femur
 sub-verse402_split-verse251_vert-17-seg-vert_msk,0.89,0.55,1.73,0.92,SwinUNETR,vertebra
 s1291_femur_left_msk,0.92,1.06,3.16,0.77,MultiScale2DPermuteConcat,femur
-s1291_femur_left_msk,0.93,0.93,3.16,0.85,SwinUNETR,femur
+s1291_femur_left_msk,0.94,0.72,2.45,0.88,SwinUNETR,femur
 sub-verse402_split-verse251_vert-17-seg-vert_msk,0.87,0.7,2.0,0.87,UNet,vertebra
 s1291_femur_left_msk,0.91,1.18,3.16,0.76,TLPredictor,femur
 sub-verse402_split-verse251_vert-17-seg-vert_msk,0.85,0.79,2.24,0.83,TLPredictor,vertebra
@@ -2996,7 +2996,7 @@ sub-verse402_split-verse251_vert-18-seg-vert_msk,0.86,0.79,2.24,0.86,MultiScale2
 s1291_femur_right_msk,0.91,1.63,4.24,0.76,UNETR,femur
 sub-verse402_split-verse251_vert-18-seg-vert_msk,0.89,0.62,2.0,0.91,UNETR,vertebra
 sub-verse402_split-verse251_vert-18-seg-vert_msk,0.89,0.59,2.0,0.9,TwoDPermuteConcat,vertebra
-s1291_femur_right_msk,0.92,1.21,3.74,0.79,SwinUNETR,femur
+s1291_femur_right_msk,0.94,0.77,2.83,0.86,SwinUNETR,femur
 sub-verse402_split-verse251_vert-18-seg-vert_msk,0.89,0.68,2.0,0.91,AttentionUnet,vertebra
 s1291_femur_right_msk,0.91,1.19,3.16,0.76,TLPredictor,femur
 s1291_femur_right_msk,0.94,0.74,2.24,0.91,AttentionUnet,femur
@@ -3014,7 +3014,7 @@ s0593_femur_left_msk,0.93,1.02,3.0,0.82,OneDConcat,femur
 sub-verse402_split-verse251_vert-19-seg-vert_msk,0.89,0.77,2.0,0.94,AttentionUnet,vertebra
 s0593_femur_left_msk,0.95,0.73,2.0,0.93,MultiScale2DPermuteConcat,femur
 sub-verse402_split-verse251_vert-19-seg-vert_msk,0.88,0.68,2.0,0.88,TLPredictor,vertebra
-s0593_femur_left_msk,0.94,0.88,2.45,0.88,SwinUNETR,femur
+s0593_femur_left_msk,0.95,0.71,2.24,0.92,SwinUNETR,femur
 sub-verse402_split-verse251_vert-19-seg-vert_msk,0.87,0.71,2.24,0.83,OneDConcat,vertebra
 s0593_femur_left_msk,0.93,0.99,3.0,0.82,AttentionUnet,femur
 sub-verse402_split-verse251_vert-19-seg-vert_msk,0.9,0.64,1.73,0.92,TwoDPermuteConcat,vertebra
@@ -3032,14 +3032,14 @@ s0593_femur_right_msk,0.95,0.7,2.0,0.95,UNETR,femur
 sub-verse402_split-verse251_vert-20-seg-vert_msk,0.91,0.47,1.41,0.93,MultiScale2DPermuteConcat,vertebra
 s0593_femur_right_msk,0.94,0.74,2.24,0.9,OneDConcat,femur
 sub-verse402_split-verse251_vert-20-seg-vert_msk,0.88,0.63,2.24,0.85,TLPredictor,vertebra
-s0593_femur_right_msk,0.95,0.7,2.24,0.93,SwinUNETR,femur
+s0593_femur_right_msk,0.96,0.49,1.41,0.97,SwinUNETR,femur
 sub-verse402_split-verse251_vert-20-seg-vert_msk,0.92,0.46,1.41,0.95,AttentionUnet,vertebra
 s0593_femur_right_msk,0.96,0.63,2.0,0.96,AttentionUnet,femur
 sub-verse402_split-verse251_vert-20-seg-vert_msk,0.91,0.49,1.41,0.95,SwinUNETR,vertebra
 s0593_femur_right_msk,0.95,0.65,2.0,0.95,TwoDPermuteConcat,femur
 s0593_femur_right_msk,0.95,0.62,1.73,0.96,UNet,femur
 sub-verse402_split-verse251_vert-20-seg-vert_msk,0.91,0.47,1.41,0.93,UNETR,vertebra
-s0229_femur_left_msk,0.88,1.8,6.0,0.57,SwinUNETR,femur
+s0229_femur_left_msk,0.89,1.63,5.66,0.59,SwinUNETR,femur
 sub-verse402_split-verse251_vert-21-seg-vert_msk,0.9,0.57,1.73,0.9,TwoDPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-21-seg-vert_msk,0.91,0.48,1.41,0.94,AttentionUnet,vertebra
 s0229_femur_left_msk,0.82,2.38,9.32,0.35,UNet,femur
@@ -3057,7 +3057,7 @@ sub-verse402_split-verse251_vert-21-seg-vert_msk,0.9,0.55,1.73,0.91,SwinUNETR,ve
 s0229_femur_left_msk,0.81,2.85,8.19,0.36,TLPredictor,femur
 s0229_femur_right_msk,0.82,5.05,23.3,0.52,UNETR,femur
 sub-verse402_split-verse251_vert-22-seg-vert_msk,0.89,0.62,2.0,0.87,UNet,vertebra
-s0229_femur_right_msk,0.85,2.56,7.81,0.59,SwinUNETR,femur
+s0229_femur_right_msk,0.84,3.06,10.0,0.51,SwinUNETR,femur
 sub-verse402_split-verse251_vert-22-seg-vert_msk,0.86,0.8,2.83,0.81,OneDConcat,vertebra
 s0229_femur_right_msk,0.84,2.17,7.28,0.47,UNet,femur
 sub-verse402_split-verse251_vert-22-seg-vert_msk,0.89,0.64,2.24,0.87,TwoDPermuteConcat,vertebra
@@ -3083,7 +3083,7 @@ sub-verse402_split-verse251_vert-23-seg-vert_msk,0.85,0.83,3.0,0.74,TLPredictor,
 s1293_femur_left_msk,0.95,0.66,2.24,0.91,AttentionUnet,femur
 s1293_femur_left_msk,0.94,0.76,2.24,0.88,MultiScale2DPermuteConcat,femur
 sub-verse402_split-verse251_vert-23-seg-vert_msk,0.89,0.64,2.0,0.89,AttentionUnet,vertebra
-s1293_femur_left_msk,0.93,0.86,3.0,0.84,SwinUNETR,femur
+s1293_femur_left_msk,0.95,0.66,2.24,0.9,SwinUNETR,femur
 sub-verse402_split-verse251_vert-23-seg-vert_msk,0.85,0.78,3.0,0.75,MultiScale2DPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-23-seg-vert_msk,0.88,0.74,2.24,0.85,UNETR,vertebra
 s1293_femur_left_msk,0.92,1.08,3.61,0.75,OneDConcat,femur
@@ -3096,7 +3096,7 @@ s1293_femur_right_msk,0.95,0.71,2.24,0.89,MultiScale2DPermuteConcat,femur
 s1293_femur_right_msk,0.92,1.1,3.0,0.76,OneDConcat,femur
 sub-verse402_split-verse251_vert-24-seg-vert_msk,0.8,1.2,4.36,0.63,OneDConcat,vertebra
 sub-verse402_split-verse251_vert-24-seg-vert_msk,0.82,0.96,4.9,0.69,AttentionUnet,vertebra
-s1293_femur_right_msk,0.94,0.83,3.0,0.85,SwinUNETR,femur
+s1293_femur_right_msk,0.96,0.59,2.24,0.92,SwinUNETR,femur
 sub-verse402_split-verse251_vert-24-seg-vert_msk,0.8,1.1,3.74,0.65,UNETR,vertebra
 s1293_femur_right_msk,0.93,0.94,3.32,0.82,UNETR,femur
 sub-verse402_split-verse251_vert-24-seg-vert_msk,0.84,1.07,3.46,0.73,SwinUNETR,vertebra
@@ -3116,7 +3116,7 @@ s0095_femur_left_msk,0.93,0.94,3.16,0.81,UNETR,femur
 s0095_femur_left_msk,0.87,1.69,6.63,0.52,TLPredictor,femur
 sub-verse402_split-verse251_vert-6-seg-vert_msk,0.83,0.59,1.73,0.91,SwinUNETR,vertebra
 sub-verse402_split-verse251_vert-6-seg-vert_msk,0.74,0.79,3.0,0.79,MultiScale2DPermuteConcat,vertebra
-s0095_femur_left_msk,0.91,1.31,4.24,0.69,SwinUNETR,femur
+s0095_femur_left_msk,0.93,1.1,4.0,0.77,SwinUNETR,femur
 sub-verse402_split-verse251_vert-6-seg-vert_msk,0.8,0.68,2.24,0.85,UNet,vertebra
 s0095_femur_left_msk,0.94,0.91,3.0,0.83,TwoDPermuteConcat,femur
 sub-verse402_split-verse251_vert-7-seg-vert_msk,0.73,1.01,3.74,0.65,TLPredictor,vertebra
@@ -3131,7 +3131,7 @@ s0095_femur_right_msk,0.87,1.64,8.06,0.6,UNet,femur
 sub-verse402_split-verse251_vert-7-seg-vert_msk,0.79,0.73,2.24,0.8,TwoDPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-7-seg-vert_msk,0.73,0.96,3.0,0.72,AttentionUnet,vertebra
 s0095_femur_right_msk,0.89,1.49,7.14,0.63,MultiScale2DPermuteConcat,femur
-s0095_femur_right_msk,0.89,1.58,5.1,0.65,SwinUNETR,femur
+s0095_femur_right_msk,0.89,1.44,6.32,0.67,SwinUNETR,femur
 sub-verse402_split-verse251_vert-7-seg-vert_msk,0.77,0.81,2.83,0.76,UNet,vertebra
 sub-verse402_split-verse251_vert-7-seg-vert_msk,0.74,0.86,3.0,0.74,OneDConcat,vertebra
 s0095_femur_right_msk,0.9,1.33,6.4,0.64,UNETR,femur
@@ -3148,7 +3148,7 @@ sub-verse402_split-verse251_vert-8-seg-vert_msk,0.79,0.81,2.83,0.77,OneDConcat,v
 s0133_femur_left_msk,0.94,0.9,3.0,0.84,TwoDPermuteConcat,femur
 sub-verse402_split-verse251_vert-8-seg-vert_msk,0.85,0.59,2.0,0.88,TwoDPermuteConcat,vertebra
 sub-verse402_split-verse251_vert-8-seg-vert_msk,0.81,0.75,2.24,0.81,AttentionUnet,vertebra
-s0133_femur_left_msk,0.95,0.81,2.83,0.87,SwinUNETR,femur
+s0133_femur_left_msk,0.95,0.82,2.45,0.86,SwinUNETR,femur
 sub-verse402_split-verse251_vert-8-seg-vert_msk,0.81,0.7,3.0,0.81,SwinUNETR,vertebra
 s0133_femur_left_msk,0.95,0.8,2.45,0.88,UNet,femur
 s0133_femur_right_msk,0.93,1.19,3.32,0.74,OneDConcat,femur
@@ -3164,13 +3164,13 @@ sub-verse402_split-verse251_vert-9-seg-vert_msk,0.82,0.65,3.0,0.81,SwinUNETR,ver
 s0133_femur_right_msk,0.93,1.05,3.0,0.78,MultiScale2DPermuteConcat,femur
 sub-verse402_split-verse251_vert-9-seg-vert_msk,0.85,0.57,2.83,0.84,AttentionUnet,vertebra
 sub-verse402_split-verse251_vert-9-seg-vert_msk,0.77,0.85,3.0,0.7,OneDConcat,vertebra
-s0133_femur_right_msk,0.95,0.81,2.45,0.87,SwinUNETR,femur
+s0133_femur_right_msk,0.95,0.85,2.45,0.87,SwinUNETR,femur
 s0133_femur_right_msk,0.94,0.96,2.83,0.83,TwoDPermuteConcat,femur
 sub-verse402_split-verse251_vert-9-seg-vert_msk,0.83,0.67,3.0,0.81,UNet,vertebra
 sub-verse034_vert-18-seg-vert_msk,0.85,0.83,2.24,0.82,UNet,vertebra
 s0166_femur_left_msk,0.93,0.92,3.16,0.79,UNet,femur
 sub-verse034_vert-18-seg-vert_msk,0.85,0.8,2.0,0.86,MultiScale2DPermuteConcat,vertebra
-s0166_femur_left_msk,0.94,0.8,2.24,0.88,SwinUNETR,femur
+s0166_femur_left_msk,0.95,0.67,2.24,0.92,SwinUNETR,femur
 sub-verse034_vert-18-seg-vert_msk,0.86,0.77,2.0,0.86,SwinUNETR,vertebra
 s0166_femur_left_msk,0.95,0.77,2.24,0.89,TwoDPermuteConcat,femur
 sub-verse034_vert-18-seg-vert_msk,0.86,0.76,2.0,0.87,AttentionUnet,vertebra
@@ -3195,7 +3195,7 @@ sub-verse034_vert-19-seg-vert_msk,0.87,0.68,2.0,0.87,TwoDPermuteConcat,vertebra
 s0166_femur_right_msk,0.95,1.48,2.0,0.94,UNet,femur
 sub-verse034_vert-19-seg-vert_msk,0.87,0.82,2.0,0.89,SwinUNETR,vertebra
 s0166_femur_right_msk,0.95,0.75,2.24,0.9,TwoDPermuteConcat,femur
-s0166_femur_right_msk,0.94,1.0,2.45,0.87,SwinUNETR,femur
+s0166_femur_right_msk,0.95,0.65,2.24,0.93,SwinUNETR,femur
 sub-verse034_vert-19-seg-vert_msk,0.86,0.72,2.0,0.87,AttentionUnet,vertebra
 s0166_femur_right_msk,0.95,0.8,2.24,0.91,UNETR,femur
 sub-verse034_vert-19-seg-vert_msk,0.85,0.82,2.24,0.85,UNETR,vertebra
@@ -3209,7 +3209,7 @@ sub-verse034_vert-20-seg-vert_msk,0.89,0.68,2.0,0.91,SwinUNETR,vertebra
 s0657_femur_left_msk,0.95,0.83,2.45,0.88,AttentionUnet,femur
 s0657_femur_left_msk,0.91,1.45,4.0,0.63,OneDConcat,femur
 sub-verse034_vert-20-seg-vert_msk,0.87,0.82,2.83,0.89,UNETR,vertebra
-s0657_femur_left_msk,0.94,1.0,3.0,0.8,SwinUNETR,femur
+s0657_femur_left_msk,0.95,0.77,2.24,0.88,SwinUNETR,femur
 sub-verse034_vert-20-seg-vert_msk,0.88,0.68,2.0,0.91,UNet,vertebra
 sub-verse034_vert-20-seg-vert_msk,0.87,0.85,2.0,0.9,MultiScale2DPermuteConcat,vertebra
 s0657_femur_left_msk,0.95,0.77,2.24,0.89,UNet,femur
@@ -3230,7 +3230,7 @@ sub-verse034_vert-21-seg-vert_msk,0.87,0.75,2.0,0.87,SwinUNETR,vertebra
 sub-verse034_vert-21-seg-vert_msk,0.89,0.59,2.0,0.89,TwoDPermuteConcat,vertebra
 s0657_femur_right_msk,0.95,0.79,2.45,0.87,UNet,femur
 sub-verse034_vert-21-seg-vert_msk,0.87,0.71,2.0,0.87,OneDConcat,vertebra
-s0657_femur_right_msk,0.93,1.03,3.16,0.79,SwinUNETR,femur
+s0657_femur_right_msk,0.95,0.81,2.45,0.88,SwinUNETR,femur
 s0341_femur_left_msk,0.9,1.6,4.0,0.58,OneDConcat,femur
 sub-verse034_vert-22-seg-vert_msk,0.85,0.84,2.0,0.84,MultiScale2DPermuteConcat,vertebra
 sub-verse034_vert-22-seg-vert_msk,0.88,0.67,2.0,0.87,UNet,vertebra
@@ -3242,7 +3242,7 @@ s0341_femur_left_msk,0.94,1.0,3.0,0.81,MultiScale2DPermuteConcat,femur
 s0341_femur_left_msk,0.93,1.07,3.74,0.78,UNETR,femur
 sub-verse034_vert-22-seg-vert_msk,0.9,0.53,2.0,0.89,TwoDPermuteConcat,vertebra
 sub-verse034_vert-22-seg-vert_msk,0.89,0.63,2.0,0.89,OneDConcat,vertebra
-s0341_femur_left_msk,0.92,1.19,4.12,0.74,SwinUNETR,femur
+s0341_femur_left_msk,0.95,0.82,3.0,0.85,SwinUNETR,femur
 sub-verse034_vert-22-seg-vert_msk,0.85,0.82,2.45,0.82,TLPredictor,vertebra
 s0341_femur_left_msk,0.95,0.77,2.24,0.88,TwoDPermuteConcat,femur
 sub-verse034_vert-22-seg-vert_msk,0.89,0.6,2.0,0.89,AttentionUnet,vertebra
@@ -3258,7 +3258,7 @@ sub-verse034_vert-23-seg-vert_msk,0.85,0.98,3.0,0.83,SwinUNETR,vertebra
 sub-verse034_vert-23-seg-vert_msk,0.87,0.71,2.24,0.85,TwoDPermuteConcat,vertebra
 s0341_femur_right_msk,0.94,0.91,2.83,0.84,TwoDPermuteConcat,femur
 sub-verse034_vert-23-seg-vert_msk,0.85,0.89,2.45,0.82,UNETR,vertebra
-s0341_femur_right_msk,0.93,1.15,4.12,0.75,SwinUNETR,femur
+s0341_femur_right_msk,0.95,0.81,3.0,0.85,SwinUNETR,femur
 s0341_femur_right_msk,0.92,1.31,4.0,0.68,TLPredictor,femur
 sub-verse034_vert-23-seg-vert_msk,0.86,0.79,2.24,0.84,MultiScale2DPermuteConcat,vertebra
 sub-verse034_vert-23-seg-vert_msk,0.86,0.81,2.24,0.84,AttentionUnet,vertebra
@@ -3270,7 +3270,7 @@ sub-verse034_vert-24-seg-vert_msk,0.8,1.11,3.46,0.71,MultiScale2DPermuteConcat,v
 sub-verse034_vert-24-seg-vert_msk,0.82,1.15,3.16,0.77,SwinUNETR,vertebra
 s0794_femur_left_msk,0.95,0.79,2.45,0.87,TwoDPermuteConcat,femur
 sub-verse034_vert-24-seg-vert_msk,0.82,1.07,3.0,0.74,AttentionUnet,vertebra
-s0794_femur_left_msk,0.95,0.79,2.24,0.89,SwinUNETR,femur
+s0794_femur_left_msk,0.95,0.71,2.24,0.89,SwinUNETR,femur
 sub-verse034_vert-24-seg-vert_msk,0.75,1.48,4.12,0.66,UNETR,vertebra
 s0794_femur_left_msk,0.95,0.68,2.24,0.92,AttentionUnet,femur
 sub-verse034_vert-24-seg-vert_msk,0.83,1.0,2.45,0.77,TwoDPermuteConcat,vertebra
@@ -3281,7 +3281,7 @@ sub-verse034_vert-24-seg-vert_msk,0.8,1.2,3.0,0.69,OneDConcat,vertebra
 s0794_femur_left_msk,0.94,0.84,2.83,0.86,UNETR,femur
 sub-verse050_vert-10-seg-vert_msk,0.81,0.69,2.24,0.84,TLPredictor,vertebra
 s0794_femur_right_msk,0.95,0.74,2.83,0.88,UNETR,femur
-s0794_femur_right_msk,0.95,0.66,2.24,0.92,SwinUNETR,femur
+s0794_femur_right_msk,0.96,0.52,2.0,0.95,SwinUNETR,femur
 sub-verse050_vert-10-seg-vert_msk,0.85,0.51,1.73,0.91,UNETR,vertebra
 sub-verse050_vert-10-seg-vert_msk,0.86,0.52,1.41,0.93,TwoDPermuteConcat,vertebra
 s0794_femur_right_msk,0.96,0.6,2.0,0.94,AttentionUnet,femur
@@ -3296,7 +3296,7 @@ s0794_femur_right_msk,0.95,0.67,2.0,0.93,TwoDPermuteConcat,femur
 sub-verse050_vert-10-seg-vert_msk,0.86,0.46,1.41,0.93,AttentionUnet,vertebra
 s0794_femur_right_msk,0.95,0.69,2.24,0.92,TLPredictor,femur
 sub-verse050_vert-11-seg-vert_msk,0.86,0.56,1.73,0.91,UNet,vertebra
-s0334_femur_left_msk,0.94,0.83,2.45,0.87,SwinUNETR,femur
+s0334_femur_left_msk,0.95,0.64,2.24,0.91,SwinUNETR,femur
 sub-verse050_vert-11-seg-vert_msk,0.8,0.67,2.24,0.81,OneDConcat,vertebra
 s0334_femur_left_msk,0.96,0.6,2.0,0.95,AttentionUnet,femur
 s0334_femur_left_msk,0.95,0.71,2.24,0.92,UNet,femur
@@ -3317,7 +3317,7 @@ sub-verse050_vert-12-seg-vert_msk,0.82,0.66,2.24,0.83,OneDConcat,vertebra
 s0334_femur_right_msk,0.94,0.84,2.83,0.87,TLPredictor,femur
 sub-verse050_vert-12-seg-vert_msk,0.82,0.63,2.24,0.84,AttentionUnet,vertebra
 s0334_femur_right_msk,0.95,0.82,2.24,0.88,MultiScale2DPermuteConcat,femur
-s0334_femur_right_msk,0.94,0.76,2.24,0.88,SwinUNETR,femur
+s0334_femur_right_msk,0.95,0.7,2.24,0.91,SwinUNETR,femur
 sub-verse050_vert-12-seg-vert_msk,0.78,0.88,2.83,0.77,TLPredictor,vertebra
 sub-verse050_vert-12-seg-vert_msk,0.83,0.64,2.24,0.85,TwoDPermuteConcat,vertebra
 s0334_femur_right_msk,0.92,1.25,3.46,0.73,OneDConcat,femur
@@ -3339,7 +3339,7 @@ sub-verse050_vert-13-seg-vert_msk,0.78,0.88,2.83,0.75,OneDConcat,vertebra
 s0921_femur_left_msk,0.9,1.61,5.0,0.66,TLPredictor,femur
 sub-verse050_vert-13-seg-vert_msk,0.84,0.61,2.0,0.86,TwoDPermuteConcat,vertebra
 s0921_femur_left_msk,0.94,0.96,3.32,0.8,UNet,femur
-s0921_femur_left_msk,0.92,1.35,4.69,0.75,SwinUNETR,femur
+s0921_femur_left_msk,0.93,1.16,4.12,0.83,SwinUNETR,femur
 sub-verse050_vert-13-seg-vert_msk,0.82,0.67,2.45,0.8,SwinUNETR,vertebra
 s0921_femur_left_msk,0.88,1.94,5.48,0.54,OneDConcat,femur
 sub-verse050_vert-13-seg-vert_msk,0.81,0.74,2.83,0.79,UNet,vertebra
@@ -3354,7 +3354,7 @@ sub-verse050_vert-14-seg-vert_msk,0.78,0.99,3.16,0.73,TLPredictor,vertebra
 s0921_femur_right_msk,0.94,0.99,3.0,0.81,UNETR,femur
 sub-verse050_vert-14-seg-vert_msk,0.79,0.8,2.83,0.76,OneDConcat,vertebra
 sub-verse050_vert-14-seg-vert_msk,0.83,0.69,2.0,0.85,SwinUNETR,vertebra
-s0921_femur_right_msk,0.94,0.99,3.37,0.79,SwinUNETR,femur
+s0921_femur_right_msk,0.95,0.84,2.45,0.86,SwinUNETR,femur
 s0921_femur_right_msk,0.9,1.51,4.36,0.61,OneDConcat,femur
 sub-verse050_vert-14-seg-vert_msk,0.8,0.73,2.45,0.78,MultiScale2DPermuteConcat,vertebra
 s0921_femur_right_msk,0.92,1.26,4.0,0.74,TLPredictor,femur
