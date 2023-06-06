@@ -13,6 +13,7 @@ from torch.utils.data import DataLoader
 import XrayTo3DShape
 from XrayTo3DShape import (
     MetricsLogger,
+    AnglePerturbationMetricsLogger,
     NiftiPredictionWriter,
     get_dataset,
     get_latest_checkpoint,
@@ -37,7 +38,7 @@ def parse_evaluation_arguments():
     parser.add_argument("--testpaths")
     parser.add_argument("--model_name")
     parser.add_argument("--ckpt_path")
-    parser.add_argument('--ckpt_type', choices=['latest', 'best'], default='latest')
+    parser.add_argument("--ckpt_type", choices=["latest", "best"], default="latest")
     parser.add_argument("--res", type=float)
     parser.add_argument("--load_autoencoder_from", type=str)
     parser.add_argument("--nsd_tolerance", type=float, default=1.5)
@@ -48,6 +49,7 @@ def parse_evaluation_arguments():
     parser.add_argument("--num_workers", default=20, type=int)
     parser.add_argument("--accelerator", default="gpu")
     parser.add_argument("--precision", default=32)
+    parser.add_argument("--angle_perturbation", default=False, action="store_true")
     return parser.parse_args()
 
 
@@ -66,12 +68,18 @@ def update_args(args):
     args.experiment_name = model_experiment_dict[args.model_name]
     if args.output_path is None:
         args.output_path = str(Path(args.ckpt_path) / "../evaluation")
-    if args.ckpt_type == 'best':
-        args.ckpt_path = get_latest_checkpoint(args.ckpt_path, checkpoint_regex='epoch=*.ckpt')
-    elif args.ckpt_type == 'latest':
-        args.ckpt_path = get_latest_checkpoint(args.ckpt_path, checkpoint_regex='last*.ckpt')
+    if args.ckpt_type == "best":
+        args.ckpt_path = get_latest_checkpoint(
+            args.ckpt_path, checkpoint_regex="epoch=*.ckpt"
+        )
+    elif args.ckpt_type == "latest":
+        args.ckpt_path = get_latest_checkpoint(
+            args.ckpt_path, checkpoint_regex="last*.ckpt"
+        )
     else:
-        raise ValueError(f'ckpt_type can be either `best` or `latest` but got {args.ckpt_type}')
+        raise ValueError(
+            f"ckpt_type can be either `best` or `latest` but got {args.ckpt_type}"
+        )
     # assert resolution and size agree for each anatomy
     args.anatomy = get_anatomy_from_path(args.testpaths)
     orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
@@ -97,12 +105,24 @@ test_loader = DataLoader(
     drop_last=False,
 )
 
-nifti_saver = NiftiPredictionWriter(output_dir=args.output_path, write_interval="batch")
-metrics_saver = MetricsLogger(
+nifti_saver = NiftiPredictionWriter(
     output_dir=args.output_path,
-    voxel_spacing=args.res,
-    nsd_tolerance=args.nsd_tolerance,
+    write_interval="batch",
+    image_size=args.image_size,
+    resolution=args.res,
 )
+if args.angle_perturbation:
+    metrics_saver = AnglePerturbationMetricsLogger(
+        output_dir=args.output_path,
+        voxel_spacing=args.res,
+        nsd_tolerance=args.nsd_tolerance,
+    )
+else:
+    metrics_saver = MetricsLogger(
+        output_dir=args.output_path,
+        voxel_spacing=args.res,
+        nsd_tolerance=args.nsd_tolerance,
+    )
 evaluation_callbacks = [nifti_saver, metrics_saver]
 
 model_architecture = get_model(model_name=args.model_name, image_size=args.image_size)

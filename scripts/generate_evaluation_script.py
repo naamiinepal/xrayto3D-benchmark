@@ -20,13 +20,14 @@ expt_dict = {
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--testpaths")
-parser.add_argument('-ckpt_type', choices=['best', 'latest'], default='latest')
+parser.add_argument("-ckpt_type", choices=["best", "latest"], default="latest")
 parser.add_argument("--gpu", default=0, type=int)
 parser.add_argument("--batch_size", default=8)
 parser.add_argument("--img_size")
 parser.add_argument("--res")
 parser.add_argument("--tags", nargs="*")
 parser.add_argument("--domain_shift", default=False, action="store_true")
+parser.add_argument("--angle_perturbation", default=False, action="store_true")
 parser.add_argument("--domain_shift_dataset", default="", required=False)
 
 
@@ -49,6 +50,11 @@ for model_name in expt_dict:
     metric_log_output_path = (
         f"{ckpt_path}/../domain_shift_{args.domain_shift_dataset}"
         if args.domain_shift
+        else f"{ckpt_path}/../evaluation"
+    )
+    metric_log_output_path = (
+        f"{ckpt_path}/../angle_perturbation"
+        if args.angle_perturbation
         else f"{ckpt_path}/../evaluation"
     )
 
