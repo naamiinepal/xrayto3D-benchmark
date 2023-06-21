@@ -15,6 +15,7 @@ expt_dict = {
     "AttentionUnet": "VolumeAsInputExperiment",
     "UNet": "VolumeAsInputExperiment",
     "UNETR": "VolumeAsInputExperiment",
+    "SwinUNETR": "VolumeAsInputExperiment",
 }
 
 
@@ -32,7 +33,6 @@ parser.add_argument("--domain_shift_dataset", default="", required=False)
 
 
 args = parser.parse_args()
-
 
 anatomy = get_anatomy_from_path(args.testpaths)
 
@@ -52,11 +52,12 @@ for model_name in expt_dict:
         if args.domain_shift
         else f"{ckpt_path}/../evaluation"
     )
-    metric_log_output_path = (
-        f"{ckpt_path}/../angle_perturbation"
-        if args.angle_perturbation
-        else f"{ckpt_path}/../evaluation"
-    )
+    if args.angle_perturbation:
+        metric_log_output_path = (
+            f"{ckpt_path}/../angle_perturbation"
+            if args.angle_perturbation
+            else f"{ckpt_path}/../evaluation"
+        )
 
     command = f"python evaluate.py  --testpaths {args.testpaths} --gpu {args.gpu} --image_size {args.img_size} --batch_size {args.batch_size} --accelerator gpu --res {args.res} --model_name {model_name} --ckpt_path {ckpt_path} --ckpt_type {args.ckpt_type} --gpu {args.gpu} --output_path {metric_log_output_path}\n"
     print(command)
