@@ -1,16 +1,55 @@
+import argparse
 from pathlib import Path
+import scipy as sp
+import scipy.stats as stats
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+import scienceplots
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
-import scienceplots
-import argparse
-import numpy as np
+
 from XrayTo3DShape import MODEL_NAMES, filter_wandb_run, get_run_from_model_name
 
 plt.style.use(["science", "no-latex"])
 # Increase the resolution of all the plots below
 plt.rcParams.update({"figure.dpi": 150})
+
+
+def plot_ci_bootstrap(xs, ys, resid, nboot=500, ax=None):
+    """Return an axes of confidence bands using a bootstrap approach.
+
+    Notes
+    -----
+    The bootstrap approach iteratively resampling residuals.
+    It plots `nboot` number of straight lines and outlines the shape of a band.
+    The density of overlapping lines indicates improved confidence.
+
+    Returns
+    -------
+    ax : axes
+        - Cluster of lines
+        - Upper and Lower bounds (high and low) (optional)  Note: sensitive to outliers
+
+    References
+    ----------
+    .. [1] J. Stults. "Visualizing Confidence Intervals", Various Consequences.
+       http://www.variousconsequences.com/2010/02/visualizing-confidence-intervals.html
+
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    bootindex = sp.random.randint
+
+    for _ in range(nboot):
+        resamp_resid = resid[bootindex(0, len(resid) - 1, len(resid))]
+        # Make coeffs of for polys
+        pc = np.polyfit(xs, ys + resamp_resid, 1)
+        # Plot bootstrap cluster
+        ax.plot(xs, np.polyval(pc, xs), "b-", linewidth=2, alpha=3.0 / float(nboot))
+
+    return ax
 
 
 hip_COLUMNS = ["ASIS_L", "ASIS_R", "PT_L", "PT_R", "IS_L", "IS_R", "PSIS_L", "PSIS_R"]
@@ -107,6 +146,13 @@ for model in MODEL_NAMES:
         y_pred = regressor.predict(dsc.values.reshape(-1, 1))
         r2 = r2_score(y, y_pred)
         rho = np.corrcoef(dsc, y)[0, 1]
+        residual = y - y_pred
+        plot_ci_bootstrap(
+            np.asarray(dsc.values.tolist()),
+            np.asarray(y.values.tolist()),
+            np.asarray(residual.values.tolist()),
+            ax=ax[clm_idx],
+        )
         ax[clm_idx].plot(dsc, y_pred)
         ax[clm_idx].scatter(dsc, y, s=subplot_sz * 5)
 
