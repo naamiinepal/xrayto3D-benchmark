@@ -42,7 +42,7 @@ See `bash_scripts` dir
 #### Evaluation
 
 #### Benchmark Results
-link to wandb page here ...
+[wandb results page](https://wandb.ai/msrepo/2d-3d-benchmark)
 
 #### Model Zoo
 
