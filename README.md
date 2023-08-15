@@ -26,7 +26,7 @@ python train.py  configs/paths/femur/30k/TotalSegmentor-femur-left-DRR-30k_train
 ```
 
 #### Prepare Datasets
-The instructions for downloading and processing datasets ...
+A separate repo for preprocessing data has been created [here](https://github.com/naamiinepal/XrayTo3DPreprocess). The instructions for downloading and processing datasets are described [here.](https://github.com/naamiinepal/XrayTo3DPreprocess/blob/main/workflow/readme.md)
 
 #### Usage
 ---
