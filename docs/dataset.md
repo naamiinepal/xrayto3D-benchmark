@@ -1,10 +1,10 @@
 # Dataset Notes
 
-Any dataset will require AP, LAT and SEG image paths as input. Corresponding to these images TRANSFORMATIONS has to be defined that convert it to appropriate Tensor shape.
+Any dataset will require AP, LAT and SEG image paths as input. Corresponding to these images TRANSFORMATIONS has to be defined that convert it to the appropriate Tensor shape.
 
 Currently, this is implemented as follows:
 
-The `BaseDataset` takes list of `dicts` as input data. This make look as follows
+The `BaseDataset` takes a list of `dicts` as input data. This may look as follows
 ```python
 paths = [{'ap':'ap.png','lat':'lat.png','seg':'seg.nii.gz'} ]
 ```
@@ -41,13 +41,13 @@ Rib Dataset:
 - Combine individual rib segments into a single segmentation 
 - Generate biplanar x-ray to 3D Segmentation dataset
 
-Total Ribs samples : 481 
+Total Ribs samples: 481 
 
 ## Femur Dataset (Original: TotalSegmentor)
 Femur Dataset:
 -  Collect stats on femur segmentation volume
--  Choose all femur segmentation with volume higher than a threshold. (There are various cropped views of femur bone. We want to choose those with sufficient bone segment. Crop bones if the segmentation consists of large section of femur length. We only want femur head and few centimeters of the bone.)
--  Mirror the right femur so that it looks like a left femur.
+-  Choose all femur segmentation with a volume higher than a threshold. (There are various cropped views of the femur bone. We want to choose those with sufficient bone segments. Crop bones if the segmentation consists of a large section of femur length. We only want the femur head and a few centimetres of the bone.)
+-  Mirror the right femur so that it looks like the left femur.
 
 Total Femur samples (threshold 50k voxels): 451
 
@@ -56,4 +56,4 @@ Pelvic Dataset:
 - Find views with pelvic bones intact (not possible to reject cropped view)
 - Generate biplanar x-ray to 3D segmentation dataset
   
-Total Pelvic samples : 
+Total Pelvic samples: 446
