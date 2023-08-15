@@ -33,7 +33,8 @@ The instructions for downloading and processing datasets ...
 Examples to help you get familiar with the XrayTo3DShape package for quick use, evaluate an existing architecture on your own dataset, or benchmark new architectures.
 
 ##### Quick Start
-- Beginning Example
+- Beginning Examples
+  - [Sample Model Prediction](docs/sample_evaluation.ipynb)
 - [Customize Datasets](docs/dataset.md)
 - [Regarding Orientation alignment between Input X-rays and Output Segmentation](docs/orientation.md)
 
