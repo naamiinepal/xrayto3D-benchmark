@@ -1,7 +1,7 @@
 # xrayto3D-benchmark
-This is a pytorch-based python package for Biplanar X-ray to 3D Shape Segmentation. We aim to become a comprehensive benchmarking tool for developing and evaluating architectures
+This is a pytorch-based Python package for Biplanar X-ray to 3D Shape Segmentation. We aim to become a comprehensive benchmarking tool for developing and evaluating architectures
 specific to this problem. Currently, we provide tools to train and evaluate on 4 different bone anatomies, using publicly available CT-segmentation datasets. We also define tasks
-for domain-shifts to evaluate robustness of these methods. Currently, various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
+for domain shifts to evaluate the robustness of these methods. Currently, various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
 
 
 ![rect815](https://user-images.githubusercontent.com/10219364/236453347-e67933be-b096-4d94-a138-f26bcf11f997.png)
@@ -25,16 +25,17 @@ Sample Training script call
 python train.py  configs/paths/femur/30k/TotalSegmentor-femur-left-DRR-30k_train+val.csv configs/paths/femur/30k/TotalSegmentor-femur-left-DRR-30k_test.csv --gpu 0 --tags model-compare --size 128 --batch_size 4 --accelerator gpu --res 1.0 --model_name MultiScale2DPermuteConcat --epochs -1 --loss DiceLoss  --lr 0.002 --steps 4000 --dropout
 ```
 
-#### Preprare Datasets
+#### Prepare Datasets
 The instructions for downloading and processing datasets ...
 
 #### Usage
 ---
-Examples to help you get familiar with XrayTo3DShape package for quick use, evaluate an existing architecture on your own dataset, or benchmark new architectures.
+Examples to help you get familiar with the XrayTo3DShape package for quick use, evaluate an existing architecture on your own dataset, or benchmark new architectures.
 
 ##### Quick Start
 - Beginning Example
-- Customize Datasets
+- [Customize Datasets](docs/dataset.md)
+- [Regarding Orientation alignment between Input X-rays and Output Segmentation](docs/orientation.md)
 
 #### Training
 See `bash_scripts` dir
