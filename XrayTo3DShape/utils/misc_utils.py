@@ -91,6 +91,18 @@ def get_latest_checkpoint(path, checkpoint_regex="epoch=*.ckpt"):
     return str(latest_checkpoint_path)
 
 
+def modify_checkpoint_keys(checkpoint):
+    '''amend keys starting with "model" 
+    This may be used to load model architecture without using the wrapping object of type BaseExperiment that stores
+    the architecture as model variable'''
+    for key in list(checkpoint["state_dict"].keys()):
+        # model.layer1.conv1 -> layer1.conv1
+        if str(key).startswith("model."):
+            modified_key = str(key)[len("model.") :]
+            value = checkpoint["state_dict"].pop(key)
+            checkpoint["state_dict"][modified_key] = value
+    return checkpoint 
+
 if __name__ == "__main__":
     paths = [
         "configs/paths/totalsegmentator_ribs/TotalSegmentor-ribs-DRR-full_train+val.csv",
