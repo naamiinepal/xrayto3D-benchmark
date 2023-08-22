@@ -1,5 +1,6 @@
 import json
 import sys
+import numpy as np
 
 import pandas as pd
 
@@ -70,12 +71,13 @@ if __name__ == "__main__":
             )
             print(f"reading {csv_filename}")
             df = pd.read_csv(csv_filename)
+            df.replace([np.inf,-np.inf],np.nan,inplace=True) # replace inf with nan so that they can be dropped when aggregating later
             latex_table += latex_table_row_template.format(
                 model_name=run.config["MODEL_NAME"],
-                DSC=df.mean(numeric_only=True).DSC * 100,
-                HD95=df.mean(numeric_only=True).HD95,
-                ASD=df.mean(numeric_only=True).ASD,
-                NSD=df.mean(numeric_only=True).NSD,
+                DSC=df.mean(numeric_only=True,skipna=True).DSC * 100,
+                HD95=df.mean(numeric_only=True,skipna=True).HD95,
+                ASD=df.mean(numeric_only=True,skipna=True).ASD,
+                NSD=df.mean(numeric_only=True,skipna=True).NSD,
                 model_size=model_sizes[model],
             )
             model_dsc_dict[run.config["MODEL_NAME"]] = df.mean(numeric_only=True).DSC
@@ -92,9 +94,9 @@ if __name__ == "__main__":
     print(latex_table)
     if args.save_json:
         json_outpath = (
-            f"metadata/{args.anatomy}_outdomain_{args.domain_shift_dataset}.json"
+            f"domainshift_results/{args.anatomy}_outdomain_{args.domain_shift_dataset}.json"
             if args.domain_shift
-            else f"metadata/{args.anatomy}_indomain.json"
+            else f"domainshift_results/{args.anatomy}_indomain.json"
         )
         with open(json_outpath, "w") as fp:
             json.dump(model_dsc_dict, fp)
