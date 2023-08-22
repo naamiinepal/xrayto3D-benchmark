@@ -42,7 +42,8 @@ Examples to help you get familiar with the XrayTo3DShape package for quick use, 
 See `bash_scripts` dir
 
 #### Evaluation
-
+- [Domain Shift](docs/Domain_Shift_Evaluation.md)
+- Angle Perturbation
 #### Benchmark Results
 [wandb results page](https://wandb.ai/msrepo/2d-3d-benchmark)
 
