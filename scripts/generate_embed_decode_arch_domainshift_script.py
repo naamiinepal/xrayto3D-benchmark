@@ -8,7 +8,7 @@ parser.add_argument("--batch_size", default=8)
 parser.add_argument("--img_size")
 parser.add_argument("--res")
 parser.add_argument("--tags")
-
+parser.add_argument('--domain_shift_dataset')
 args = parser.parse_args()
 
 # #!/usr/bin/bash
@@ -29,9 +29,9 @@ var_definition += f"img_size={args.img_size}\n"
 var_definition += f"res={args.res}\n"
 var_definition += f"gpu={args.gpu}\n"
 var_definition += f"batch_size={args.batch_size}\n"
+var_definition += f'domain_shift_dataset={args.domain_shift_dataset}\n'
 
-
-with open("scripts/script_templates/evaluate_embed_decode_template.sh", "r") as f:
+with open("scripts/script_templates/evaluate_embed_decode_domainshift_template.sh", "r") as f:
     template_script = f.readlines()
     full_script = str(var_definition) + "\n".join(template_script)
     print(full_script)
