@@ -43,7 +43,7 @@ See `bash_scripts` dir
 
 #### Evaluation
 - [Domain Shift](docs/Domain_Shift_Evaluation.md)
-- [Angle Perturbation](docs/Angle_Perturbation_Evaluation.md)
+- [Angle Perturbation](docs/Angle_Perturbation_evaluation.md)
 #### Benchmark Results
 [wandb results page](https://wandb.ai/msrepo/2d-3d-benchmark)
 
