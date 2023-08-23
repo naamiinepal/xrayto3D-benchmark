@@ -50,6 +50,8 @@ See `bash_scripts` dir
 #### Model Zoo
 
 #### Licence
+The code is made available under the MIT license. You can freely use and modify the code, without warranty, so long as you provide attribution to the authors. 
+The manuscript text (including all LaTeX files), figures, and models produced as part of this research are available under the Creative Commons Attribution 4.0 License (CC-BY). 
 
 #### Acknowledgements
 We took considerable inspiration and references from:
