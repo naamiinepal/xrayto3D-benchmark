@@ -1,0 +1,1 @@
+python train.py  configs/paths/lidc+verse19/LIDC-IDRI-DRR-full_train+val.csv configs/paths/lidc+verse19/LIDC-IDRI-DRR-full_test.csv  --gpu 0 --tags model-compare lidc bayat_replicate --size 64 --batch_size 8 --accelerator gpu --res 1.5 --model_name TwoDPermuteConcat --epochs -1 --steps -1 --loss DiceLoss  --lr 0.0002  --dropout
