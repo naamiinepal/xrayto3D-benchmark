@@ -29,7 +29,11 @@ def get_individual_fullpaths(
             / "xray_from_ct_angle_perturbation"
             / str(perturbation_angle)
         )
-    xray_ap_basepath = derivatives_path / "xray_from_ct"
+    if perturbation_angle is None:
+        xray_ap_basepath = derivatives_path / "xray_from_ct"
+    else:
+        xray_ap_basepath = derivatives_path/'xray_from_ct_angle_perturbation'
+
     seg_roi_basepath = derivatives_path / "seg_roi"
     print(xray_ap_basepath, xray_lat_basepath, seg_roi_basepath)
     xray_ap = sorted(xray_ap_basepath.rglob(ap_pattern))
@@ -108,7 +112,7 @@ if __name__ == "__main__":
 
     config = read_config_and_load_components(config_path)
     # the perturbed filepaths are in outpath
-    config.subjects.subject_basepath = config.subjects.subject_outpath
+    # config.subjects.subject_basepath = config.subjects.subject_outpath
     subject_list = read_subject_list(config["subjects"]["subject_list"])
     config["dataset"] = dataset
     if config["dataset"] != "verse":
@@ -136,8 +140,9 @@ if __name__ == "__main__":
     train_val_paths = get_fullpaths(np.concatenate((train_subjects, val_subjects)), config, None, args.ap, args.lat, args.seg)  # type: ignore
 
     # take perturbation angles into account
-    test_paths = {"ap": [], "lat": [], "seg": []}
-    for angle in config["xray_pose"]["perturbation_angle"]:
+    for angle in [1,2,5,10]:
+        test_paths = {"ap": [], "lat": [], "seg": []}
+
         perturbation_paths = get_fullpaths(
             test_subjects, config, angle, args.ap, args.lat, args.seg
         )
@@ -145,22 +150,29 @@ if __name__ == "__main__":
         test_paths["lat"].extend(perturbation_paths["lat"])
         test_paths["seg"].extend(perturbation_paths["seg"])
 
-    # write csv
-    df_train = pd.DataFrame(data=train_paths)
-    df_val = pd.DataFrame(data=val_paths)
-    df_train_val = pd.DataFrame(data=train_val_paths)
-    df_test = pd.DataFrame(data=test_paths)
+        # write csv
+        # df_train = pd.DataFrame(data=train_paths)
+        # df_val = pd.DataFrame(data=val_paths)
+        # df_train_val = pd.DataFrame(data=train_val_paths)
 
-    print(df_train.describe())
-    print(df_val.describe())
-    print(df_test.describe())
-    print(df_train_val.describe())
+        # print(df_train.describe())
+        # print(df_val.describe())
+        # print(df_train_val.describe())
 
-    for df, suffix in zip(
-        [df_train, df_val, df_test, df_train_val], ["train", "val", "test", "train+val"]
-    ):
-        df.to_csv(
+        # for df, suffix in zip(
+        #     [df_train, df_val, df_test, df_train_val], ["train", "val", "test", "train+val"]
+        # ):
+        #     df.to_csv(
+        #         Path(config_path)
+        #         .with_name(Path(config_path).stem + "_" + suffix)
+        #         .with_suffix(".csv")
+        #     )
+        df_test = pd.DataFrame(data=test_paths)
+
+        print(df_test.describe())
+
+        df_test.to_csv(
             Path(config_path)
-            .with_name(Path(config_path).stem + "_" + suffix)
+            .with_name(Path(config_path).stem + "_" + 'test' + '_' + str(angle))
             .with_suffix(".csv")
         )
