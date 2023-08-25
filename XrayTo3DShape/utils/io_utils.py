@@ -2,7 +2,12 @@
 from pathlib import Path
 import SimpleITK as sitk
 import numpy as np
+import json
 
+def load_json(fp):
+    with open(fp) as f:
+        data = json.load(f)
+    return data
 
 def get_nifti_stem(path) -> str:
     """
