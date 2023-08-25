@@ -120,7 +120,7 @@ class MetricsLogger(BasePredictionWriter):
         write_interval: Literal["batch", "epoch", "batch_and_epoch"] = "batch",
     ) -> None:
         super().__init__(write_interval)
-        Path(output_dir).mkdir(exist_ok=True, parents=False)
+        Path(output_dir).mkdir(exist_ok=True, parents=True)
         self.filestream_writer = csv.writer(
             open(Path(output_dir) / "metric-log.csv", "w")
         )
