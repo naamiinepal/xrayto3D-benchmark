@@ -2,9 +2,9 @@
 This is a pytorch-based Python package for Biplanar X-ray to 3D Shape Segmentation. We aim to become a comprehensive benchmarking tool for developing and evaluating architectures
 specific to this problem. Currently, we provide tools to train and evaluate on 4 different bone anatomies, using publicly available CT-segmentation datasets. We also define tasks
 for domain shifts to evaluate the robustness of these methods. Currently, various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
+![text893-0](https://github.com/naamiinepal/xrayto3D-benchmark/assets/10219364/caeffd06-bdb1-40d6-973d-4a19540fe885)
+![benchmark_overview_updated svg](https://github.com/naamiinepal/xrayto3D-benchmark/assets/10219364/e263b5d8-f5f0-46fe-baf5-5bd1040f0628)
 
-
-![rect815](https://user-images.githubusercontent.com/10219364/236453347-e67933be-b096-4d94-a138-f26bcf11f997.png)
 
 #### Getting Started
 ---
@@ -42,13 +42,17 @@ Examples to help you get familiar with the XrayTo3DShape package for quick use, 
 See `bash_scripts` dir
 
 #### Evaluation
-
+- [Domain Shift](docs/Domain_Shift_Evaluation.md)
+- [Angle Perturbation](docs/Angle_Perturbation_evaluation.md)
 #### Benchmark Results
 [wandb results page](https://wandb.ai/msrepo/2d-3d-benchmark)
 
 #### Model Zoo
+TODO: Add pre-trained models
 
 #### Licence
+The code is made available under the MIT license. You can freely use and modify the code, without warranty, so long as you provide attribution to the authors. 
+The manuscript text (including all LaTeX files), figures, and models produced as part of this research are available under the Creative Commons Attribution 4.0 License (CC-BY). 
 
 #### Acknowledgements
 We took considerable inspiration and references from:
