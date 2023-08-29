@@ -13,6 +13,7 @@ def get_individual_fullpaths(
     ap_pattern="*ap.png",
     lat_pattern="*lat.png",
     seg_pattern="*msk.nii.gz",
+    patch_based=False
 ):
     """return ap, lat, seg filepaths"""
     derivatives_path = (
@@ -20,8 +21,12 @@ def get_individual_fullpaths(
         / f"{subject_dir}"
         / "derivatives"
     )
-    xray_basepath = derivatives_path / "xray_from_ct"
-    seg_roi_basepath = derivatives_path / "seg_roi"
+    if patch_based:
+        xray_basepath = derivatives_path / "xray_from_ct_patch"
+        seg_roi_basepath = derivatives_path / "seg_roi_patch"
+    else:
+        xray_basepath = derivatives_path / "xray_from_ct"
+        seg_roi_basepath = derivatives_path / "seg_roi"
 
     xray_ap = sorted(xray_basepath.rglob(ap_pattern))
     xray_lat = sorted(xray_basepath.rglob(lat_pattern))
@@ -29,14 +34,14 @@ def get_individual_fullpaths(
     return xray_ap, xray_lat, seg
 
 
-def get_fullpaths(subject_list: Sequence, config, ap_pattern, lat_pattern, seg_pattern):
+def get_fullpaths(subject_list: Sequence, config, ap_pattern, lat_pattern, seg_pattern, patch_based=False):
     """return ap, lat, seg paths as dict"""
     print(ap_pattern, lat_pattern, seg_pattern)
     ap, lat, seg = [], [], []
     if config["dataset"] == "verse":
         for subject, subject_dir in subject_list:
             _ap, _lat, _seg = get_individual_fullpaths(
-                subject_dir, config, ap_pattern, lat_pattern, seg_pattern
+                subject_dir, config, ap_pattern, lat_pattern, seg_pattern, patch_based
             )
             ap.extend(_ap)
             lat.extend(_lat)
@@ -44,7 +49,7 @@ def get_fullpaths(subject_list: Sequence, config, ap_pattern, lat_pattern, seg_p
     else:
         for subject in subject_list:
             _ap, _lat, _seg = get_individual_fullpaths(
-                subject, config, ap_pattern, lat_pattern, seg_pattern
+                subject, config, ap_pattern, lat_pattern, seg_pattern, patch_based
             )
             ap.extend(_ap)
             lat.extend(_lat)
@@ -61,14 +66,37 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("config_file")
+    parser.add_argument('--anatomy')
     # parser.add_argument("--ap", type=str, default="*hip-ap.png")
     # parser.add_argument("--lat", type=str, default="*hip-lat.png")
     # parser.add_argument("--seg", type=str, default="*hip_msk.nii.gz")
-    parser.add_argument("--ap", type=str, default="*vert*_ap.png")
-    parser.add_argument("--lat", type=str, default="*vert*_lat.png")
-    parser.add_argument("--seg", type=str, default="*vert_msk.nii.gz")
+    # parser.add_argument("--ap", type=str, default="*vert*_ap.png")
+    # parser.add_argument("--lat", type=str, default="*vert*_lat.png")
+    # parser.add_argument("--seg", type=str, default="*vert_msk.nii.gz")
+    parser.add_argument('--patch',default=False,action='store_true')
+
     args = parser.parse_args()
     print(args)
+
+    if args.anatomy == 'hip':
+        args.ap = '*hip-ap.png'
+        args.lat = '*hip-lat.png'
+        args.seg = '*hip_msk.nii.gz'
+    elif args.anatomy == 'rib':
+        args.ap = '*rib-ap.png'
+        args.lat = '*rib-lat.png'
+        args.seg = '*rib_msk.nii.gz'
+    elif args.anatomy == 'vertebra':
+        args.ap = '*ap.png'
+        args.lat = '*lat.png'
+        args.seg = '*msk.nii.gz'
+    elif args.anatomy == 'femur':
+        args.ap = '*femur*-ap.png'
+        args.lat = '*femur*-lat.png'
+        args.seg = '*femur*_msk.nii.gz'
+    else:
+        raise ValueError(f'anatomy {args.anatomy} is not valid. Expected one of hip, femur, vertebra, rib')
+    
     dataset = (
         "verse"
         if str(args.config_file).split("-")[0].lower().startswith("verse")
@@ -100,10 +128,10 @@ if __name__ == "__main__":
         f"train {len(train_subjects)} val {len(val_subjects)} test {len(test_subjects)}"
     )
 
-    train_paths = get_fullpaths(train_subjects, config, args.ap, args.lat, args.seg)
-    val_paths = get_fullpaths(val_subjects, config, args.ap, args.lat, args.seg)
-    train_val_paths = get_fullpaths(np.concatenate((train_subjects, val_subjects)), config, args.ap, args.lat, args.seg)  # type: ignore
-    test_paths = get_fullpaths(test_subjects, config, args.ap, args.lat, args.seg)
+    train_paths = get_fullpaths(train_subjects, config, args.ap, args.lat, args.seg,patch_based=args.patch)
+    val_paths = get_fullpaths(val_subjects, config, args.ap, args.lat, args.seg,patch_based=args.patch)
+    train_val_paths = get_fullpaths(np.concatenate((train_subjects, val_subjects)), config, args.ap, args.lat, args.seg, patch_based=args.patch)  # type: ignore
+    test_paths = get_fullpaths(test_subjects, config, args.ap, args.lat, args.seg, patch_based=args.patch)
     # write csv
     df_train = pd.DataFrame(data=train_paths)
     df_val = pd.DataFrame(data=val_paths)
@@ -115,11 +143,12 @@ if __name__ == "__main__":
     print(df_test.describe())
     print(df_train_val.describe())
 
+    patch_based_suffix = '_patch' if args.patch else ''
     for df, suffix in zip(
         [df_train, df_val, df_test, df_train_val], ["train", "val", "test", "train+val"]
     ):
         df.to_csv(
             Path(config_path)
-            .with_name(Path(config_path).stem + "_" + suffix)
+            .with_name(Path(config_path).stem + "_" + suffix + patch_based_suffix)
             .with_suffix(".csv")
         )
