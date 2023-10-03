@@ -10,7 +10,7 @@ parser.add_argument("--lr", default=0.0002)
 parser.add_argument("--steps")
 parser.add_argument("--img_size")
 parser.add_argument("--res")
-parser.add_argument("--tags")
+parser.add_argument("--tags",nargs='*')
 parser.add_argument("--loss", default="DiceLoss")
 parser.add_argument("--dropout", default=False, action="store_true")
 
@@ -43,7 +43,7 @@ var_definition += f"img_size={args.img_size}\n"
 var_definition += f"res={args.res}\n"
 var_definition += f"loss={args.loss}\n"
 
-with open("scripts/train_embed_decode_template.sh", "r") as f:
+with open("scripts/script_templates/train_embed_decode_template.sh", "r") as f:
     template_script = f.readlines()
     full_script = str(var_definition) + "\n".join(template_script)
     print(full_script)

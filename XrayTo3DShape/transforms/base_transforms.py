@@ -234,3 +234,4 @@ def get_kasten_transforms(size=64, resolution=1.5):
         ]
     )
     return {"ap": ap_transform, "lat": lat_transform, "seg": seg_transform}
+

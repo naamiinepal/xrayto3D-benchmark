@@ -92,13 +92,29 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("config_file")
-    parser.add_argument("--ap", type=str, default="*hip-ap.png")
-    parser.add_argument("--lat", type=str, default="*hip-lat.png")
-    parser.add_argument("--seg", type=str, default="*hip_msk.nii.gz")
-    # parser.add_argument("--ap", type=str, default="*vert*_ap.png")
-    # parser.add_argument("--lat", type=str, default="*vert*_lat.png")
-    # parser.add_argument("--seg", type=str, default="*vert_msk.nii.gz")
+    parser.add_argument('--anatomy')
+
     args = parser.parse_args()
+    if args.anatomy == 'hip':
+        args.ap = '*hip-ap.png'
+        args.lat = '*hip-lat.png'
+        args.seg = '*hip_msk.nii.gz'
+    elif args.anatomy == 'rib':
+        args.ap = '*rib-ap.png'
+        args.lat = '*rib-lat.png'
+        args.seg = '*rib_msk.nii.gz'
+    elif args.anatomy == 'vertebra':
+        args.ap = '*ap.png'
+        args.lat = '*lat.png'
+        args.seg = '*msk.nii.gz'
+    elif args.anatomy == 'femur':
+        args.ap = '*femur*-ap.png'
+        args.lat = '*femur*-lat.png'
+        args.seg = '*femur*_msk.nii.gz'
+    else:
+        raise ValueError(f'anatomy {args.anatomy} is not valid. Expected one of hip, femur, vertebra, rib')
+    
+
     print(args)
     dataset = (
         "verse"

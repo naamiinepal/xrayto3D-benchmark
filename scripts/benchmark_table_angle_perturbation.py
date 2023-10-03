@@ -57,31 +57,37 @@ if __name__ == "__main__":
     model_dsc_dict = {}
     for model in MODEL_NAMES:
         try:
-            run = get_run_from_model_name(model, runs)
-            model_name=run.config["MODEL_NAME"]
+
+            # we did something stupid so have to hard code here (deleted the run-id in wandb, never delete runs in wandb again)
+            if args.anatomy == 'vertebra' and model == 'TwoDPermuteConcat':
+                run_id = 'e9y5hclj'
+            else:
+                run = get_run_from_model_name(model, runs)
+                run_id = run.id
+            model_name=model
             # read non-perturbed metric log csv
-            normal_csv_filename =EVAL_LOG_NORMAL_CSV_PATH_TEMPLATE.format(run_id=run.id)
+            normal_csv_filename =EVAL_LOG_NORMAL_CSV_PATH_TEMPLATE.format(run_id=run_id)
             df = pd.read_csv(normal_csv_filename)
             df.replace([np.inf,-np.inf],np.nan,inplace=True) # replace inf with nan so that they can be dropped when aggregating later
             DSC=df.mean(numeric_only=True,skipna=True).DSC * 100
             HD95=df.mean(numeric_only=True,skipna=True).HD95
             ASD=df.mean(numeric_only=True,skipna=True).ASD
             NSD=df.mean(numeric_only=True,skipna=True).NSD
-            model_dsc_dict[run.config['MODEL_NAME']] = {}
-            model_dsc_dict[run.config['MODEL_NAME']]['DSC'] = {}
-            model_dsc_dict[run.config['MODEL_NAME']]['HD95'] = {}
-            model_dsc_dict[run.config['MODEL_NAME']]['ASD'] = {}
-            model_dsc_dict[run.config['MODEL_NAME']]['NSD'] = {}
+            model_dsc_dict[model] = {}
+            model_dsc_dict[model]['DSC'] = {}
+            model_dsc_dict[model]['HD95'] = {}
+            model_dsc_dict[model]['ASD'] = {}
+            model_dsc_dict[model]['NSD'] = {}
 
-            model_dsc_dict[run.config["MODEL_NAME"]]['DSC'][str(0)] = DSC
-            model_dsc_dict[run.config["MODEL_NAME"]]['HD95'][str(0)] = HD95
-            model_dsc_dict[run.config["MODEL_NAME"]]['ASD'][str(0)] = ASD
-            model_dsc_dict[run.config["MODEL_NAME"]]['NSD'][str(0)] = NSD       
+            model_dsc_dict[model]['DSC'][str(0)] = DSC
+            model_dsc_dict[model]['HD95'][str(0)] = HD95
+            model_dsc_dict[model]['ASD'][str(0)] = ASD
+            model_dsc_dict[model]['NSD'][str(0)] = NSD       
 
             ANGLE_PERTURBATIONS = [1,2,5,10]
             for angle in ANGLE_PERTURBATIONS:
                 csv_filename = EVAL_LOG_CSV_PATH_TEMPLATE.format(
-                    run_id=run.id, subdir=subdir, angle_perturbation=angle
+                    run_id=run_id, subdir=subdir, angle_perturbation=angle
                 )
                 print(f"reading {csv_filename}")
                 df = pd.read_csv(csv_filename)
@@ -91,10 +97,10 @@ if __name__ == "__main__":
                 ASD=df.mean(numeric_only=True,skipna=True).ASD,
                 NSD=df.mean(numeric_only=True,skipna=True).NSD,
                 model_size=model_sizes[model]
-                model_dsc_dict[run.config["MODEL_NAME"]]['DSC'][str(angle)] = DSC
-                model_dsc_dict[run.config["MODEL_NAME"]]['HD95'][str(angle)] = HD95
-                model_dsc_dict[run.config["MODEL_NAME"]]['ASD'][str(angle)] = ASD
-                model_dsc_dict[run.config["MODEL_NAME"]]['NSD'][str(angle)] = NSD
+                model_dsc_dict[model]['DSC'][str(angle)] = DSC
+                model_dsc_dict[model]['HD95'][str(angle)] = HD95
+                model_dsc_dict[model]['ASD'][str(angle)] = ASD
+                model_dsc_dict[model]['NSD'][str(angle)] = NSD
 
         except (ValueError, FileNotFoundError, AttributeError) as e:
             print(e)

@@ -41,7 +41,7 @@ def write_image(img, out_path, pixeltype=None):
     sitk.WriteImage(img, out_path)
 
 
-def read_image(img_path):
+def read_image(img_path)-> sitk.Image:
     """returns the SimpleITK image read from given path
 
     Parameters:

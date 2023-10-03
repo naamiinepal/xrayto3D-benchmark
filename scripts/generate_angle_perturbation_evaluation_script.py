@@ -28,7 +28,7 @@ parser.add_argument("--batch_size", default=8)
 parser.add_argument("--img_size")
 parser.add_argument("--res")
 parser.add_argument("--tags", nargs="*")
-
+parser.add_argument('--debug',default=False,action='store_true')
 
 
 args = parser.parse_args()
@@ -39,8 +39,13 @@ anatomy = get_anatomy_from_path(args.testpaths)
 wandb.login()
 runs = filter_wandb_run(anatomy=anatomy, tags=args.tags, verbose=False)
 
+if args.debug:
+    print(f'found {len(runs)} wandb runs for anatomy {get_anatomy_from_path(args.testpaths)}')
+    for run in runs:
+        print(run.id,run.config["MODEL_NAME"])
+        
 if len(runs) == 0:
-    print(f"found {len(runs)} wandb runs for anatomy {args.anatomy}. exiting ...")
+    print(f"found {len(runs)} wandb runs for anatomy {get_anatomy_from_path(args.testpaths)}. exiting ...")
     sys.exit()
 CKPT_PATH_TEMPLATE = "runs/2d-3d-benchmark/{run_id}/checkpoints"
 for model_name in expt_dict:
@@ -56,4 +61,5 @@ for model_name in expt_dict:
 
         
         command = f"python evaluate.py  --testpaths {angle_perturbation_csv_path} --gpu {args.gpu} --image_size {args.img_size} --batch_size {BATCH_SIZE} --accelerator gpu --res {args.res} --model_name {model_name} --ckpt_path {ckpt_path} --ckpt_type {args.ckpt_type} --gpu {args.gpu} --output_path {metric_log_output_path}\n"
-        print(command)
+        if not args.debug:
+            print(command)
