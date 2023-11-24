@@ -3,9 +3,6 @@ This is a pytorch-based Python package for Biplanar X-ray to 3D Shape Segmentati
 specific to this problem. Currently, we provide tools to train and evaluate on 4 different bone anatomies, using publicly available CT-segmentation datasets. We also define tasks
 for domain shifts to evaluate the robustness of these methods. Currently, various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
 
-![benchmark framework](https://github.com/naamiinepal/xrayto3D-benchmark/assets/10219364/caeffd06-bdb1-40d6-973d-4a19540fe885)
-![benchmark_overview_updated svg](https://github.com/naamiinepal/xrayto3D-benchmark/assets/10219364/e263b5d8-f5f0-46fe-baf5-5bd1040f0628)
-
 
 #### Getting Started
 ---
