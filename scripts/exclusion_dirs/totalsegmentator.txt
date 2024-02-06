@@ -1,0 +1,12 @@
+segmentations
+derivatives/centroid_roi
+derivatives/ct_roi
+derivatives/ct_mask_roi
+derivatives/overlay
+derivatives/xray_from_mask
+derivatives/xray_from_ctmask
+derivatives/xray_rom_ctmask
+derivatives/derivatives
+ct.nii.gz
+hip*.nii.gz
+rib.nii.gz

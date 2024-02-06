@@ -34,11 +34,13 @@ class NiftiPredictionWriter(BasePredictionWriter):
         save_gt=True,
         image_size=64,
         resolution=1.5,
+        save_input=True
     ) -> None:
         super().__init__(write_interval)
         self.output_dir = output_dir
         self.save_pred = save_pred
         self.save_gt = save_gt
+        self.save_input = save_input
         self.image_size = image_size
         self.resolution = resolution
 

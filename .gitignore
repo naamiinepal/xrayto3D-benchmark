@@ -10,7 +10,6 @@ logs/
 .vscode/
 *.toml
 2D-3D-Reconstruction-Datasets
-configs
 external/XrayTo3DPreprocess
 external/ITK-5.3.0/
 external/v5.3.0.tar.gz
@@ -25,3 +24,12 @@ deformetrica_test/
 build/
 XrayTo3DShape.egg-info/
 2d-3d-benchmark/
+test_data/
+nnUNet/
+affine_test/
+atlas/
+misc/
+nnUNet_cropped_data/
+nnUNet_raw_data/
+configs
+scripts/notebooks/podium_plot
