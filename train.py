@@ -71,7 +71,7 @@ def parse_training_arguments():
 
     parser.add_argument("--gpu", type=int, default=0)
     parser.add_argument("--accelerator", default="gpu")
-    parser.add_argument("--num_workers", default=os.cpu_count(), type=int)
+    parser.add_argument("--num_workers", default=4, type=int)
 
     parser.add_argument("--dropout", default=False, action="store_true")
     parser.add_argument("--load_autoencoder_from", default="", type=str)
@@ -96,14 +96,15 @@ def update_args(args):
     args.anatomy = get_anatomy_from_path(args.trainpaths)
 
     # add dropout to tag if exists
-    if args.dropout:
-        args.tags.append("dropout")
-
-    # assert the resolution and size agree for each anatomy
-    orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
-    assert int(args.size * args.res) == int(
-        orig_size * orig_res
-    ), f"({args.size},{args.res}) does not match ({orig_size},{orig_res})"
+    # if args.dropout:
+    #     args.tags.append('dropout')
+    if 'dropout' in args.tags:
+        args.dropout = True
+    # # assert the resolution and size agree for each anatomy
+    # orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
+    # assert int(args.size * args.res) == int(
+    #     orig_size * orig_res
+    # ), f"({args.size},{args.res}) does not match ({orig_size},{orig_res})"
     args.experiment_name = model_experiment_dict[args.model_name]
 
     args.precision = 16 if args.gpu == 0 else 32  # use bfloat16 on RTX 3090
@@ -239,6 +240,7 @@ if __name__ == "__main__":
         else "epoch={epoch}-step={step}-val_dice={val/dice:.2f}"
     )
     checkpoint_callback = ModelCheckpoint(
+        # dirpath=f'runs/{WANDB_PROJECT}/',
         monitor="val/loss",
         mode="min",
         save_last=True,
