@@ -45,8 +45,8 @@ def parse_evaluation_arguments():
     parser.add_argument("--image_size", type=int)
     parser.add_argument("--output_path", default=None)
     parser.add_argument("--gpu", default=0, type=int)
-    parser.add_argument("--batch_size", default=2, type=int)
-    parser.add_argument("--num_workers", default=20, type=int)
+    parser.add_argument("--batch_size", default=1, type=int)
+    parser.add_argument("--num_workers", default=8, type=int)
     parser.add_argument("--accelerator", default="gpu")
     parser.add_argument("--precision", default=32)
     parser.add_argument("--angle_perturbation", default=False, action="store_true")
@@ -82,10 +82,11 @@ def update_args(args):
         )
     # assert resolution and size agree for each anatomy
     args.anatomy = get_anatomy_from_path(args.testpaths)
-    orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
-    assert int(args.image_size * args.res) == int(
-        orig_size * orig_res
-    ), f"({args.image_size},{args.res}) does not match ({orig_size},{orig_res})"
+    # this requirement does not make sense when data is a patch 
+    # orig_size, orig_res = anatomy_resolution_dict[args.anatomy]
+    # assert int(args.image_size * args.res) == int(
+    #     orig_size * orig_res
+    # ), f"({args.image_size},{args.res}) does not match ({orig_size},{orig_res})"
     return args
 
 
