@@ -1,0 +1,15 @@
+subject-id,FHR(mm),FNA(degrees),FHO(mm)
+s0104_femur_left_msk_gt,15.57,125.43,31.07
+s0104_femur_right_msk_gt,15.44,133.75,23.14
+s0120_femur_left_msk_gt,17.59,51.69,28.90
+s0120_femur_right_msk_gt,18.42,119.81,34.54
+s0133_femur_left_msk_gt,18.56,120.22,37.63
+s0133_femur_right_msk_gt,19.49,102.49,53.72
+s0171_femur_left_msk_gt,15.39,131.82,28.01
+s0174_femur_left_msk_gt,14.26,120.39,27.23
+s0174_femur_right_msk_gt,14.08,126.59,22.08
+s0212_femur_left_msk_gt,17.62,129.50,31.95
+s0375_femur_left_msk_gt,16.84,130.08,28.06
+s0375_femur_right_msk_gt,16.57,129.52,25.26
+s0592_femur_left_msk_gt,14.80,127.70,27.27
+s0592_femur_right_msk_gt,15.02,128.05,31.66
