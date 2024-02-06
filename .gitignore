@@ -31,5 +31,4 @@ atlas/
 misc/
 nnUNet_cropped_data/
 nnUNet_raw_data/
-configs
 scripts/notebooks/podium_plot
