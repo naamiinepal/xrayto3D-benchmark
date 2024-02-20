@@ -16,8 +16,9 @@ from monai.networks.blocks.convolutions import Convolution
 from monai.networks.layers.convutils import calculate_out_shape, same_padding
 from monai.networks.nets.autoencoder import AutoEncoder
 from torch import nn
+from ..utils.registry import ARCHITECTURES
 
-
+@ARCHITECTURES.register('CustomAutoEncoder')
 class CustomAutoEncoder(AutoEncoder):
     """Simple encoder consisting of multiple layers of Convolutions
     and a fully connected layer in the end to obtain a 1D embedding vector
@@ -120,7 +121,7 @@ class CustomAutoEncoder(AutoEncoder):
                 m.weight.data.uniform_(-init_range, init_range)
                 m.bias.data.zero_()
 
-
+@ARCHITECTURES.register('TLPredictor')
 class TLPredictor(nn.Module):
     """Generate 2D Embedding vector"""
 

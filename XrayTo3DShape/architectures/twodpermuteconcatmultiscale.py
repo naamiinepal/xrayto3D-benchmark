@@ -8,7 +8,7 @@ from typing import Dict
 import torch
 from monai.networks.blocks.convolutions import Convolution
 from torch import nn
-
+from ..utils.registry import ARCHITECTURES
 
 class DenseNetBlock(nn.Module):
     """DenseNet: x+f(x)"""
@@ -88,7 +88,7 @@ class MultiScaleEncoder2d(nn.Module):
                 x = self.downsampler(x)
         return multiscale_x
 
-
+@ARCHITECTURES.register('MultiScale2DPermuteConcat')
 class MultiScale2DPermuteConcat(nn.Module):
     """MultiScale2DPermuteConcat"""
 
