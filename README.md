@@ -1,7 +1,89 @@
-# xrayto3D-benchmark
-This is a pytorch-based Python package for Biplanar X-ray to 3D Shape Segmentation. We aim to become a comprehensive benchmarking tool for developing and evaluating architectures
-specific to this problem. Currently, we provide tools to train and evaluate on 4 different bone anatomies, using publicly available CT-segmentation datasets. We also define tasks
-for domain shifts to evaluate the robustness of these methods. Currently, various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
+<div id="top"></div>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
+
+<!-- PROJECT SHIELDS -->
+
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+<!-- PROJECT LOGO -->
+
+<br />
+<div align="center">
+    <img src="docs/xrayto3dshape_logo.png" alt="Logo" width="400">
+
+<!-- <h3 align="center">Xrayto3D-Benchmark</h3> -->
+
+
+<p align="center">
+    <strong>Xrayto3DShape</strong>: A Benchmark for Biplanar X-rays to 3D Shape Reconstruction
+  <br />
+  <a href="https://arxiv.org/abs/2309.13587">Paper</a>
+  ·
+  <a href="results">Benchmark</a>
+  .
+  <!-- <a href="external/XrayTo3DPreprocess/workflow/readme.md">Preprocess</a>
+  .
+  <a href="external/xrayto3D-morphometry/README.md">Morphometry</a>
+  . -->
+  <a href="docs/sample_evaluation.ipynb">Code Example</a>
+  <!-- · -->
+  <!-- <a href="docs">Docs</a>
+  · 
+  <a href="">Video</a> -->
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#intro">Introduction</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#benchmark-results">Benchmark Results</a></li>
+    <li><a href="#model-zoo">Model Zoo</a></li>
+    <li><a href="#contributing">Community</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+<!-- News and Updates -->
+
+## News and Updates
+
+- [02/09/2024] We have released the trained models. [[Trained Models](https://naamii-my.sharepoint.com/:f:/g/personal/mahesh_shakya_naamii_org_np/EpApYbexnSRHvRbntrA9ODEBlFlYt-4sjRjMoGz5GbNOpQ?e=Mz27X4)]
+
+- [02/09/2024] Benchmark evaluation logs and results of Xrayto3D benchmark has been updated! [[Results](results)] [[wandb]](https://wandb.ai/msrepo/2d-3d-benchmark)
+
+- [12/20/2023] The Xrayto3D benchmark paper has been accepted at NeurIPS 2023 Dataset and Benchmark Track! [[Openreview](https://openreview.net/forum?id=NoE8g3LRAM)]
+
+
+# Xrayto3D-benchmark
+This is a pytorch-based Python package for Biplanar X-ray to 3D Shape Reconstruction. We aim to become a comprehensive benchmarking tool for developing and evaluating methods and architectures
+specific to this problem. 
+
+Currently, we provide tools to train and evaluate on 4 different bone anatomies, using publicly available CT-segmentation datasets. We also define tasks for domain shifts to evaluate the robustness of these methods. 
+
+Various Encoder-Decoder Architectures on volumetric grid-based representation are reimplemented and benchmarked.
 
 
 #### Getting Started
@@ -48,9 +130,6 @@ See `bash_scripts` dir
 #### Model Zoo
 TODO: Add pre-trained models
 
-#### Licence
-The code is made available under the MIT license. You can freely use and modify the code, without warranty, so long as you provide attribution to the authors. 
-The manuscript text (including all LaTeX files), figures, and models produced as part of this research are available under the Creative Commons Attribution 4.0 License (CC-BY). 
 
 #### Acknowledgements
 We took considerable inspiration and references from:

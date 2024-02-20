@@ -32,8 +32,8 @@ plt.axis("off")
 plt.imshow(lat_img[0], cmap="gray")
 
 seg_slices = get_projectionslices_from_3d(seg_img.squeeze())
-fig, axes = create_figure(*seg_slices)
-for ax, img in zip(axes, seg_slices):
+fig, axes = create_figure(*seg_slices,ap_img[0],lat_img[0])
+for ax, img in zip(axes, [*seg_slices,ap_img[0],lat_img[0]]):
     ax.imshow(img, cmap=plt.cm.gray)
 
 plt.savefig('tests/transforms.png')
