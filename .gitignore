@@ -32,3 +32,8 @@ misc/
 nnUNet_cropped_data/
 nnUNet_raw_data/
 scripts/notebooks/podium_plot
+*ckpt
+*.zip
+scripts/copy_experiment_run_logs.ipynb
+.gitignore
+tests/
