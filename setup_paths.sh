@@ -1,0 +1,1 @@
+export PATH=$PATH:/mnt/SSD0/mahesh-home/xrayto3D-benchmark/external/ITK-5.3.0/build/bin

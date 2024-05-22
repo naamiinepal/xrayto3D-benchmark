@@ -3,8 +3,11 @@ from typing import Dict, List
 import torch
 from monai.networks.blocks.convolutions import Convolution
 from torch import nn
+from ..utils.registry import ARCHITECTURES
 
 
+@ARCHITECTURES.register("TwoDPermuteConcatModel")
+@ARCHITECTURES.register("TwoDPermuteConcat")
 class TwoDPermuteConcat(nn.Module):
     """
     Transvert Architecture
@@ -16,28 +19,122 @@ class TwoDPermuteConcat(nn.Module):
         decoder (nn.Module): takes encoded and fused AP and LAT view and generates a 3D volume
     """
 
-    def __init__(self, config: Dict) -> None:
+    def __init__(
+        self,
+        input_image_size,
+        encoder_in_channels,
+        encoder_out_channels,
+        encoder_strides,
+        encoder_kernel_size,
+        decoder_in_channels,
+        decoder_out_channels,
+        decoder_strides,
+        decoder_kernel_size,
+        ap_expansion_in_channels,
+        ap_expansion_out_channels,
+        ap_expansion_strides,
+        ap_expansion_kernel_size,
+        lat_expansion_in_channels,
+        lat_expansion_out_channels,
+        lat_expansion_strides,
+        lat_expansion_kernel_size,
+        activation,
+        norm,
+        dropout,
+        dropout_rate,
+        bias,
+    ) -> None:
         super().__init__()
-        self.config = config
+        # verify config
+        assert (
+            len(input_image_size) == 2
+        ), f"expected images to be 2D but got {len(input_image_size)}-D"
+
         self.ap_encoder: nn.Module
         self.lat_encoder: nn.Module
         self.decoder: nn.Module
 
-        self.ap_encoder = nn.Sequential(*self._encoder_layer())
-        self.lat_encoder = nn.Sequential(*self._encoder_layer())
+        self.ap_encoder = nn.Sequential(
+            *self._encoder_layer(
+                encoder_in_channels,
+                encoder_out_channels,
+                encoder_strides,
+                encoder_kernel_size,
+                activation,
+                norm,
+                dropout,
+                dropout_rate,
+            )
+        )
+        self.lat_encoder = nn.Sequential(
+            *self._encoder_layer(
+                encoder_in_channels,
+                encoder_out_channels,
+                encoder_strides,
+                encoder_kernel_size,
+                activation,
+                norm,
+                dropout,
+                dropout_rate,
+            )
+        )
 
-        self.ap_expansion = nn.Sequential(*self._expansion_layer("ap"))
-        self.lat_expansion = nn.Sequential(*self._expansion_layer("lat"))
+        self.ap_expansion = nn.Sequential(
+            *self._expansion_layer(
+                ap_expansion_in_channels,
+                ap_expansion_out_channels,
+                ap_expansion_strides,
+                ap_expansion_kernel_size,
+                activation,
+                norm,
+                dropout,
+                dropout_rate,
+            )
+        )
+        self.lat_expansion = nn.Sequential(
+            *self._expansion_layer(
+                lat_expansion_in_channels,
+                lat_expansion_out_channels,
+                lat_expansion_strides,
+                lat_expansion_kernel_size,
+                activation,
+                norm,
+                dropout,
+                dropout_rate,
+            )
+        )
 
-        self.decoder = nn.Sequential(*self._decoder_layers())
+        self.decoder = nn.Sequential(
+            *self._decoder_layers(
+                decoder_in_channels,
+                decoder_out_channels,
+                decoder_strides,
+                decoder_kernel_size,
+                activation,
+                norm,
+                dropout,
+                dropout_rate,
+                bias,
+            )
+        )
 
-    def _encoder_layer(self):
+    def _encoder_layer(
+        self,
+        encoder_in_channels,
+        encoder_out_channels,
+        encoder_strides,
+        encoder_kernel_size,
+        activation,
+        norm,
+        dropout,
+        dropout_rate,
+    ):
         layers: List[nn.Module] = []
 
         for in_channels, out_channels, strides in zip(
-            self.config["encoder"]["in_channels"],
-            self.config["encoder"]["out_channels"],
-            self.config["encoder"]["strides"],
+            encoder_in_channels,
+            encoder_out_channels,
+            encoder_strides,
         ):
             layers.append(
                 Convolution(
@@ -45,28 +142,32 @@ class TwoDPermuteConcat(nn.Module):
                     in_channels=in_channels,
                     out_channels=out_channels,
                     strides=strides,
-                    kernel_size=self.config["encoder"]["kernel_size"],
-                    act=self.config["act"],
-                    norm=self.config["norm"],
-                    dropout=self.config["dropout"],
+                    kernel_size=encoder_kernel_size,
+                    act=activation,
+                    norm=norm,
+                    dropout=dropout_rate if dropout else None,
                 )
             )
 
         return layers
 
-    def _expansion_layer(self, image_type_suffix: str):
-        assert image_type_suffix in [
-            "ap",
-            "lat",
-        ], "image type should be one of AP or LAT"
-
-        expansion_type = f"{image_type_suffix}_expansion"
+    def _expansion_layer(
+        self,
+        in_channels,
+        out_channels,
+        strides,
+        kernel_size,
+        activation,
+        norm,
+        dropout,
+        dropout_rate,
+    ):
         layers: List[nn.Module] = []
 
         for in_channels, out_channels, strides in zip(
-            self.config[expansion_type]["in_channels"],
-            self.config[expansion_type]["out_channels"],
-            self.config[expansion_type]["strides"],
+            in_channels,
+            out_channels,
+            strides,
         ):
             layers.append(
                 Convolution(
@@ -75,25 +176,36 @@ class TwoDPermuteConcat(nn.Module):
                     in_channels=in_channels,
                     out_channels=out_channels,
                     strides=strides,
-                    kernel_size=self.config[expansion_type]["kernel_size"],
-                    act=self.config["act"],
-                    norm=self.config["norm"],
-                    dropout=self.config["dropout"],
+                    kernel_size=kernel_size,
+                    act=activation,
+                    norm=norm,
+                    dropout=dropout_rate if dropout else None,
                 )
             )
         return layers
 
-    def _decoder_layers(self):
+    def _decoder_layers(
+        self,
+        decoder_in_channels,
+        decoder_out_channels,
+        decoder_strides,
+        decoder_kernel_size,
+        activation,
+        norm,
+        dropout,
+        dropout_rate,
+        bias,
+    ):
         layers: List[nn.Module] = []
         for index, (in_channels, out_channels, strides, kernel_size) in enumerate(
             zip(
-                self.config["decoder"]["in_channels"],
-                self.config["decoder"]["out_channels"],
-                self.config["decoder"]["strides"],
-                self.config["decoder"]["kernel_size"],
+                decoder_in_channels,
+                decoder_out_channels,
+                decoder_strides,
+                decoder_kernel_size,
             )
         ):
-            if index == len(self.config["decoder"]["strides"]) - 1:
+            if index == len(decoder_strides) - 1:
                 conv_only = True
                 # According to `Performance Tuning Guide <https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html>`_,
                 # if a conv layer is directly followed by a batch norm layer, bias should be False.
@@ -107,10 +219,10 @@ class TwoDPermuteConcat(nn.Module):
                     out_channels=out_channels,
                     strides=strides,
                     kernel_size=kernel_size,
-                    act=self.config["act"],
-                    norm=self.config["norm"],
-                    dropout=self.config["dropout"],
-                    bias=self.config["bias"],
+                    act=activation,
+                    norm=norm,
+                    dropout=dropout_rate if dropout else None,
+                    bias=bias,
                     conv_only=conv_only,
                 )
             )
