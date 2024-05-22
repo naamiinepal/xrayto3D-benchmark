@@ -37,3 +37,4 @@ runs
 scripts/copy_experiment_run_logs.ipynb
 *ckpt
 trained_models.zip
+results/experiment_log_dir/**.ckpt

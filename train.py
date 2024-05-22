@@ -75,6 +75,7 @@ def parse_training_arguments():
 
     parser.add_argument("--dropout", default=False, action="store_true")
     parser.add_argument("--load_autoencoder_from", default="", type=str)
+    parser.add_argument('--load_model_from', default=None,type=str)
     parser.add_argument("--top_k_checkpoints", default=3, type=int)
 
     parser.add_argument("--precision", default=32, type=int)
@@ -191,6 +192,14 @@ if __name__ == "__main__":
         ae_model.load_state_dict(checkpoint["state_dict"])
         experiment.set_decoder(ae_model)  # type: ignore
 
+    if args.load_model_from:
+        if Path(args.load_model_from).exists():
+            checkpoint = torch.load(args.load_model_from)
+            experiment.load_state_dict(checkpoint['state_dict'])
+            print(f'loaded model checkpoint from {args.load_model_from}')
+        else:
+            raise ValueError(f'could not load model checkpoint from {args.load_model_from}')
+        
     # run a sanity check
     batch = next(iter(train_loader))
     if args.experiment_name != AutoencoderExperiment.__name__:
