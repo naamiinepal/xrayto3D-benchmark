@@ -1,3 +1,9 @@
+# Copyright (c) NAAMII, Nepal.
+# For more information, visit https://www.naamii.org.np.
+# Licensed under the GNU General Public License v3.0 (GPL-3.0).
+# See https://www.gnu.org/licenses/gpl-3.0.html for details.
+
+
 """Multiscale2DPermuteConcat
 3D reconstruction of proximal femoral fracture from biplanar radiographs with fractural representative learning
 Authors: Danupong Buttongkum et al.
