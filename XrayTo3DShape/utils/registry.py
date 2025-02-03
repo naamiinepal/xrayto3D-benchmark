@@ -1,4 +1,12 @@
-# code from https://github.com/microsoft/Semi-supervised-learning/blob/main/semilearn/core/utils/registry.py
+# Copyright (c) NAAMII, Nepal.
+# For more information, visit https://www.naamii.org.np.
+# Licensed under the GNU General Public License v3.0 (GPL-3.0).
+# See https://www.gnu.org/licenses/gpl-3.0.html for details.
+
+
+# Code adapted from https://github.com/microsoft/Semi-supervised-learning/blob/main/semilearn/core/utils/registry.py
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 import importlib
 
