@@ -1,0 +1,21 @@
+name: xrayto3d
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy
+  - monai
+  - torchvision
+  - nibabel
+  - itk
+  - simpleitk
+  - scikit-image
+  - pillow
+  - pandas
+  - matplotlib
+  - pytorch  # CPU version (no GPU)
+  - wandb
+  - tqdm
+  - einops
+  - pytorch-lightning
