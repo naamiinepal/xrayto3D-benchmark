@@ -5,7 +5,7 @@ channels:
 dependencies:
   - python=3.8
   - numpy
-  - monai
+  - monai=1.1.0
   - torchvision
   - nibabel
   - itk
@@ -19,3 +19,7 @@ dependencies:
   - tqdm
   - einops
   - pytorch-lightning
+  - pip
+  - git  # Required for cloning repositories
+  - pip:
+      - git+https://github.com/deepmind/surface-distance.git
