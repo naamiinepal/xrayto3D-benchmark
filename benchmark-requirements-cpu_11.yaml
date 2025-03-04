@@ -1,0 +1,25 @@
+name: xrayto3d
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy
+  - monai=1.1.0
+  - torchvision
+  - nibabel
+  - itk
+  - simpleitk
+  - scikit-image
+  - pillow
+  - pandas
+  - matplotlib
+  - pytorch  # CPU version (no GPU)
+  - wandb
+  - tqdm
+  - einops
+  - pytorch-lightning
+  - pip
+  - git  # Required for cloning repositories
+  - pip:
+      - git+https://github.com/deepmind/surface-distance.git

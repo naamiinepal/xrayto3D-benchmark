@@ -91,9 +91,9 @@ Various Encoder-Decoder Architectures on volumetric grid-based representation ar
 ##### Prerequisites
 To install the required packages
 ```bash
-conda create env --name xrayto3dbenchmark-cuda_11 --f  benchmark-requirements-cuda_11.yaml
+conda env create  --name xrayto3dbenchmark-cuda_11 --file  benchmark-requirements-cuda_11.yaml
 # or
-conda create env --name xrayto3dbenchmark-cuda_10 --f benchmark-requirements-cuda_10.yaml
+conda env create  --name xrayto3dbenchmark-cuda_10 --file  benchmark-requirements-cuda_10.yaml
 conda activate ...
 ```
 Install the XrayTo3DShape package
